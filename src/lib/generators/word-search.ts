@@ -105,10 +105,11 @@ function placeWord(
 
 export function generateWordSearch(
   theme: string,
-  size: number = 15
+  size: number = 15,
+  customWords?: string[]
 ): WordSearchPuzzle {
   const clampedSize = Math.max(12, Math.min(20, size));
-  const wordPool = THEMES[theme] ?? THEMES["animals"];
+  const wordPool = customWords ?? THEMES[theme] ?? THEMES["animals"];
 
   // Pick words that fit in the grid
   const eligible = wordPool.filter((w) => w.length <= clampedSize);

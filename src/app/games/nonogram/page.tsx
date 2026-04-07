@@ -11,14 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateNonogram, NonogramPuzzle } from "@/lib/generators/nonogram";
-
-const PAGE_SIZES = {
-  A4: { width: 595, height: 842, label: "A4" },
-  Letter: { width: 612, height: 792, label: "Letter" },
-  reMarkable: { width: 495.72, height: 661.68, label: "reMarkable" },
-} as const;
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 const SIZE_OPTIONS = [
   { value: "5", label: "5×5 (Easy)" },
@@ -135,7 +128,7 @@ async function downloadPDF(
   pageSizeKey: PageSizeKey
 ) {
   const ps = PAGE_SIZES[pageSizeKey];
-  const doc = new jsPDF({ unit: "pt", format: [ps.width, ps.height] });
+  const doc = new jsPDF({ unit: "pt", format: [ps.w, ps.h] });
 
   const { rowClues, colClues, pattern, size } = puzzle;
   const margin = 36;
@@ -143,7 +136,7 @@ async function downloadPDF(
   const maxColClueRows = Math.max(...colClues.map((c) => c.length));
   const maxRowClueCols = Math.max(...rowClues.map((r) => r.length));
 
-  const availW = ps.width - margin * 2;
+  const availW = ps.w - margin * 2;
   const cellSize = Math.min(
     Math.floor(availW / (size + maxRowClueCols + 1)),
     size === 5 ? 30 : size === 10 ? 22 : 16
@@ -154,7 +147,7 @@ async function downloadPDF(
   const colClueH = cellSize * maxColClueRows;
 
   const totalW = clueW + gridW;
-  const offsetX = (ps.width - totalW) / 2;
+  const offsetX = (ps.w - totalW) / 2;
   const startY = margin + 28;
   const gridStartX = offsetX + clueW;
   const gridStartY = startY + colClueH;
@@ -163,11 +156,11 @@ async function downloadPDF(
     doc.setFont("helvetica", "bold");
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
-    doc.text("Nonogram", ps.width / 2, margin + 4, { align: "center" });
+    doc.text("Nonogram", ps.w / 2, margin + 4, { align: "center" });
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(100, 100, 100);
-    doc.text(`${size}×${size}`, ps.width / 2, margin + 16, { align: "center" });
+    doc.text(`${size}×${size}`, ps.w / 2, margin + 16, { align: "center" });
     doc.setTextColor(0, 0, 0);
 
     // Column clues
@@ -233,14 +226,14 @@ async function downloadPDF(
   doc.setFont("helvetica", "bold");
   doc.setFontSize(10);
   doc.setTextColor(80, 80, 80);
-  doc.text("— Solution —", ps.width / 2, margin - 8, { align: "center" });
+  doc.text("— Solution —", ps.w / 2, margin - 8, { align: "center" });
 
   doc.save("nonogram.pdf");
 }
 
 export default function NonogramPage() {
   const [gridSize, setGridSize] = useState("10");
-  const [pageSize, setPageSize] = useState<PageSizeKey>("reMarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [puzzle, setPuzzle] = useState<NonogramPuzzle | null>(null);
   const [generating, setGenerating] = useState(false);
 
@@ -293,9 +286,9 @@ export default function NonogramPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="reMarkable">reMarkable</SelectItem>
-              <SelectItem value="A4">A4</SelectItem>
-              <SelectItem value="Letter">Letter</SelectItem>
+              <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+              <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+              <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
             </SelectContent>
           </Select>
         </div>

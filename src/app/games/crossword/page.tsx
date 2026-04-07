@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateCrossword, CrosswordPuzzle } from "@/lib/generators/crossword";
-
-const PAGE_SIZES = {
-  A4: { width: 595, height: 842, label: "A4" },
-  Letter: { width: 612, height: 792, label: "Letter" },
-  reMarkable: { width: 495.72, height: 661.68, label: "reMarkable" },
-} as const;
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 const CELL_PX = 28;
 
@@ -130,19 +124,19 @@ function CrosswordPreview({ puzzle }: { puzzle: CrosswordPuzzle }) {
 
 async function downloadPDF(puzzle: CrosswordPuzzle, pageSizeKey: PageSizeKey) {
   const ps = PAGE_SIZES[pageSizeKey];
-  const doc = new jsPDF({ unit: "pt", format: [ps.width, ps.height] });
+  const doc = new jsPDF({ unit: "pt", format: [ps.w, ps.h] });
 
   const margin = 36;
-  const cellSize = Math.min(20, (ps.width - margin * 2) / puzzle.size);
+  const cellSize = Math.min(20, (ps.w - margin * 2) / puzzle.size);
   const gridWidth = cellSize * puzzle.size;
   const gridHeight = cellSize * puzzle.size;
-  const gridX = (ps.width - gridWidth) / 2;
+  const gridX = (ps.w - gridWidth) / 2;
 
   const drawPage = (filled: boolean) => {
     // Title
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
-    doc.text("Crossword Puzzle", ps.width / 2, margin, { align: "center" });
+    doc.text("Crossword Puzzle", ps.w / 2, margin, { align: "center" });
 
     // Grid
     const startY = margin + 24;
@@ -186,7 +180,7 @@ async function downloadPDF(puzzle: CrosswordPuzzle, pageSizeKey: PageSizeKey) {
     const clueStartY = startY + gridHeight + 20;
     const acrossWords = words.filter((w) => w.direction === "across");
     const downWords = words.filter((w) => w.direction === "down");
-    const colWidth = (ps.width - margin * 2) / 2 - 8;
+    const colWidth = (ps.w - margin * 2) / 2 - 8;
 
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
@@ -222,14 +216,14 @@ async function downloadPDF(puzzle: CrosswordPuzzle, pageSizeKey: PageSizeKey) {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(80, 80, 80);
-  doc.text("— Answer Key —", ps.width / 2, margin - 12, { align: "center" });
+  doc.text("— Answer Key —", ps.w / 2, margin - 12, { align: "center" });
 
   doc.save("crossword.pdf");
 }
 
 export default function CrosswordPage() {
   const [theme, setTheme] = useState("general");
-  const [pageSize, setPageSize] = useState<PageSizeKey>("reMarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [puzzle, setPuzzle] = useState<CrosswordPuzzle | null>(null);
   const [generating, setGenerating] = useState(false);
 
@@ -253,6 +247,12 @@ export default function CrosswordPage() {
         <p className="mt-2 text-muted-foreground">
           Generate a themed crossword puzzle with clues and a printable answer key.
         </p>
+        <Link
+          href="/games/crossword/custom"
+          className="inline-block mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+        >
+          Or create with your own words & clues →
+        </Link>
       </div>
 
       <div className="flex flex-wrap gap-4 items-end">
@@ -278,9 +278,9 @@ export default function CrosswordPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="reMarkable">reMarkable</SelectItem>
-              <SelectItem value="A4">A4</SelectItem>
-              <SelectItem value="Letter">Letter</SelectItem>
+              <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+              <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+              <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
             </SelectContent>
           </Select>
         </div>

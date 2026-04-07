@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,20 +12,11 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { generateWordSearch, WordSearchPuzzle } from "@/lib/generators/word-search";
+import { type SupportedLanguage, LANGUAGE_LABELS } from "@/lib/languages";
+import { WORD_SEARCH_BANKS, WORD_SEARCH_THEMES } from "@/lib/languages/word-search-words";
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type PageSize = "a4" | "letter" | "remarkable";
-
-const PAGE_DIMENSIONS: Record<PageSize, { w: number; h: number; label: string }> = {
-  a4:        { w: 595,    h: 842,    label: "A4" },
-  letter:    { w: 612,    h: 792,    label: "Letter" },
-  remarkable: { w: 495.72, h: 661.68, label: "reMarkable" },
-};
-
-const THEMES = [
+const ENGLISH_THEMES = [
   { value: "animals",    label: "Animals"    },
   { value: "food",       label: "Food"       },
   { value: "science",    label: "Science"    },
@@ -40,10 +32,10 @@ const THEMES = [
 async function downloadPDF(
   puzzle: WordSearchPuzzle,
   theme: string,
-  pageSize: PageSize
+  pageSize: PageSizeKey
 ) {
   const { jsPDF } = await import("jspdf");
-  const { w, h } = PAGE_DIMENSIONS[pageSize];
+  const { w, h } = PAGE_SIZES[pageSize];
 
   const doc = new jsPDF({ unit: "pt", format: [w, h], orientation: "portrait" });
 
@@ -165,16 +157,29 @@ function drawPuzzlePage(
 // ---------------------------------------------------------------------------
 
 export default function WordSearchPage() {
+  const [language, setLanguage] = useState<SupportedLanguage>("en");
   const [theme, setTheme] = useState("animals");
   const [gridSize, setGridSize] = useState(15);
-  const [pageSize, setPageSize] = useState<PageSize>("a4");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [puzzle, setPuzzle] = useState<WordSearchPuzzle | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  const themes = language === "en" ? ENGLISH_THEMES : [...WORD_SEARCH_THEMES];
+
+  useEffect(() => {
+    if (!themes.some((t) => t.value === theme)) {
+      setTheme(themes[0].value);
+    }
+  }, [language, theme, themes]);
+
   const generate = useCallback(() => {
-    const p = generateWordSearch(theme, gridSize);
+    const bank = WORD_SEARCH_BANKS[language];
+    const customWords = bank?.[theme];
+    const p = language === "en" && !customWords
+      ? generateWordSearch(theme, gridSize)
+      : generateWordSearch(theme, gridSize, customWords);
     setPuzzle(p);
-  }, [theme, gridSize]);
+  }, [theme, gridSize, language]);
 
   // Auto-generate on mount and when settings change
   useEffect(() => {
@@ -199,10 +204,31 @@ export default function WordSearchPage() {
         <p className="mt-1 text-muted-foreground">
           Themed letter grids with answer keys — ready to print or load on your reMarkable.
         </p>
+        <Link
+          href="/games/word-search/custom"
+          className="inline-block mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+        >
+          Or create with your own words →
+        </Link>
       </div>
 
       {/* Controls */}
       <div className="mb-8 flex flex-wrap gap-6 items-end">
+        {/* Language */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium">Language</label>
+          <Select value={language} onValueChange={(v) => setLanguage(v as SupportedLanguage)}>
+            <SelectTrigger className="w-40">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(LANGUAGE_LABELS).map(([k, v]) => (
+                <SelectItem key={k} value={k}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Theme */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Theme</label>
@@ -211,7 +237,7 @@ export default function WordSearchPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {THEMES.map((t) => (
+              {themes.map((t) => (
                 <SelectItem key={t.value} value={t.value}>
                   {t.label}
                 </SelectItem>
@@ -236,14 +262,14 @@ export default function WordSearchPage() {
         {/* Page size */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Page size</label>
-          <Select value={pageSize} onValueChange={(v) => setPageSize(v as PageSize)}>
+          <Select value={pageSize} onValueChange={(v) => setPageSize(v as PageSizeKey)}>
             <SelectTrigger className="w-36">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="a4">A4</SelectItem>
-              <SelectItem value="letter">Letter</SelectItem>
-              <SelectItem value="remarkable">reMarkable</SelectItem>
+              <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+              <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+              <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
             </SelectContent>
           </Select>
         </div>

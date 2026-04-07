@@ -11,14 +11,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateWordScramble, WordScramblePuzzle } from "@/lib/generators/word-scramble";
-
-const PAGE_SIZES = {
-  A4: { width: 595, height: 842, label: "A4" },
-  Letter: { width: 612, height: 792, label: "Letter" },
-  reMarkable: { width: 495.72, height: 661.68, label: "reMarkable" },
-} as const;
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { type SupportedLanguage, LANGUAGE_LABELS } from "@/lib/languages";
+import { WORD_SCRAMBLE_BANKS } from "@/lib/languages/word-scramble-words";
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 function AnswerBlanks({ word }: { word: string }) {
   return (
@@ -61,21 +56,20 @@ async function downloadPDF(
   category: string
 ) {
   const ps = PAGE_SIZES[pageSizeKey];
-  const doc = new jsPDF({ unit: "pt", format: [ps.width, ps.height] });
+  const doc = new jsPDF({ unit: "pt", format: [ps.w, ps.h] });
   const margin = 40;
-  const pageWidth = ps.width - margin * 2;
 
   const drawPage = (answerKey: boolean) => {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
-    doc.text("Word Scramble", ps.width / 2, margin, { align: "center" });
+    doc.text("Word Scramble", ps.w / 2, margin, { align: "center" });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
     doc.text(
       `Difficulty: ${difficulty}  |  Category: ${category}`,
-      ps.width / 2,
+      ps.w / 2,
       margin + 16,
       { align: "center" }
     );
@@ -84,7 +78,7 @@ async function downloadPDF(
       doc.setFont("helvetica", "bold");
       doc.setFontSize(10);
       doc.setTextColor(80, 80, 80);
-      doc.text("— Answer Key —", ps.width / 2, margin + 30, { align: "center" });
+      doc.text("— Answer Key —", ps.w / 2, margin + 30, { align: "center" });
     }
 
     doc.setTextColor(0, 0, 0);
@@ -94,7 +88,7 @@ async function downloadPDF(
     for (let i = 0; i < puzzle.scrambles.length; i++) {
       const entry = puzzle.scrambles[i];
 
-      if (y > ps.height - margin - 30) {
+      if (y > ps.h - margin - 30) {
         doc.addPage();
         y = margin;
       }
@@ -153,20 +147,33 @@ async function downloadPDF(
 const COUNT_OPTIONS = [10, 15, 20, 25, 30];
 
 export default function WordScramblePage() {
+  const [language, setLanguage] = useState<SupportedLanguage>("en");
   const [difficulty, setDifficulty] = useState("medium");
   const [category, setCategory] = useState("everyday");
   const [count, setCount] = useState(15);
-  const [pageSize, setPageSize] = useState<PageSizeKey>("reMarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [puzzle, setPuzzle] = useState<WordScramblePuzzle | null>(null);
   const [generating, setGenerating] = useState(false);
 
   const handleGenerate = useCallback(() => {
     setGenerating(true);
     setTimeout(() => {
-      setPuzzle(generateWordScramble(difficulty, category, count));
+      if (language === "en") {
+        setPuzzle(generateWordScramble(difficulty, category, count));
+      } else {
+        const bank = WORD_SCRAMBLE_BANKS[language];
+        const filtered = category === "everyday"
+          ? bank
+          : bank.filter((w) => w.category === category);
+        const pool = (filtered.length > 0 ? filtered : bank).map((w) => ({
+          word: w.word,
+          hint: w.hint,
+        }));
+        setPuzzle(generateWordScramble(difficulty, category, count, pool));
+      }
       setGenerating(false);
     }, 0);
-  }, [difficulty, category, count]);
+  }, [difficulty, category, count, language]);
 
   const handleDownload = useCallback(async () => {
     if (!puzzle) return;
@@ -183,6 +190,20 @@ export default function WordScramblePage() {
       </div>
 
       <div className="flex flex-wrap gap-4 items-end">
+        <div className="space-y-1">
+          <label className="text-sm font-medium">Language</label>
+          <Select value={language} onValueChange={(v) => setLanguage(v as SupportedLanguage)}>
+            <SelectTrigger className="w-36">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(LANGUAGE_LABELS).map(([k, v]) => (
+                <SelectItem key={k} value={k}>{v}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="space-y-1">
           <label className="text-sm font-medium">Difficulty</label>
           <Select value={difficulty} onValueChange={setDifficulty}>
@@ -241,9 +262,9 @@ export default function WordScramblePage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="reMarkable">reMarkable</SelectItem>
-              <SelectItem value="A4">A4</SelectItem>
-              <SelectItem value="Letter">Letter</SelectItem>
+              <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+              <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+              <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
             </SelectContent>
           </Select>
         </div>

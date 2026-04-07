@@ -10,19 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateMaze, MazePuzzle } from "@/lib/generators/maze";
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 // ---------------------------------------------------------------------------
 // Types & constants
 // ---------------------------------------------------------------------------
 
-type PageSize = "a4" | "letter" | "remarkable";
 type Difficulty = "easy" | "medium" | "hard" | "expert";
-
-const PAGE_DIMENSIONS: Record<PageSize, { w: number; h: number }> = {
-  a4:         { w: 595,    h: 842    },
-  letter:     { w: 612,    h: 792    },
-  remarkable: { w: 495.72, h: 661.68 },
-};
 
 const DIFFICULTIES: Record<Difficulty, { label: string; cols: number; rows: number }> = {
   easy:   { label: "Easy (10×10)",   cols: 10, rows: 10 },
@@ -35,9 +29,9 @@ const DIFFICULTIES: Record<Difficulty, { label: string; cols: number; rows: numb
 // PDF generation
 // ---------------------------------------------------------------------------
 
-async function downloadPDF(puzzle: MazePuzzle, difficulty: Difficulty, pageSize: PageSize) {
+async function downloadPDF(puzzle: MazePuzzle, difficulty: Difficulty, pageSize: PageSizeKey) {
   const { jsPDF } = await import("jspdf");
-  const { w, h } = PAGE_DIMENSIONS[pageSize];
+  const { w, h } = PAGE_SIZES[pageSize];
   const doc = new jsPDF({ unit: "pt", format: [w, h], orientation: "portrait" });
 
   const margin = 40;
@@ -253,7 +247,7 @@ function drawMazeOnCanvas(
 
 export default function MazePage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
-  const [pageSize, setPageSize] = useState<PageSize>("a4");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [puzzle, setPuzzle] = useState<MazePuzzle | null>(null);
   const [showSolution, setShowSolution] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -330,14 +324,14 @@ export default function MazePage() {
         {/* Page size */}
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Page size</label>
-          <Select value={pageSize} onValueChange={(v) => setPageSize(v as PageSize)}>
+          <Select value={pageSize} onValueChange={(v) => setPageSize(v as PageSizeKey)}>
             <SelectTrigger className="w-36">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="a4">A4</SelectItem>
-              <SelectItem value="letter">Letter</SelectItem>
-              <SelectItem value="remarkable">reMarkable</SelectItem>
+              <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+              <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+              <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
             </SelectContent>
           </Select>
         </div>

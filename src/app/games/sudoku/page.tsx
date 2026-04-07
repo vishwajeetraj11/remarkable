@@ -14,14 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateSudoku, SudokuDifficulty, SudokuPuzzle } from "@/lib/generators/sudoku";
-
-type PageSize = "A4" | "Letter" | "reMarkable";
-
-const PAGE_DIMENSIONS: Record<PageSize, [number, number]> = {
-  A4: [595, 842],
-  Letter: [612, 792],
-  reMarkable: [495.72, 661.68],
-};
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 const DIFFICULTY_LABELS: Record<SudokuDifficulty, string> = {
   easy: "Easy",
@@ -99,9 +92,9 @@ function drawSudokuGrid(
 function generatePDF(
   puzzles: SudokuPuzzle[],
   difficulty: SudokuDifficulty,
-  pageSize: PageSize
+  pageSize: PageSizeKey
 ) {
-  const [pageW, pageH] = PAGE_DIMENSIONS[pageSize];
+  const { w: pageW, h: pageH } = PAGE_SIZES[pageSize];
   const margin = pageW * 0.1;
   const usableW = pageW - margin * 2;
   const usableH = pageH - margin * 2;
@@ -265,7 +258,7 @@ function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
 export default function SudokuPage() {
   const [difficulty, setDifficulty] = useState<SudokuDifficulty>("medium");
   const [numPuzzles, setNumPuzzles] = useState(1);
-  const [pageSize, setPageSize] = useState<PageSize>("A4");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [previewPuzzle, setPreviewPuzzle] = useState<SudokuPuzzle | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -361,15 +354,15 @@ export default function SudokuPage() {
               <Label>Page Size</Label>
               <Select
                 value={pageSize}
-                onValueChange={(v) => setPageSize(v as PageSize)}
+                onValueChange={(v) => setPageSize(v as PageSizeKey)}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="A4">A4 (210 × 297 mm)</SelectItem>
-                  <SelectItem value="Letter">Letter (8.5 × 11 in)</SelectItem>
-                  <SelectItem value="reMarkable">reMarkable (1404 × 1872 px)</SelectItem>
+                  <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
+                  <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
+                  <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

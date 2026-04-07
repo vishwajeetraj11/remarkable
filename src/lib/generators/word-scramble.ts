@@ -209,11 +209,18 @@ function scrambleWord(word: string): string {
 export function generateWordScramble(
   difficulty: string,
   category: string,
-  count: number
+  count: number,
+  customPool?: { word: string; hint: string }[]
 ): WordScramblePuzzle {
-  const safeCategory = (WORD_BANK[category as Category] ? category : "everyday") as Category;
-  const safeDifficulty = (["easy", "medium", "hard"].includes(difficulty) ? difficulty : "medium") as Difficulty;
-  const pool = WORD_BANK[safeCategory][safeDifficulty];
+  let pool: { word: string; hint: string }[];
+
+  if (customPool) {
+    pool = customPool;
+  } else {
+    const safeCategory = (WORD_BANK[category as Category] ? category : "everyday") as Category;
+    const safeDifficulty = (["easy", "medium", "hard"].includes(difficulty) ? difficulty : "medium") as Difficulty;
+    pool = WORD_BANK[safeCategory][safeDifficulty];
+  }
 
   const safeCount = Math.min(count, pool.length);
   const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, safeCount);
