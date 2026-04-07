@@ -35,6 +35,55 @@ const activities = [
     detail: "Easy 10–20 · Medium 20–40 · Hard 40–60 dots",
     age: "Ages 4–10",
   },
+  {
+    name: "Sight Words",
+    href: "/kids/sight-words",
+    desc: "Practice reading and writing high-frequency sight words with tracing and writing exercises. Grade-level word banks.",
+    detail: "Kindergarten · 1st · 2nd · 3rd Grade",
+    age: "Ages 4–9",
+  },
+  {
+    name: "Spelling Practice",
+    href: "/kids/spelling",
+    desc: "Structured spelling practice with letter boxes and writing lines. Look, cover, write, check format.",
+    detail: "Easy · Medium · Hard word lists",
+    age: "Ages 5–12",
+  },
+  {
+    name: "Cursive Handwriting",
+    href: "/kids/cursive",
+    desc: "Guided cursive writing sheets with four-line guidelines for letters, words, and sentences.",
+    detail: "Lowercase · Uppercase · Words · Sentences",
+    age: "Ages 6–12",
+  },
+  {
+    name: "Vocabulary Flashcards",
+    href: "/kids/vocabulary",
+    desc: "Themed vocabulary cards with words, definitions, and drawing space for visual learners.",
+    detail: "Animals · Food · Nature · Body Parts",
+    age: "Ages 4–10",
+  },
+  {
+    name: "Pattern Recognition",
+    href: "/kids/patterns",
+    desc: "Complete the pattern exercises with shapes, numbers, and letters. Three difficulty levels.",
+    detail: "Shapes · Numbers · Letters · Mixed",
+    age: "Ages 3–8",
+  },
+  {
+    name: "Telling Time",
+    href: "/kids/telling-time",
+    desc: "Practice reading analog clocks with exercises for hours, half hours, and five-minute intervals.",
+    detail: "Hours · Half hours · Quarter hours · 5-minute",
+    age: "Ages 5–10",
+  },
+  {
+    name: "Money Counting",
+    href: "/kids/money-counting",
+    desc: "Learn to count coins and make change with visual coin-counting exercises.",
+    detail: "Pennies · Nickels · Dimes · Quarters",
+    age: "Ages 5–10",
+  },
 ];
 
 export default function KidsPage() {
@@ -43,7 +92,7 @@ export default function KidsPage() {
       <div className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight">Kids Activities</h1>
         <p className="mt-2 text-muted-foreground max-w-xl">
-          Educational worksheets and fun activities for younger reMarkable users.
+          Educational worksheets and fun activities for young learners.
           Everything is generated fresh each time so kids always have something new.
         </p>
       </div>

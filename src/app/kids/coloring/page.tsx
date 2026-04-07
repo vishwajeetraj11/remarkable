@@ -12,14 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const PAGE_SIZES = {
-  remarkable: { w: 495.72, h: 661.68, label: "reMarkable (1404×1872)" },
-  a4: { w: 595.28, h: 841.89, label: "A4" },
-  letter: { w: 612, h: 792, label: "US Letter" },
-};
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 type Theme = "mandala" | "shapes" | "animals" | "nature";
 
 // Seeded pseudo-random
@@ -296,7 +289,7 @@ const DRAWERS: Record<Theme, (ctx: DrawCtx) => void> = {
 export default function ColoringPage() {
   const [theme, setTheme] = useState<Theme>("mandala");
   const [pageCount, setPageCount] = useState(4);
-  const [pageSize, setPageSize] = useState<PageSizeKey>("remarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
   const [previewSeed] = useState(() => Math.floor(Math.random() * 100000));
 

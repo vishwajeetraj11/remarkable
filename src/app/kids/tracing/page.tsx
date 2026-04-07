@@ -12,14 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const PAGE_SIZES = {
-  remarkable: { w: 495.72, h: 661.68, label: "reMarkable (1404×1872)" },
-  a4: { w: 595.28, h: 841.89, label: "A4" },
-  letter: { w: 612, h: 792, label: "US Letter" },
-};
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 type ContentType = "uppercase" | "lowercase" | "numbers" | "words";
 
@@ -98,7 +91,7 @@ function getLetterStrokes(ch: string, cx: number, cy: number, size: number): Seg
 export default function TracingPage() {
   const [contentType, setContentType] = useState<ContentType>("uppercase");
   const [pageCount, setPageCount] = useState(3);
-  const [pageSize, setPageSize] = useState<PageSizeKey>("remarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
 
   async function generate() {

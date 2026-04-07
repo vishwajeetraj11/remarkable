@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,14 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const PAGE_SIZES = {
-  remarkable: { w: 495.72, h: 661.68, label: "reMarkable (1404×1872)" },
-  a4: { w: 595.28, h: 841.89, label: "A4" },
-  letter: { w: 612, h: 792, label: "US Letter" },
-};
-
-type PageSizeKey = keyof typeof PAGE_SIZES;
+import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 type Operation = "addition" | "subtraction" | "multiplication" | "division";
 type Difficulty = "single" | "double" | "mixed";
 
@@ -66,7 +60,7 @@ export default function MathPage() {
   const [difficulty, setDifficulty] = useState<Difficulty>("single");
   const [problemsPerPage, setProblemsPerPage] = useState(20);
   const [pageCount, setPageCount] = useState(2);
-  const [pageSize, setPageSize] = useState<PageSizeKey>("remarkable");
+  const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
 
   // Generate a stable preview
@@ -198,6 +192,12 @@ export default function MathPage() {
         <p className="text-muted-foreground text-sm mt-1">
           Clean arithmetic practice sheets with answer key on the last page.
         </p>
+        <Link
+          href="/kids/math/custom"
+          className="inline-block mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+        >
+          Need more control? Try the custom generator →
+        </Link>
       </div>
 
       {/* Controls */}
