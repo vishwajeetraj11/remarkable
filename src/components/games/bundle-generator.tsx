@@ -281,7 +281,7 @@ function renderWordSearch(
   const ox = (pw - cellSize * puzzle.size) / 2;
   drawGrid(doc, puzzle.size, puzzle.size, ox, MARGIN + 20, cellSize, puzzle.grid);
 
-  let cy = MARGIN + 20 + puzzle.size * cellSize + 16;
+  const cy = MARGIN + 20 + puzzle.size * cellSize + 16;
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   const cols = 3;

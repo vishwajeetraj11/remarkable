@@ -27,12 +27,11 @@ export default function ProjectTimelinePage() {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const m = getMargins(variants);
-    const bodyW = w - m.left - m.right;
 
     // Page 1: Timeline overview
     drawHeader(doc, variants, { title: "Project Timeline", dark: true });
 
-    let y = m.top + 48;
+    const y = m.top + 48;
     const timelineX = m.left + 30;
     const dotR = 4;
     const availH = h - m.bottom - y - 20;

@@ -17,13 +17,9 @@ function isValidEmail(email: string) {
 /* ---------- Inline mode ---------- */
 
 export function EmailCaptureInline() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => shouldShowEmailCapture());
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success">("idle");
-
-  useEffect(() => {
-    setVisible(shouldShowEmailCapture());
-  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -87,7 +83,7 @@ export function EmailCaptureInline() {
 /* ---------- Banner mode (fixed bottom) ---------- */
 
 export function EmailCaptureBanner() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => shouldShowEmailCapture());
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success">("idle");
 
@@ -96,7 +92,6 @@ export function EmailCaptureBanner() {
   }, []);
 
   useEffect(() => {
-    refresh();
     window.addEventListener("rs_download", refresh);
     return () => window.removeEventListener("rs_download", refresh);
   }, [refresh]);

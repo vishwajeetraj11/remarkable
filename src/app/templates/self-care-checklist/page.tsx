@@ -99,7 +99,7 @@ export default function SelfCareChecklistPage() {
         subtitle: `Day ${page + 1}`,
       });
 
-      let y = m.top + 38;
+      const y = m.top + 38;
 
       const colW = bodyW / 2 - 8;
       const leftX = m.left + 4;
