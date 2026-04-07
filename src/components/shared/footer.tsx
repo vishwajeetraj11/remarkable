@@ -13,15 +13,19 @@ export function Footer() {
               <li><Link href="/games/crossword" className="hover:text-foreground transition-colors">Crossword</Link></li>
               <li><Link href="/games/maze" className="hover:text-foreground transition-colors">Maze</Link></li>
               <li><Link href="/games/nonogram" className="hover:text-foreground transition-colors">Nonogram</Link></li>
+              <li><Link href="/games/word-scramble" className="hover:text-foreground transition-colors">Word Scramble</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="text-sm font-semibold mb-3">Templates</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="/templates/planner" className="hover:text-foreground transition-colors">Weekly Planner</Link></li>
-              <li><Link href="/templates/dot-grid" className="hover:text-foreground transition-colors">Dot Grid</Link></li>
-              <li><Link href="/templates/lined" className="hover:text-foreground transition-colors">Lined Paper</Link></li>
-              <li><Link href="/templates/cornell" className="hover:text-foreground transition-colors">Cornell Notes</Link></li>
+              <li><Link href="/templates/daily-focus" className="hover:text-foreground transition-colors">Daily Focus</Link></li>
+              <li><Link href="/templates/monthly-calendar" className="hover:text-foreground transition-colors">Monthly Calendar</Link></li>
+              <li><Link href="/templates/meeting-notes" className="hover:text-foreground transition-colors">Meeting Notes</Link></li>
+              <li><Link href="/templates/three-priorities" className="hover:text-foreground transition-colors">3 Priorities</Link></li>
+              <li><Link href="/templates/habit-tracker" className="hover:text-foreground transition-colors">Habit Tracker</Link></li>
+              <li><Link href="/templates" className="hover:text-foreground transition-colors font-medium">All 49+ Templates →</Link></li>
             </ul>
           </div>
           <div>
