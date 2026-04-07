@@ -52,10 +52,6 @@ const navItems = [
       { label: "All Guides →", href: "/guides" },
     ],
   },
-  {
-    label: "Pricing",
-    href: "/pricing",
-  },
 ];
 
 export function Header() {

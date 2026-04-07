@@ -106,7 +106,7 @@ const guideRoutes = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  const indexRoutes = ["/games", "/kids", "/templates", "/guides", "/pricing", "/packs"];
+  const indexRoutes = ["/games", "/kids", "/templates", "/guides", "/packs"];
   const pageRoutes = [...gameRoutes, ...templateRoutes, ...kidsRoutes];
 
   return [
