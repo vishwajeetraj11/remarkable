@@ -8,7 +8,6 @@ import {
   createDoc,
   drawPageNumber,
   drawHeader,
-  drawSectionTitle,
   drawLabeledLine,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";

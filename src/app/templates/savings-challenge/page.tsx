@@ -7,7 +7,6 @@ import {
   drawPageNumber,
   drawCheckbox,
   drawLabeledLine,
-  drawSectionTitle,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import { TemplateShell } from "@/components/templates/template-shell";
@@ -39,7 +38,6 @@ export default function SavingsChallengePage() {
 
     const totalWeeks = 52;
     const gridCols = 4;
-    const gridRows = 13;
     const weeksPerPage = Math.ceil(totalWeeks / pageCount);
 
     for (let page = 0; page < pageCount; page++) {

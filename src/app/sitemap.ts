@@ -23,6 +23,7 @@ const gameRoutes = [
 ];
 
 const templateRoutes = [
+  "/templates/all-in-one-planner",
   "/templates/yearly-roadmap",
   "/templates/quarterly-goals",
   "/templates/monthly-calendar",

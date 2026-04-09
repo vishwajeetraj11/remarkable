@@ -51,7 +51,6 @@ export default function BirthdayTrackerPage() {
 
       const dateColW = bodyW * 0.15;
       const nameColW = bodyW * 0.45;
-      const notesColW = bodyW * 0.4;
 
       for (let mi = startMonth; mi < endMonth; mi++) {
         drawSectionTitle(doc, MONTHS[mi], m.left + 4, y + 10);

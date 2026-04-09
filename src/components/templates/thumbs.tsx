@@ -3,6 +3,34 @@ import type React from "react";
 /* ---------- Per-template SVG thumbnail content ---------- */
 
 export const thumbs: Record<string, React.ReactNode> = {
+  /* ===== All-in-One Planner ===== */
+
+  "/templates/all-in-one-planner": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="12" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      {/* Section tabs in header */}
+      {["YR","QG","MC","WK","HB"].map((abbr, i) => (
+        <g key={abbr}>
+          <rect x={60 + i * 12} y="10" width="10" height="8" rx="1" fill={i === 2 ? "white" : "currentColor"} fillOpacity={i === 2 ? 0.9 : 0.3} />
+          <text x={65 + i * 12} y="16.5" fontSize="4" fill={i === 2 ? "currentColor" : "white"} textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">{abbr}</text>
+        </g>
+      ))}
+      {/* TOC entries with dot leaders */}
+      {["Year Overview","Quarterly Goals","Monthly Calendar","Weekly Planner","Notes"].map((label, i) => (
+        <g key={label}>
+          <text x="12" y={32 + i * 12} fontSize="5.5" fill="currentColor" fillOpacity="0.7" fontFamily="sans-serif">{label}</text>
+          <line x1={12 + label.length * 3.1} y1={30 + i * 12} x2="98" y2={30 + i * 12} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" strokeDasharray="2 2" />
+          <text x="100" y={32 + i * 12} fontSize="5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">p.{[2,3,7,19,31][i]}</text>
+        </g>
+      ))}
+      {/* Footer nav */}
+      <text x="14" y="155" fontSize="4.5" fill="currentColor" fillOpacity="0.4" fontFamily="sans-serif">← Back</text>
+      <text x="60" y="155" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="middle" fontFamily="sans-serif">↑ Index</text>
+      <text x="106" y="155" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">Next →</text>
+    </>
+  ),
+
   /* ===== Pack 1: Core Planner ===== */
 
   "/templates/yearly-roadmap": (

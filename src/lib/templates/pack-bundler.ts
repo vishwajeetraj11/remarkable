@@ -46,10 +46,10 @@ export function generatePackPdf(pack: PackConfig, variants: TemplateVariants) {
   y += 16;
 
   let currentPage = 2;
-  const pageMap: { name: string; startPage: number }[] = [];
+  const pageMap: { name: string; startPage: number; rowY: number }[] = [];
 
   pack.templates.forEach((tpl, idx) => {
-    pageMap.push({ name: tpl.name, startPage: currentPage });
+    pageMap.push({ name: tpl.name, startPage: currentPage, rowY: y });
 
     doc.setFontSize(9);
     doc.setTextColor(br, bg, bb);
@@ -85,7 +85,7 @@ export function generatePackPdf(pack: PackConfig, variants: TemplateVariants) {
 
   // Add internal links from index to each template section
   pageMap.forEach((entry) => {
-    doc.link(m.left, 0, bodyW, 0, { pageNumber: entry.startPage });
+    doc.link(m.left, entry.rowY - 10, bodyW, 26, { pageNumber: entry.startPage });
   });
 
   // Page number on index

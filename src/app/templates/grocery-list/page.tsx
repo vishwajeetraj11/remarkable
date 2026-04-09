@@ -24,7 +24,7 @@ const SECTIONS = [
 export default function GroceryListPage() {
   async function generate(variants: TemplateVariants, pageCount: number) {
     const doc = createDoc(variants);
-    const { w, h } = getPageDimensions(variants);
+    const { w } = getPageDimensions(variants);
     const m = getMargins(variants);
     const bodyW = w - m.left - m.right;
 

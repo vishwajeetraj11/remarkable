@@ -4,7 +4,6 @@ import {
   createDoc,
   drawPageNumber,
   drawCheckbox,
-  drawHorizontalLines,
   drawLabeledLine,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";

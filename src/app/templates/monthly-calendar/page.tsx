@@ -51,7 +51,7 @@ export default function MonthlyCalendarPage() {
   );
   const [months, setMonths] = useState(3);
 
-  async function generate(variants: TemplateVariants, _pageCount: number) {
+  async function generate(variants: TemplateVariants) {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const m = getMargins(variants);

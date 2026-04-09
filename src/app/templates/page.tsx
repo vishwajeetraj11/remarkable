@@ -2,6 +2,14 @@ import { TemplatesView } from "@/components/templates/templates-view";
 
 const packs = [
   {
+    name: "All-in-One Planner",
+    badge: "New",
+    description: "One fully hyperlinked PDF with year overview, quarterly goals, monthly calendars, weekly pages, habit tracker, and notes. Every page has clickable section tabs.",
+    templates: [
+      { name: "All-in-One Planner Builder", href: "/templates/all-in-one-planner", desc: "Hyperlinked mega-planner — tap to navigate between sections" },
+    ],
+  },
+  {
     name: "Core Planner",
     badge: "Pack 1",
     description: "Essential planning templates from yearly roadmaps to daily focus pages.",

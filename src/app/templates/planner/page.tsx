@@ -48,7 +48,7 @@ export default function PlannerPage() {
   const [weeks, setWeeks] = useState(4);
   const [timeSlots, setTimeSlots] = useState(false);
 
-  async function generate(variants: TemplateVariants, _pageCount: number) {
+  async function generate(variants: TemplateVariants) {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const margin = 24;

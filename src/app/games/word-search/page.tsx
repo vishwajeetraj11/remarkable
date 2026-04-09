@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -164,7 +164,10 @@ export default function WordSearchPage() {
   const [puzzle, setPuzzle] = useState<WordSearchPuzzle | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const themes = language === "en" ? ENGLISH_THEMES : [...WORD_SEARCH_THEMES];
+  const themes = useMemo(
+    () => (language === "en" ? ENGLISH_THEMES : WORD_SEARCH_THEMES),
+    [language]
+  );
 
   useEffect(() => {
     if (!themes.some((t) => t.value === theme)) {

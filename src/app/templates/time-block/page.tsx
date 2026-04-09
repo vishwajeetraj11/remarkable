@@ -7,7 +7,6 @@ import { Slider } from "@/components/ui/slider";
 import {
   createDoc,
   drawPageNumber,
-  drawSectionTitle,
   drawLabeledLine,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
@@ -43,7 +42,6 @@ export default function TimeBlockPage() {
       const slotH = scheduleH / hours;
 
       const timeColW = 32;
-      const blockW = bodyW - timeColW;
 
       for (let i = 0; i <= hours; i++) {
         const y = scheduleTop + i * slotH;

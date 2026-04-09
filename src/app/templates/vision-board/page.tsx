@@ -6,7 +6,6 @@ import {
   drawPageNumber,
   drawBox,
   drawLabeledLine,
-  drawHorizontalLines,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import { TemplateShell } from "@/components/templates/template-shell";
