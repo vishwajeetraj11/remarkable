@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 40+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 49+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
     url: siteUrl,
     siteName: "Remarkable Skills",
     locale: "en_US",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 40+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 49+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
   },
   alternates: {
     canonical: "/",
