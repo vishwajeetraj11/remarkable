@@ -62,19 +62,55 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Remarkable Skills",
-  url: siteUrl,
-  description:
-    "Free puzzles, templates, and activities for the reMarkable tablet",
-  publisher: {
-    "@type": "Organization",
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
     name: "Remarkable Skills",
     url: siteUrl,
+    description:
+      "Free puzzles, templates, and activities for the reMarkable tablet",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/templates`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Remarkable Skills",
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/icon-512.png`,
+      },
+    },
   },
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Remarkable Skills",
+    url: siteUrl,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    description:
+      "Free, procedurally generated puzzles, games, and 49+ printable templates optimized for the reMarkable paper tablet and other e-ink devices.",
+    featureList: [
+      "Sudoku, crossword, maze, word search, nonogram puzzle generators",
+      "49+ planning, productivity, and wellness templates",
+      "Kids worksheets (math, tracing, spelling, sight words)",
+      "Optimized for reMarkable 2, Paper Pro, Supernote, BOOX, Kindle Scribe",
+      "Client-side PDF generation — no account required",
+    ],
+  },
+];
 
 export default function RootLayout({
   children,
@@ -87,10 +123,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {jsonLd.map((schema, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

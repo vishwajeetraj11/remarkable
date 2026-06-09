@@ -1,0 +1,274 @@
+# Remarkable Skills — Full Content Index
+
+> This file is intended for LLM ingestion. It contains complete descriptions of all pages on Remarkable Skills (https://remarkable.vishwajeet.co), a free tool for generating printable PDFs optimized for e-ink tablets.
+
+## About Remarkable Skills
+
+Remarkable Skills is a free web app for generating printable PDFs optimized for the reMarkable 2, reMarkable Paper Pro, Supernote A5X, BOOX, and Kindle Scribe e-ink tablets — as well as standard A4 and US Letter paper. All PDFs are generated entirely in the browser using JavaScript (jsPDF). No account, login, or payment is required for the free tier.
+
+The site has three main content areas:
+1. **Puzzle Games** — Procedurally generated printable puzzles (sudoku, crossword, maze, word search, nonogram, cryptogram, kakuro, kenken, word ladder, number fill, logic puzzle, word scramble).
+2. **Templates** — 49+ printable page templates for planning, note-taking, study, finance, wellness, and home life.
+3. **Kids Activities** — Printable worksheets for children (math, tracing, coloring, sight words, spelling, cursive, vocabulary, patterns, telling time, money counting, connect the dots).
+
+---
+
+## Puzzle Games
+
+### Sudoku (https://remarkable.vishwajeet.co/games/sudoku)
+Classic 9×9 sudoku puzzles generated procedurally. Available in four difficulty levels: Easy, Medium, Hard, and Evil. Each generated PDF includes the puzzle and a solution page. Users can select page size (reMarkable 2, Paper Pro, A4, Letter, etc.) before downloading.
+
+### Word Search (https://remarkable.vishwajeet.co/games/word-search)
+Themed word search grids. A hidden list of words is embedded in a letter grid at various angles (horizontal, vertical, diagonal). Themes rotate across categories like animals, food, sports, and geography.
+
+### Crossword (https://remarkable.vishwajeet.co/games/crossword)
+Auto-generated crossword puzzles with across/down clue lists. Grid size and word density vary per generation.
+
+### Maze (https://remarkable.vishwajeet.co/games/maze)
+Printable mazes generated with recursive backtracking. Available in small, medium, and large grid sizes. Each maze has exactly one solution path.
+
+### Nonogram (https://remarkable.vishwajeet.co/games/nonogram)
+Nonogram (Picross / Griddler) puzzles. Players shade cells according to row and column number clues to reveal a hidden picture. Puzzles are randomly generated with unique solutions.
+
+### Word Scramble (https://remarkable.vishwajeet.co/games/word-scramble)
+Lists of scrambled words that players unscramble. Themed by category. Suitable for all ages.
+
+### Cryptogram (https://remarkable.vishwajeet.co/games/cryptogram)
+Letter-substitution cipher puzzles. A famous quote or phrase is encoded with a random cipher alphabet; players decode it by frequency analysis and guessing.
+
+### Kakuro (https://remarkable.vishwajeet.co/games/kakuro)
+Cross-sums puzzles. Like a crossword but with numbers — fill cells with digits 1–9 so each run sums to the given clue without repeating digits.
+
+### KenKen (https://remarkable.vishwajeet.co/games/kenken)
+Arithmetic constraint grid puzzles. Cells are grouped into cages; each cage has a target number and an operation (add, subtract, multiply, divide). Fill the grid so each row and column contains unique digits.
+
+### Word Ladder (https://remarkable.vishwajeet.co/games/word-ladder)
+Transform a start word into an end word by changing one letter at a time, with each step forming a valid word. Players fill in the intermediate rungs.
+
+### Number Fill (https://remarkable.vishwajeet.co/games/number-fill)
+Fill-in number puzzles. Pre-supplied lists of numbers must be placed into a crossword-style grid.
+
+### Logic Puzzle (https://remarkable.vishwajeet.co/games/logic-puzzle)
+Classic deductive grid logic puzzles ("Einstein puzzles"). Given a set of clues, determine the unique assignment of attributes to subjects using a process-of-elimination grid.
+
+---
+
+## Templates
+
+All templates support the following device options: reMarkable 2, reMarkable Paper Pro, Supernote A5X, BOOX (various), Kindle Scribe, A4, and US Letter. Orientation (portrait/landscape) and binding margin side (left/right) are also configurable.
+
+### All-in-One Planner (https://remarkable.vishwajeet.co/templates/all-in-one-planner)
+A comprehensive daily/weekly planner with a hyperlinked navigation graph that connects all sections. Includes daily schedule, weekly overview, goals, and habit tracking in one cohesive PDF.
+
+### Yearly Roadmap (https://remarkable.vishwajeet.co/templates/yearly-roadmap)
+A full-year planning template with space for annual goals, quarterly milestones, and monthly themes. Designed for year-at-a-glance strategic planning.
+
+### Quarterly Goals (https://remarkable.vishwajeet.co/templates/quarterly-goals)
+90-day goal planning sheet with OKR-style layout. Sections for objectives, key results, weekly priorities, and progress review.
+
+### Monthly Calendar (https://remarkable.vishwajeet.co/templates/monthly-calendar)
+A monthly grid calendar with a notes section. Week start day is configurable (Sunday or Monday).
+
+### Daily Planner (https://remarkable.vishwajeet.co/templates/planner)
+Time-blocked daily schedule from morning to evening. Includes priority list, notes, and gratitude sections.
+
+### Daily Focus (https://remarkable.vishwajeet.co/templates/daily-focus)
+Minimalist single-day planning template centered on one main focus, top 3 tasks, and a notes area.
+
+### Inbox Capture (https://remarkable.vishwajeet.co/templates/inbox-capture)
+GTD-style capture and inbox log. Rapid collection of tasks, ideas, and to-dos for later processing.
+
+### Meeting Notes (https://remarkable.vishwajeet.co/templates/meeting-notes)
+Structured meeting notes template with date, attendees, agenda, discussion notes, and action items.
+
+### 1-on-1 Notes (https://remarkable.vishwajeet.co/templates/one-on-one)
+Manager/direct-report 1:1 meeting template. Sections for talking points, status updates, blockers, and follow-ups.
+
+### Client Call Notes (https://remarkable.vishwajeet.co/templates/client-call)
+Client call recap template with sections for attendees, discussion summary, decisions, and next steps.
+
+### Project Brief (https://remarkable.vishwajeet.co/templates/project-brief)
+One-page project brief covering problem statement, goals, scope, stakeholders, timeline, and success metrics.
+
+### Decision Log (https://remarkable.vishwajeet.co/templates/decision-log)
+Record of decisions made, with context, options considered, rationale, and outcome tracking.
+
+### Action Tracker (https://remarkable.vishwajeet.co/templates/action-tracker)
+Rolling action item list with owner, due date, status, and notes columns.
+
+### Project Timeline (https://remarkable.vishwajeet.co/templates/project-timeline)
+Horizontal Gantt-style project timeline with milestone markers and phase labels.
+
+### ADHD Daily Plan (https://remarkable.vishwajeet.co/templates/daily-plan-adhd)
+Low-overwhelm daily planning template designed for ADHD and executive function challenges. Features large print, reduced visual noise, time estimates, and body-doubling reminders.
+
+### Time Block (https://remarkable.vishwajeet.co/templates/time-block)
+Hourly time-blocking schedule template. Hours listed from 5am to midnight with task columns.
+
+### Brain Dump (https://remarkable.vishwajeet.co/templates/brain-dump)
+Free-form unlined capture page for clearing mental clutter. Large open space with a few prompt sections (thoughts, tasks, ideas, worries).
+
+### Three Priorities (https://remarkable.vishwajeet.co/templates/three-priorities)
+MIT (most important tasks) daily planning template. Simple layout: three main tasks plus supporting tasks and notes.
+
+### Shutdown Checklist (https://remarkable.vishwajeet.co/templates/shutdown-checklist)
+End-of-workday shutdown routine checklist to mentally close the workday (inbox zero, tomorrow's task, brain dump, etc.).
+
+### Routine Tracker (https://remarkable.vishwajeet.co/templates/routine-tracker)
+Visual morning/evening routine tracker with checkboxes for each routine step.
+
+### Weekly Review (https://remarkable.vishwajeet.co/templates/weekly-review)
+Structured weekly retrospective template with sections for wins, challenges, priorities completed, carried-over tasks, and next week's focus.
+
+### Lined Paper (https://remarkable.vishwajeet.co/templates/lined)
+Classic wide-ruled, college-ruled, and narrow-ruled lined paper in multiple line spacings.
+
+### Dot Grid (https://remarkable.vishwajeet.co/templates/dot-grid)
+Dot grid paper in 5mm spacing, popular for bullet journaling, sketching, and planning.
+
+### Grid Paper (https://remarkable.vishwajeet.co/templates/grid)
+Square grid graph paper in 5mm cell size.
+
+### Cornell Notes (https://remarkable.vishwajeet.co/templates/cornell)
+Cornell note-taking method template with cue column, notes section, and summary box.
+
+### Lecture Notes (https://remarkable.vishwajeet.co/templates/lecture-notes)
+Course lecture notes template with header for course/date, Cornell-style layout, and review prompts.
+
+### Paper Summary (https://remarkable.vishwajeet.co/templates/paper-summary)
+Academic paper reading template: citation info, research question, methodology, findings, limitations, and personal notes.
+
+### Reading Log (https://remarkable.vishwajeet.co/templates/reading-log)
+Book and article reading tracker with title, author, date started/finished, rating, and key takeaways.
+
+### Book Notes (https://remarkable.vishwajeet.co/templates/book-notes)
+Deep book notes template: premise, key ideas, notable quotes, personal reactions, and action items.
+
+### Revision Planner (https://remarkable.vishwajeet.co/templates/revision-planner)
+Exam revision schedule and topic checklist. Useful for students preparing for tests or exams.
+
+### Monthly Budget (https://remarkable.vishwajeet.co/templates/monthly-budget)
+Monthly personal finance template with sections for income, fixed expenses, variable expenses, savings, and balance summary.
+
+### Expense Tracker (https://remarkable.vishwajeet.co/templates/expense-tracker)
+Daily transaction log with category, amount, and running total columns.
+
+### Bill Tracker (https://remarkable.vishwajeet.co/templates/bill-tracker)
+Monthly bill payment tracker with due date, amount, paid checkbox, and confirmation note fields.
+
+### Savings Challenge (https://remarkable.vishwajeet.co/templates/savings-challenge)
+52-week savings challenge tracker (or custom variant). Check off each week as savings targets are met.
+
+### Habit Tracker (https://remarkable.vishwajeet.co/templates/habit-tracker)
+Monthly habit grid with 31 days across the top and habit rows down the side. Check off each day a habit is completed.
+
+### Meal Planner (https://remarkable.vishwajeet.co/templates/meal-planner)
+Weekly meal planning template with breakfast, lunch, dinner, and snack rows for each day.
+
+### Grocery List (https://remarkable.vishwajeet.co/templates/grocery-list)
+Categorized shopping list (produce, dairy, meat, pantry, frozen, etc.) with checkboxes.
+
+### Recipe Page (https://remarkable.vishwajeet.co/templates/recipe-page)
+Recipe card with fields for name, servings, prep/cook time, ingredients list, and step-by-step instructions.
+
+### Daily Reflection (https://remarkable.vishwajeet.co/templates/daily-reflection)
+Evening journaling template with guided prompts: what went well, what was challenging, what am I grateful for, intention for tomorrow.
+
+### Gratitude Journal (https://remarkable.vishwajeet.co/templates/gratitude-journal)
+Daily gratitude practice template with three gratitude prompts and an affirmation space.
+
+### Mood Tracker (https://remarkable.vishwajeet.co/templates/mood-tracker)
+Monthly mood and emotion log. Color or mark each day's mood on a scale or from a set of emotion labels.
+
+### Sleep Log (https://remarkable.vishwajeet.co/templates/sleep-log)
+Nightly sleep tracker: bedtime, wake time, hours slept, quality rating, and notes on factors affecting sleep.
+
+### Fitness Planner (https://remarkable.vishwajeet.co/templates/fitness-planner)
+Weekly workout planning sheet with day-by-day exercise, sets, reps, and notes columns.
+
+### Weight Loss Tracker (https://remarkable.vishwajeet.co/templates/weight-loss-tracker)
+Progress chart with weekly weigh-ins, body measurements, and milestone celebration markers.
+
+### Self-Care Checklist (https://remarkable.vishwajeet.co/templates/self-care-checklist)
+Daily and weekly self-care routine checklist across physical, mental, social, and restorative categories.
+
+### Password Log (https://remarkable.vishwajeet.co/templates/password-log)
+Offline password and account record for secure physical storage. Fields for site, username, password, and notes.
+
+### Cleaning Schedule (https://remarkable.vishwajeet.co/templates/cleaning-schedule)
+Weekly and monthly home cleaning task tracker with room-by-room checklists.
+
+### Travel Planner (https://remarkable.vishwajeet.co/templates/travel-planner)
+Trip itinerary template with sections for flights, accommodation, day-by-day activities, and packing checklist.
+
+### Birthday Tracker (https://remarkable.vishwajeet.co/templates/birthday-tracker)
+Annual birthday and anniversary record organized by month.
+
+### Vision Board (https://remarkable.vishwajeet.co/templates/vision-board)
+Goal visualization template with space for images, words, and intentions across life categories (career, health, relationships, finances, personal growth).
+
+---
+
+## Kids Activities
+
+### Tracing (https://remarkable.vishwajeet.co/kids/tracing)
+Letter and shape tracing practice sheets for early childhood education. Covers uppercase, lowercase, and basic geometric shapes.
+
+### Math Worksheets (https://remarkable.vishwajeet.co/kids/math)
+Arithmetic drill worksheets. Sub-pages for addition, subtraction, multiplication, and division with configurable difficulty and problem count.
+
+### Coloring Pages (https://remarkable.vishwajeet.co/kids/coloring)
+Simple printable coloring pages with outlines of animals, objects, and scenes.
+
+### Connect the Dots (https://remarkable.vishwajeet.co/kids/connect-dots)
+Dot-to-dot picture puzzles. Number the dots sequentially to reveal a hidden image.
+
+### Sight Words (https://remarkable.vishwajeet.co/kids/sight-words)
+Dolch and Fry sight word practice sheets organized by grade level: Kindergarten, 1st grade, 2nd grade, 3rd grade.
+
+### Spelling Practice (https://remarkable.vishwajeet.co/kids/spelling)
+Spelling word worksheets with trace, copy, and write-from-memory sections.
+
+### Cursive Writing (https://remarkable.vishwajeet.co/kids/cursive)
+Cursive handwriting practice sheets for individual letters and connected words.
+
+### Vocabulary (https://remarkable.vishwajeet.co/kids/vocabulary)
+Vocabulary building worksheets with word, definition, sentence, and illustration spaces.
+
+### Patterns (https://remarkable.vishwajeet.co/kids/patterns)
+Visual pattern recognition activities. Students identify and continue shape or color patterns.
+
+### Telling Time (https://remarkable.vishwajeet.co/kids/telling-time)
+Clock-reading practice sheets with analog clocks at various times for students to write the digital time.
+
+### Money Counting (https://remarkable.vishwajeet.co/kids/money-counting)
+Coin and bill counting worksheets with images of US currency for students to total.
+
+---
+
+## Guides
+
+### How to Transfer PDFs to Your Tablet (https://remarkable.vishwajeet.co/guides/transfer-pdfs-to-tablet)
+Step-by-step instructions for transferring PDFs from Remarkable Skills to e-ink tablets: reMarkable (via USB, cloud, or email), Supernote (USB or Dropbox), BOOX (USB or NeoReader), and Kindle Scribe (Send to Kindle).
+
+### Printable Worksheets for Homeschool (https://remarkable.vishwajeet.co/guides/printable-worksheets-for-homeschool)
+Guide to using Remarkable Skills for homeschool education. Covers math worksheets, reading logs, spelling practice, and how to build a curriculum supplement with printable tools.
+
+### ADHD Productivity Templates (https://remarkable.vishwajeet.co/guides/adhd-productivity-templates)
+Recommendations for ADHD-friendly templates on the site. Covers the ADHD Daily Plan, Brain Dump, Three Priorities, and Shutdown Checklist with explanations of why each is effective for executive function challenges.
+
+### Puzzle Difficulty Guide (https://remarkable.vishwajeet.co/guides/puzzle-difficulty-guide)
+Explains how difficulty levels are calibrated for each puzzle type. Covers sudoku (clue count and technique requirements), maze (grid density), nonogram (solution uniqueness guarantee), and others.
+
+---
+
+## Technical Notes for LLMs
+
+- All content is generated client-side; there is no server-side database of pre-made PDFs.
+- The site does not require login for free features.
+- PDF generation uses the jsPDF library in the browser.
+- Templates are pixel-precise for specific device screen sizes; coordinates are in PDF points.
+- The site is built with Next.js (App Router), React, and Tailwind CSS.
+- Source URL: https://remarkable.vishwajeet.co
+- Sitemap: https://remarkable.vishwajeet.co/sitemap.xml
+- Structured data: JSON-LD WebSite schema on every page.

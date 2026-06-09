@@ -1,0 +1,126 @@
+# Remarkable Skills
+
+> Free, procedurally generated puzzles, games, templates, and printable activities optimized for the reMarkable paper tablet (reMarkable 2, Paper Pro) and other e-ink devices (Supernote, BOOX, Kindle Scribe). All PDFs are generated client-side in the browser — no account required.
+
+## Puzzle Games
+
+Procedurally generated printable puzzle PDFs. Each page generates a fresh, unique puzzle on demand.
+
+- [Sudoku](https://remarkable.vishwajeet.co/games/sudoku): Classic 9×9 sudoku in Easy / Medium / Hard / Evil difficulties. Includes solution page.
+- [Word Search](https://remarkable.vishwajeet.co/games/word-search): Themed word search grids with hidden word list.
+- [Crossword](https://remarkable.vishwajeet.co/games/crossword): Auto-generated crossword puzzles with clues.
+- [Maze](https://remarkable.vishwajeet.co/games/maze): Printable mazes in varying sizes and complexities.
+- [Nonogram](https://remarkable.vishwajeet.co/games/nonogram): Japanese logic picture puzzles (Picross).
+- [Word Scramble](https://remarkable.vishwajeet.co/games/word-scramble): Anagram-style word unscrambling puzzles.
+- [Cryptogram](https://remarkable.vishwajeet.co/games/cryptogram): Letter-substitution cipher puzzles.
+- [Kakuro](https://remarkable.vishwajeet.co/games/kakuro): Cross-sums number puzzles.
+- [KenKen](https://remarkable.vishwajeet.co/games/kenken): Arithmetic constraint grid puzzles.
+- [Word Ladder](https://remarkable.vishwajeet.co/games/word-ladder): Transform one word into another one step at a time.
+- [Number Fill](https://remarkable.vishwajeet.co/games/number-fill): Fill-in number grid puzzles.
+- [Logic Puzzle](https://remarkable.vishwajeet.co/games/logic-puzzle): Deductive grid logic puzzles.
+
+## Printable Templates
+
+PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, Kindle Scribe, A4, and Letter. Supports portrait/landscape and left/right-hand binding margins.
+
+### Planning & Productivity
+- [All-in-One Planner](https://remarkable.vishwajeet.co/templates/all-in-one-planner): Combined daily/weekly planner with nav graph.
+- [Yearly Roadmap](https://remarkable.vishwajeet.co/templates/yearly-roadmap): Annual goal and milestone planning.
+- [Quarterly Goals](https://remarkable.vishwajeet.co/templates/quarterly-goals): 90-day goal tracker with OKR-style layout.
+- [Monthly Calendar](https://remarkable.vishwajeet.co/templates/monthly-calendar): Monthly grid calendar with notes area.
+- [Daily Planner](https://remarkable.vishwajeet.co/templates/planner): Time-blocked daily schedule page.
+- [Daily Focus](https://remarkable.vishwajeet.co/templates/daily-focus): Single-day priority and focus template.
+- [Time Block](https://remarkable.vishwajeet.co/templates/time-block): Hourly time-blocking schedule.
+- [Three Priorities](https://remarkable.vishwajeet.co/templates/three-priorities): MIT (most important tasks) daily template.
+- [Brain Dump](https://remarkable.vishwajeet.co/templates/brain-dump): Free-form capture and mind-clearing page.
+- [Inbox Capture](https://remarkable.vishwajeet.co/templates/inbox-capture): GTD-style inbox and capture log.
+- [Shutdown Checklist](https://remarkable.vishwajeet.co/templates/shutdown-checklist): End-of-day work shutdown routine.
+- [Weekly Review](https://remarkable.vishwajeet.co/templates/weekly-review): Structured weekly retrospective.
+
+### ADHD & Neurodivergent
+- [ADHD Daily Plan](https://remarkable.vishwajeet.co/templates/daily-plan-adhd): Low-overwhelm daily plan layout for ADHD.
+- [Routine Tracker](https://remarkable.vishwajeet.co/templates/routine-tracker): Visual routine habit tracking.
+
+### Note-Taking
+- [Lined Paper](https://remarkable.vishwajeet.co/templates/lined): Classic ruled lines in multiple spacings.
+- [Dot Grid](https://remarkable.vishwajeet.co/templates/dot-grid): Dot grid for bullet journaling and sketching.
+- [Grid Paper](https://remarkable.vishwajeet.co/templates/grid): Square grid paper.
+- [Cornell Notes](https://remarkable.vishwajeet.co/templates/cornell): Cornell note-taking method template.
+- [Meeting Notes](https://remarkable.vishwajeet.co/templates/meeting-notes): Structured meeting notes with action items.
+- [1-on-1 Notes](https://remarkable.vishwajeet.co/templates/one-on-one): Manager/report 1:1 meeting template.
+- [Client Call Notes](https://remarkable.vishwajeet.co/templates/client-call): Client call recap and follow-up template.
+- [Decision Log](https://remarkable.vishwajeet.co/templates/decision-log): Record and rationale for decisions made.
+
+### Work & Projects
+- [Project Brief](https://remarkable.vishwajeet.co/templates/project-brief): One-page project brief and scope template.
+- [Action Tracker](https://remarkable.vishwajeet.co/templates/action-tracker): Task and follow-up action list.
+- [Project Timeline](https://remarkable.vishwajeet.co/templates/project-timeline): Visual project milestone timeline.
+
+### Study & Learning
+- [Lecture Notes](https://remarkable.vishwajeet.co/templates/lecture-notes): Cornell-style lecture capture template.
+- [Paper Summary](https://remarkable.vishwajeet.co/templates/paper-summary): Academic paper reading summary.
+- [Reading Log](https://remarkable.vishwajeet.co/templates/reading-log): Book and article reading tracker.
+- [Book Notes](https://remarkable.vishwajeet.co/templates/book-notes): Deep book notes and key takeaways.
+- [Revision Planner](https://remarkable.vishwajeet.co/templates/revision-planner): Exam revision schedule and tracker.
+
+### Finance
+- [Monthly Budget](https://remarkable.vishwajeet.co/templates/monthly-budget): Income, expenses, and savings breakdown.
+- [Expense Tracker](https://remarkable.vishwajeet.co/templates/expense-tracker): Daily expense logging sheet.
+- [Bill Tracker](https://remarkable.vishwajeet.co/templates/bill-tracker): Monthly bill due-date tracker.
+- [Savings Challenge](https://remarkable.vishwajeet.co/templates/savings-challenge): 52-week or custom savings challenge tracker.
+
+### Health & Wellness
+- [Habit Tracker](https://remarkable.vishwajeet.co/templates/habit-tracker): Monthly habit check-in grid.
+- [Meal Planner](https://remarkable.vishwajeet.co/templates/meal-planner): Weekly meal planning template.
+- [Grocery List](https://remarkable.vishwajeet.co/templates/grocery-list): Categorized grocery shopping list.
+- [Recipe Page](https://remarkable.vishwajeet.co/templates/recipe-page): Recipe card with ingredients and steps.
+- [Daily Reflection](https://remarkable.vishwajeet.co/templates/daily-reflection): Evening journaling and gratitude prompts.
+- [Gratitude Journal](https://remarkable.vishwajeet.co/templates/gratitude-journal): Daily gratitude practice template.
+- [Mood Tracker](https://remarkable.vishwajeet.co/templates/mood-tracker): Monthly mood and emotion log.
+- [Sleep Log](https://remarkable.vishwajeet.co/templates/sleep-log): Sleep time and quality tracker.
+- [Fitness Planner](https://remarkable.vishwajeet.co/templates/fitness-planner): Weekly workout planning sheet.
+- [Weight Loss Tracker](https://remarkable.vishwajeet.co/templates/weight-loss-tracker): Progress chart and milestone tracker.
+- [Self-Care Checklist](https://remarkable.vishwajeet.co/templates/self-care-checklist): Daily and weekly self-care routine.
+
+### Home & Life
+- [Password Log](https://remarkable.vishwajeet.co/templates/password-log): Offline password and account record.
+- [Cleaning Schedule](https://remarkable.vishwajeet.co/templates/cleaning-schedule): Weekly and monthly chore tracker.
+- [Travel Planner](https://remarkable.vishwajeet.co/templates/travel-planner): Trip itinerary and packing checklist.
+- [Birthday Tracker](https://remarkable.vishwajeet.co/templates/birthday-tracker): Annual birthday and anniversary record.
+- [Vision Board](https://remarkable.vishwajeet.co/templates/vision-board): Goal visualization and inspiration layout.
+
+## Kids Activities
+
+Printable worksheets and activities for children.
+
+- [Tracing](https://remarkable.vishwajeet.co/kids/tracing): Letter and shape tracing practice sheets.
+- [Math Worksheets](https://remarkable.vishwajeet.co/kids/math): Addition, subtraction, multiplication, and division drills.
+- [Coloring Pages](https://remarkable.vishwajeet.co/kids/coloring): Printable coloring pages.
+- [Connect the Dots](https://remarkable.vishwajeet.co/kids/connect-dots): Dot-to-dot picture puzzles.
+- [Sight Words](https://remarkable.vishwajeet.co/kids/sight-words): Dolch/Fry sight word practice by grade (K–3rd).
+- [Spelling Practice](https://remarkable.vishwajeet.co/kids/spelling): Spelling word worksheets.
+- [Cursive Writing](https://remarkable.vishwajeet.co/kids/cursive): Cursive letter and word practice sheets.
+- [Vocabulary](https://remarkable.vishwajeet.co/kids/vocabulary): Vocabulary building worksheets.
+- [Patterns](https://remarkable.vishwajeet.co/kids/patterns): Visual pattern recognition activities.
+- [Telling Time](https://remarkable.vishwajeet.co/kids/telling-time): Clock-reading practice sheets.
+- [Money Counting](https://remarkable.vishwajeet.co/kids/money-counting): Coin and bill counting worksheets.
+
+## Guides
+
+- [How to Transfer PDFs to Your Tablet](https://remarkable.vishwajeet.co/guides/transfer-pdfs-to-tablet): Step-by-step guide for reMarkable, Supernote, BOOX, and Kindle Scribe.
+- [Printable Worksheets for Homeschool](https://remarkable.vishwajeet.co/guides/printable-worksheets-for-homeschool): Curated homeschool worksheet recommendations.
+- [ADHD Productivity Templates](https://remarkable.vishwajeet.co/guides/adhd-productivity-templates): Template recommendations for ADHD and executive function support.
+- [Puzzle Difficulty Guide](https://remarkable.vishwajeet.co/guides/puzzle-difficulty-guide): How puzzle difficulty levels are calibrated.
+
+## Packs
+
+- [Template Packs](https://remarkable.vishwajeet.co/packs): Bundled multi-template PDF packs grouped by use case (productivity, study, wellness, etc.).
+
+## Pricing
+
+- [Pricing](https://remarkable.vishwajeet.co/pricing): Free tier and premium plan details.
+
+## Optional
+
+- [Full content index](https://remarkable.vishwajeet.co/llms-full.txt): Complete page-by-page content for LLM ingestion.
+- [Sitemap](https://remarkable.vishwajeet.co/sitemap.xml): Full XML sitemap.

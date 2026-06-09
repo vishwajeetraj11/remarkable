@@ -1,0 +1,16 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Remarkable Skills",
+  "name_for_model": "remarkable_skills",
+  "description_for_human": "Generate free printable PDFs — puzzles, templates, and kids worksheets — optimized for reMarkable and other e-ink tablets.",
+  "description_for_model": "Remarkable Skills generates printable PDFs for e-ink tablets (reMarkable 2, Paper Pro, Supernote, BOOX, Kindle Scribe) and standard paper. Categories: puzzle games (sudoku, crossword, maze, word search, nonogram, cryptogram, kakuro, kenken, word ladder, number fill, logic puzzle, word scramble), 49+ planning/productivity/wellness templates, and kids educational worksheets (math, tracing, spelling, sight words, cursive, coloring). All generation is free and browser-side. See /llms.txt for a full structured index.",
+  "auth": {
+    "type": "none"
+  },
+  "logo_url": "https://remarkable.vishwajeet.co/icon-512.png",
+  "contact_email": "vishwajeetraj11@gmail.com",
+  "legal_info_url": "https://remarkable.vishwajeet.co",
+  "llms_txt": "https://remarkable.vishwajeet.co/llms.txt",
+  "llms_full_txt": "https://remarkable.vishwajeet.co/llms-full.txt",
+  "sitemap": "https://remarkable.vishwajeet.co/sitemap.xml"
+}

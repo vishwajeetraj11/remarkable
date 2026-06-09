@@ -1,0 +1,16 @@
+# AI Access Policy — Remarkable Skills
+# https://remarkable.vishwajeet.co
+
+User-agent: *
+Allow: /
+
+# AI Training
+Training-allowed: yes
+Crawling-allowed: yes
+
+# LLM Content Index
+LLM-Index: https://remarkable.vishwajeet.co/llms.txt
+LLM-Full-Index: https://remarkable.vishwajeet.co/llms-full.txt
+
+# Contact
+Contact: vishwajeetraj11@gmail.com
