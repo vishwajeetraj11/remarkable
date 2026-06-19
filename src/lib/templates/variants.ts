@@ -3,12 +3,14 @@ import { DEVICES, type DeviceKey } from "./constants";
 export type WeekStart = "monday" | "sunday";
 export type Handedness = "right" | "left";
 export type Orientation = "portrait" | "landscape";
+export type InkIntensity = "light" | "regular" | "bold";
 
 export interface TemplateVariants {
   weekStart: WeekStart;
   handedness: Handedness;
   orientation: Orientation;
   device: DeviceKey;
+  inkIntensity: InkIntensity;
 }
 
 export const DEFAULT_VARIANTS: TemplateVariants = {
@@ -16,6 +18,7 @@ export const DEFAULT_VARIANTS: TemplateVariants = {
   handedness: "right",
   orientation: "portrait",
   device: "remarkable2",
+  inkIntensity: "regular",
 };
 
 export function getPageDimensions(variants: TemplateVariants) {
@@ -40,5 +43,6 @@ export function variantSuffix(v: TemplateVariants) {
   const d = v.device === "remarkable2" ? "rm2" : v.device === "paperPro" ? "pp" : v.device;
   const o = v.orientation === "portrait" ? "p" : "l";
   const h = v.handedness === "right" ? "rh" : "lh";
-  return `${d}-${o}-${h}`;
+  const i = v.inkIntensity === "regular" ? "" : `-${v.inkIntensity}`;
+  return `${d}-${o}-${h}${i}`;
 }

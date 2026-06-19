@@ -1,18 +1,47 @@
 import { jsPDF } from "jspdf";
-import { COLORS, MM_TO_PT } from "./constants";
+import { COLORS, INK_INTENSITY, MM_TO_PT } from "./constants";
 import {
   type TemplateVariants,
+  type InkIntensity,
   getPageDimensions,
   getMargins,
   getSimpleMargins,
 } from "./variants";
 
+// Module-level "active" ink intensity. Helpers such as drawCheckbox/drawBox
+// don't receive `variants`, so instead of churning ~352 call sites in template
+// pages we record the intensity whenever a doc/page is created (both of which
+// already receive `variants`) and read it from the structural draw helpers.
+// Default is "regular", the identity mapping, so any code path that never sets
+// it behaves exactly as before this option existed.
+let activeInkIntensity: InkIntensity = "regular";
+
+export function setInkIntensity(intensity: InkIntensity) {
+  activeInkIntensity = intensity;
+}
+
+// Shift a structural RGB draw color toward lighter/darker per active intensity.
+// At "regular" greyShift is 0, so the returned tuple equals the input exactly.
+function inkColor(rgb: readonly [number, number, number]): [number, number, number] {
+  const { greyShift } = INK_INTENSITY[activeInkIntensity];
+  const clamp = (v: number) => Math.max(0, Math.min(255, v + greyShift));
+  return [clamp(rgb[0]), clamp(rgb[1]), clamp(rgb[2])];
+}
+
+// Scale a structural line width per active intensity.
+// At "regular" widthScale is 1, so the returned width equals the input exactly.
+function inkWidth(width: number): number {
+  return width * INK_INTENSITY[activeInkIntensity].widthScale;
+}
+
 export function createDoc(variants: TemplateVariants) {
+  setInkIntensity(variants.inkIntensity);
   const { w, h } = getPageDimensions(variants);
   return new jsPDF({ unit: "pt", format: [w, h] });
 }
 
 export function addPage(doc: jsPDF, variants: TemplateVariants) {
+  setInkIntensity(variants.inkIntensity);
   const { w, h } = getPageDimensions(variants);
   doc.addPage([w, h]);
 }
@@ -50,9 +79,9 @@ export function drawHeader(
     const [r, g, b] = COLORS.headerBg;
     doc.setFillColor(r, g, b);
     doc.rect(m.left, m.top, bodyW, 28, "F");
-    const [dr, dg, db] = COLORS.lineDark;
+    const [dr, dg, db] = inkColor(COLORS.lineDark);
     doc.setDrawColor(dr, dg, db);
-    doc.setLineWidth(0.5);
+    doc.setLineWidth(inkWidth(0.5));
     doc.line(m.left, m.top + 28, w - m.right, m.top + 28);
     const [tr, tg, tb] = COLORS.textMedium;
     doc.setTextColor(tr, tg, tb);
@@ -97,9 +126,10 @@ export function drawHorizontalLines(
 ) {
   const { w } = getPageDimensions(variants);
   const m = opts.useBindingMargin !== false ? getMargins(variants) : getSimpleMargins();
-  const [r, g, b] = COLORS.lineLight;
+  setInkIntensity(variants.inkIntensity);
+  const [r, g, b] = inkColor(COLORS.lineLight);
   doc.setDrawColor(r, g, b);
-  doc.setLineWidth(0.3);
+  doc.setLineWidth(inkWidth(0.3));
   let y = opts.startY + opts.spacing;
   while (y <= opts.endY) {
     doc.line(m.left + 4, y, w - m.right - 4, y);
@@ -113,9 +143,9 @@ export function drawCheckbox(
   y: number,
   size = 8
 ) {
-  const [r, g, b] = COLORS.lineMedium;
+  const [r, g, b] = inkColor(COLORS.lineMedium);
   doc.setDrawColor(r, g, b);
-  doc.setLineWidth(0.5);
+  doc.setLineWidth(inkWidth(0.5));
   doc.rect(x, y, size, size, "S");
 }
 
@@ -131,9 +161,9 @@ export function drawLabeledLine(
   doc.setFontSize(7);
   doc.text(label, x, y);
   const labelW = doc.getTextWidth(label);
-  const [lr, lg, lb] = COLORS.lineLight;
+  const [lr, lg, lb] = inkColor(COLORS.lineLight);
   doc.setDrawColor(lr, lg, lb);
-  doc.setLineWidth(0.4);
+  doc.setLineWidth(inkWidth(0.4));
   doc.line(x + labelW + 4, y + 1, lineEndX, y + 1);
   const [br, bg, bb] = COLORS.black;
   doc.setTextColor(br, bg, bb);
@@ -168,9 +198,9 @@ export function drawBox(
     doc.setFillColor(fr, fg, fb);
     doc.rect(x, y, w, h, "F");
   }
-  const [r, g, b] = COLORS.lineMedium;
+  const [r, g, b] = inkColor(COLORS.lineMedium);
   doc.setDrawColor(r, g, b);
-  doc.setLineWidth(0.5);
+  doc.setLineWidth(inkWidth(0.5));
   doc.rect(x, y, w, h, "S");
   if (opts?.label) {
     drawSectionTitle(doc, opts.label, x + 4, y + 10);

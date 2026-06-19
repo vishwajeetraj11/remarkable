@@ -30,3 +30,15 @@ export const COLORS = {
   white: [255, 255, 255] as const,
   black: [0, 0, 0] as const,
 } as const;
+
+// Ink intensity for e-ink contrast preferences.
+// `greyShift` is added to each RGB channel of a structural draw color:
+//   negative => darker (bolder lines), positive => lighter (fainter lines).
+// `widthScale` multiplies structural line widths.
+// "regular" is the identity (greyShift 0, widthScale 1) so default output is
+// byte-for-byte identical to before this option existed.
+export const INK_INTENSITY = {
+  light: { greyShift: 28, widthScale: 0.85 },
+  regular: { greyShift: 0, widthScale: 1 },
+  bold: { greyShift: -45, widthScale: 1.3 },
+} as const;

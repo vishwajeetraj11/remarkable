@@ -6,6 +6,7 @@ import type {
   WeekStart,
   Handedness,
   Orientation,
+  InkIntensity,
 } from "@/lib/templates/variants";
 import { Label } from "@/components/ui/label";
 import {
@@ -105,6 +106,25 @@ export function VariantControls({
           <SelectContent>
             <SelectItem value="right">Right-handed (margin left)</SelectItem>
             <SelectItem value="left">Left-handed (margin right)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label>Ink</Label>
+        <Select
+          value={variants.inkIntensity}
+          onValueChange={(v) =>
+            onChange({ ...variants, inkIntensity: v as InkIntensity })
+          }
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light (fainter lines)</SelectItem>
+            <SelectItem value="regular">Regular</SelectItem>
+            <SelectItem value="bold">Bold (darker lines)</SelectItem>
           </SelectContent>
         </Select>
       </div>
