@@ -90,7 +90,7 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 
 ## Phase 6 — Content / guides (SEO long-tail)
 
-- [ ] **6.1 New guide pages** — Add 3–4 long-form guides targeting search intent (e.g. "best reMarkable planner setup", "free dated 2026 calendar for e-ink", "bullet journaling on reMarkable"). Wire into `/guides`, nav, sitemap.
+- [~] **6.1 New guide pages** — Add 3–4 long-form guides targeting search intent (e.g. "best reMarkable planner setup", "free dated 2026 calendar for e-ink", "bullet journaling on reMarkable"). Wire into `/guides`, nav, sitemap.
 - [ ] **6.2 Pack expansion** — Add new bundled packs (e.g. "2026 planner pack", "finance pack", "student pack") via the `[slug]` pack route + `pack-bundler`.
 
 ---
