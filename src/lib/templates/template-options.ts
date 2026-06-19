@@ -108,6 +108,7 @@ export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
   "/templates/sleep-log",
   "/templates/three-priorities",
   "/templates/time-block",
+  "/templates/weekly-dated",
   "/templates/travel-planner",
   "/templates/vision-board",
   "/templates/weekly-review",

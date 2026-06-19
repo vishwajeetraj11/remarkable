@@ -133,6 +133,34 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/weekly-dated": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="10" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.7" />
+      {/* 7 day rows down the page (vertical layout) */}
+      {Array.from({ length: 7 }, (_, i) => {
+        const y = 26 + i * 19;
+        const weekend = i >= 5;
+        return (
+          <g key={i}>
+            {weekend && (
+              <rect x="8" y={y} width="104" height="18" fill="currentColor" fillOpacity="0.05" />
+            )}
+            <rect x="8" y={y} width="104" height="18" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" fill="none" />
+            {/* Day label in left gutter */}
+            <text x="11" y={y + 8} fontSize="5" fill="currentColor" fillOpacity="0.55" fontFamily="sans-serif" fontWeight="bold">{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i]}</text>
+            <text x="11" y={y + 15} fontSize="4" fill="currentColor" fillOpacity="0.3" fontFamily="sans-serif">{6 + i} Jan</text>
+            {/* Gutter divider */}
+            <line x1="30" y1={y + 2} x2="30" y2={y + 16} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" />
+            {/* Ruled writing lines */}
+            <line x1="34" y1={y + 7} x2="108" y2={y + 7} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+            <line x1="34" y1={y + 13} x2="108" y2={y + 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+          </g>
+        );
+      })}
+    </>
+  ),
+
   "/templates/daily-focus": (
     <>
       <rect x="8" y="14" width="50" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />

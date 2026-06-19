@@ -22,6 +22,7 @@ const navItems = [
     href: "/templates",
     children: [
       { label: "Weekly Planner", href: "/templates/planner" },
+      { label: "Weekly Dated Planner", href: "/templates/weekly-dated" },
       { label: "Monthly Calendar", href: "/templates/monthly-calendar" },
       { label: "2026 Calendar", href: "/templates/calendar-2026" },
       { label: "Habit Tracker", href: "/templates/habit-tracker" },
