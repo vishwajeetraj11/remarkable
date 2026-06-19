@@ -20,6 +20,15 @@ export function setInkIntensity(intensity: InkIntensity) {
   activeInkIntensity = intensity;
 }
 
+// Module-level flag tracking whether the per-document custom title has been
+// applied yet. A custom title replaces ONLY the first drawHeader call of a
+// generated document; subsequent drawHeader calls (multi-page templates that
+// draw distinct per-page titles, e.g. "January 2026") fall back to opts.title.
+// Reset to false in createDoc so each generated PDF starts fresh. When no
+// custom title is set this flag is never read in a way that changes output,
+// so default rendering stays byte-identical.
+let customTitleConsumed = false;
+
 // Shift a structural RGB draw color toward lighter/darker per active intensity.
 // At "regular" greyShift is 0, so the returned tuple equals the input exactly.
 function inkColor(rgb: readonly [number, number, number]): [number, number, number] {
@@ -36,6 +45,9 @@ function inkWidth(width: number): number {
 
 export function createDoc(variants: TemplateVariants) {
   setInkIntensity(variants.inkIntensity);
+  // Start each document with the custom title unconsumed so the first
+  // drawHeader call of this PDF can apply it.
+  customTitleConsumed = false;
   const { w, h } = getPageDimensions(variants);
   return new jsPDF({ unit: "pt", format: [w, h] });
 }
@@ -52,6 +64,22 @@ export interface DrawHeaderOptions {
   dark?: boolean;
 }
 
+// Truncate `text` with a trailing ellipsis so it fits within `maxW`. Assumes
+// the caller has already set the font + size that will be used to draw, so the
+// measurement matches the rendered glyphs. For text that already fits (e.g. the
+// short default template titles) the original string is returned unchanged, so
+// this is a no-op for the default rendering path.
+function fitTextToWidth(doc: jsPDF, text: string, maxW: number): string {
+  if (doc.getTextWidth(text) <= maxW) return text;
+  const ellipsis = "…";
+  // Reserve room for the ellipsis, then trim characters until it fits.
+  let truncated = text;
+  while (truncated.length > 0 && doc.getTextWidth(truncated + ellipsis) > maxW) {
+    truncated = truncated.slice(0, -1);
+  }
+  return truncated.length > 0 ? truncated + ellipsis : ellipsis;
+}
+
 export function drawHeader(
   doc: jsPDF,
   variants: TemplateVariants,
@@ -61,6 +89,19 @@ export function drawHeader(
   const m = getMargins(variants);
   const bodyW = w - m.left - m.right;
 
+  // Allow a user-supplied custom title to override the template's default,
+  // but ONLY for the first drawHeader call of the document. Subsequent calls
+  // (multi-page templates with distinct per-page titles) keep opts.title.
+  // When no custom title is set the resolved title is exactly opts.title for
+  // every call and the flag logic is a no-op, so output stays byte-identical
+  // to before this option existed.
+  const customTitle = variants.customTitle?.trim();
+  let title = opts.title;
+  if (customTitle && !customTitleConsumed) {
+    title = customTitle;
+    customTitleConsumed = true;
+  }
+
   if (opts.dark) {
     const [r, g, b] = COLORS.headerBgDark;
     doc.setFillColor(r, g, b);
@@ -69,7 +110,11 @@ export function drawHeader(
     doc.setTextColor(wr, wg, wb);
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
-    doc.text(opts.title, m.left + 8, m.top + 18);
+    // Title starts at m.left + 8; keep an 8pt gap before the right edge so the
+    // text never collides with the header bar border (measured at 9pt bold).
+    const titleX = m.left + 8;
+    const maxTitleW = bodyW - 8 - (titleX - m.left);
+    doc.text(fitTextToWidth(doc, title, maxTitleW), titleX, m.top + 18);
     if (opts.subtitle) {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);
@@ -87,7 +132,11 @@ export function drawHeader(
     doc.setTextColor(tr, tg, tb);
     doc.setFontSize(8);
     doc.setFont("helvetica", "bold");
-    doc.text(opts.title, m.left + 6, m.top + 18);
+    // Title starts at m.left + 6; keep a 6pt gap before the right edge
+    // (measured at 8pt bold).
+    const titleX = m.left + 6;
+    const maxTitleW = bodyW - 6 - (titleX - m.left);
+    doc.text(fitTextToWidth(doc, title, maxTitleW), titleX, m.top + 18);
     if (opts.subtitle) {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);

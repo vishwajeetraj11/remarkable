@@ -11,6 +11,9 @@ export interface TemplateVariants {
   orientation: Orientation;
   device: DeviceKey;
   inkIntensity: InkIntensity;
+  // Optional user-supplied page title that overrides the template's default
+  // header title (see drawHeader). Empty/absent means "use the default".
+  customTitle?: string;
 }
 
 export const DEFAULT_VARIANTS: TemplateVariants = {
@@ -19,6 +22,7 @@ export const DEFAULT_VARIANTS: TemplateVariants = {
   orientation: "portrait",
   device: "remarkable2",
   inkIntensity: "regular",
+  customTitle: "",
 };
 
 export function getPageDimensions(variants: TemplateVariants) {

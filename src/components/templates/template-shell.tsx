@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { VariantControls } from "./variant-controls";
@@ -11,6 +12,7 @@ import {
   type TemplateVariants,
   DEFAULT_VARIANTS,
 } from "@/lib/templates/variants";
+import { TEMPLATES_WITH_CUSTOM_TITLE } from "@/lib/templates/custom-title";
 
 export interface TemplateShellProps {
   title: string;
@@ -42,6 +44,9 @@ export function TemplateShell({
 }: TemplateShellProps) {
   const pathname = usePathname();
   const thumb = thumbs[pathname];
+  // Only templates whose PDF header routes through drawHeader can honor a
+  // custom title, so gate the input on the shared registry.
+  const supportsCustomTitle = TEMPLATES_WITH_CUSTOM_TITLE.has(pathname);
   const [variants, setVariants] = useState<TemplateVariants>(DEFAULT_VARIANTS);
   const [pageCount, setPageCount] = useState(defaultPageCount);
   const [generating, setGenerating] = useState(false);
@@ -92,6 +97,21 @@ export function TemplateShell({
           onChange={setVariants}
           showWeekStart={showWeekStart}
         />
+
+        {supportsCustomTitle && (
+          <div className="space-y-1.5">
+            <Label htmlFor="custom-title">Custom title (optional)</Label>
+            <Input
+              id="custom-title"
+              value={variants.customTitle ?? ""}
+              placeholder={title}
+              maxLength={60}
+              onChange={(e) =>
+                setVariants({ ...variants, customTitle: e.target.value })
+              }
+            />
+          </div>
+        )}
 
         {showPageCount && (
           <div className="space-y-2">
