@@ -217,6 +217,7 @@ const KIDS_PATHS = [
   "/kids/math/subtraction",
   "/kids/math/multiplication",
   "/kids/math/division",
+  "/kids/number-bonds",
   "/kids/coloring",
   "/kids/connect-dots",
   "/kids/sight-words",

@@ -131,6 +131,11 @@ const kids = [
     desc: "Addition, subtraction, multiplication & division",
   },
   {
+    name: "Number Bonds",
+    href: "/kids/number-bonds",
+    desc: "Part-part-whole bonds & skip counting",
+  },
+  {
     name: "Coloring Pages",
     href: "/kids/coloring",
     desc: "Line art optimized for e-ink",
@@ -578,7 +583,7 @@ export default function Home() {
                 ["13", "puzzle types"],
                 ["51+", "page templates"],
                 ["8", "template packs"],
-                ["11", "kids activities"],
+                ["12", "kids activities"],
               ] as const
             ).map(([num, label]) => (
               <p key={label} className="text-sm text-muted-foreground">

@@ -39,10 +39,11 @@ const navItems = [
     children: [
       { label: "Letter Tracing", href: "/kids/tracing" },
       { label: "Math Worksheets", href: "/kids/math" },
+      { label: "Number Bonds", href: "/kids/number-bonds" },
       { label: "Sight Words", href: "/kids/sight-words" },
       { label: "Telling Time", href: "/kids/telling-time" },
       { label: "Cursive Practice", href: "/kids/cursive" },
-      { label: "All 11 Activities →", href: "/kids" },
+      { label: "All 12 Activities →", href: "/kids" },
     ],
   },
   {

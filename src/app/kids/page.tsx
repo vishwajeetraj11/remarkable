@@ -51,6 +51,13 @@ const activities = [
     age: "Ages 5–12",
   },
   {
+    name: "Number Bonds",
+    href: "/kids/number-bonds",
+    desc: "Part-part-whole number bonds and fill-in-the-blank skip counting sequences. Generated fresh with an answer key on the last page.",
+    detail: "Number bonds · Skip counting by 2/5/10",
+    age: "Ages 5–9",
+  },
+  {
     name: "Coloring Pages",
     href: "/kids/coloring",
     desc: "Procedurally generated geometric line art — mandalas, patterns, and simple shapes — drawn fresh every time.",
