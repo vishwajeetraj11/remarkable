@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL as siteUrl } from "@/lib/site-url";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { ClarityInit } from "@/components/shared/clarity";
@@ -21,11 +22,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://remarkable.vishwajeet.co";
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "Remarkable Skills",
+  manifest: "/manifest.webmanifest",
   title: {
     default: "Remarkable Skills — Free Puzzles & Templates for reMarkable",
     template: "%s | Remarkable Skills",

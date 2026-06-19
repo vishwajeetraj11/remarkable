@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Games & Puzzles — Free Printable Puzzles for reMarkable",
   description:
     "Six types of procedurally generated puzzles — sudoku, crossword, maze, word search, word scramble, and nonogram — ready to download as PDF for your reMarkable tablet.",
+  keywords: [
+    "printable puzzles",
+    "sudoku pdf",
+    "crossword pdf",
+    "maze pdf",
+    "word search pdf",
+    "remarkable puzzles",
+  ],
   alternates: { canonical: "/games" },
 };
 

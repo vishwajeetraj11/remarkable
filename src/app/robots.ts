@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://remarkable.vishwajeet.co";
+import { SITE_URL as BASE_URL } from "@/lib/site-url";
 
 const AI_CRAWLERS = [
   "OAI-SearchBot",

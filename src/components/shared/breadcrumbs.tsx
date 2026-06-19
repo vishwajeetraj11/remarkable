@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { labelForPath } from "@/lib/site-map";
+import { SITE_URL } from "@/lib/site-url";
 
 /**
  * Reusable breadcrumb trail for detail pages.
@@ -24,9 +25,6 @@ import { labelForPath } from "@/lib/site-map";
  * reserved for detail pages (depth ≥ 2). Mounting this once per section layout
  * therefore covers every detail page without double-rendering.
  */
-
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://remarkable.vishwajeet.co";
 
 type Crumb = { name: string; href: string };
 

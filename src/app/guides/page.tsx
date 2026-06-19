@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "Guides — Remarkable Skills",
   description:
     "Practical guides for e-ink tablet users — transferring PDFs, choosing puzzle difficulty, ADHD-friendly productivity, and homeschool worksheets.",
+  keywords: [
+    "remarkable guides",
+    "transfer pdf to remarkable",
+    "e-ink tablet tips",
+    "adhd productivity templates",
+    "homeschool printables guide",
+    "puzzle difficulty guide",
+  ],
   alternates: { canonical: "/guides" },
 };
 
