@@ -100,4 +100,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 3.2 — custom title (first-header-only, gated to 31 supported templates via registry) — product decision "ship partial", debugger + reviewer clean
 - [x] 3.3 — line spacing (narrow/regular/wide, regular=identity), gated to 24 ruled templates, debugger + reviewer clean — 85ed867
 - [x] 3.4 — hyperlinked PDFs (opt-in tappable prev/next, default-identity), gated to 49 templates, debugger + reviewer clean — 0718f52
-- [x] 3.5 — dated headers (optional start-date in header subtitle, empty=identity), gated to 31 header templates, debugger(re-run) + reviewer clean — **PHASE 3 COMPLETE**  — 9fbf049
+- [x] 3.5 — dated headers (optional start-date in header subtitle, empty=identity), gated to 31 header templates, debugger(re-run) + reviewer clean — **PHASE 3 COMPLETE** — 6e8c33d  — 9fbf049
