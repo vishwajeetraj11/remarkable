@@ -71,10 +71,10 @@ export function TemplateShell({
           <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">
             Preview
           </h2>
-          <div className="border border-border rounded-xl overflow-hidden bg-white p-5">
+          <div className="paper-preview border border-border rounded-xl overflow-hidden p-5">
             {thumb && (
               <div className="flex justify-start mb-4">
-                <div className="w-48 aspect-5/7 rounded-lg border border-border/60 bg-white p-3">
+                <div className="w-48 aspect-5/7 rounded-lg border border-border bg-white p-3">
                   <svg viewBox="0 0 120 168" fill="none" className="w-full h-full text-foreground">
                     {thumb}
                   </svg>

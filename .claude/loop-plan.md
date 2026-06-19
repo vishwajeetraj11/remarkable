@@ -25,7 +25,8 @@ The `.dark` token set and `@custom-variant dark` already exist in `globals.css`.
   - Shipped: custom ~90-line provider (no dependency) — blocking `<head>` init script (no FOUC), localStorage `theme` key, system-pref fallback, `useTheme()` hook exposed; no button yet. Debugger + reviewer both clean (no P0/P1). P2: init-script resolver duplicates `resolveInitialTheme` — keep in sync when 1.2 lands.
 - [x] **1.2 Theme toggle button** — Add a sun/moon toggle (lucide-react) to `header.tsx`, placed before/after the nav, accessible (`aria-label`, keyboard). Works on mobile nav too.
   - Shipped: `theme-toggle.tsx` client island (Sun/Moon, `toggleTheme()`), desktop header (right side) + mobile menu; hydration-safe via `useSyncExternalStore` `useHydrated()` (neutral placeholder pre-mount), 48px target, action-reflecting `aria-label`. Debugger (runtime OK) + reviewer (approve) clean. P2s (deferred): move `useHydrated` into provider for DRY; collapse redundant placeholder/light icon branch; cosmetic header re-indent.
-- [~] **1.3 Dark-mode audit** — Sweep pages for hardcoded `bg-white` / light-only colors (e.g. `template-shell.tsx` uses `bg-white` for preview) and replace with tokens so dark mode looks correct everywhere. PDF output stays light (that's correct — e-ink is white paper).
+- [x] **1.3 Dark-mode audit** — Sweep pages for hardcoded `bg-white` / light-only colors (e.g. `template-shell.tsx` uses `bg-white` for preview) and replace with tokens so dark mode looks correct everywhere. PDF output stays light (that's correct — e-ink is white paper).
+  - Shipped: chrome (`not-found`, slider thumb, variant toggle knob) → theme tokens; new `.paper-preview` utility in `globals.css` remaps surface tokens to fixed-light on all 13 kids + maze + 52 template previews so paper text stays dark-on-white in both themes (kills white-on-white class of bugs centrally); game-grid SVGs use fixed `border-neutral-900`. Orchestrator folded in reviewer P2: extended remap to `--muted`/`--card`/`--popover`/`--secondary`/`--accent` (+foregrounds) for completeness. Debugger (cascade verified) + reviewer (approve) clean. Deferred P2: redundant `bg-white` on 2 nested previews; add a CLAUDE.md note to use `.paper-preview` for new template pages; word-ladder pre-existing `fill="white"` (out of scope).
 
 ## Phase 2 — SEO foundation
 
@@ -76,3 +77,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 (loop appends `- [x] <task id> — <what shipped> — <commit sha>` here)
 - [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean — dc50fc2
 - [x] 1.2 — theme toggle button (desktop + mobile, hydration-safe), debugger+reviewer clean  — 213da38
+- [x] 1.3 — dark-mode audit: .paper-preview token-remap utility + chrome fixes, debugger+reviewer clean — **PHASE 1 COMPLETE**

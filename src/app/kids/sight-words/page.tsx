@@ -246,7 +246,7 @@ export default function SightWordsPage() {
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">
           Preview
         </h2>
-        <div className="border border-border rounded-xl bg-white p-5">
+        <div className="paper-preview border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
             <span className="text-sm font-semibold">
               Sight Words – {GRADE_LABELS[grade]}

@@ -129,6 +129,35 @@
   }
 }
 
+/*
+ * Paper preview surface.
+ *
+ * A template/game/worksheet preview represents the printed white page, so it
+ * stays white in BOTH light and dark themes. To prevent token-based text from
+ * turning white-on-white in dark mode, this remaps the theme tokens locally to
+ * fixed-dark values for everything rendered on the paper.
+ */
+.paper-preview {
+  background-color: #fff;
+  color: oklch(0.205 0 0);
+  /* Remap ALL surface/foreground tokens to fixed-light values so any
+   * token-based descendant (bg-muted, bg-card, text-card-foreground, …)
+   * stays legible on white paper in both themes — not just text-foreground. */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --border: oklch(0.922 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+}
+
 /* Hero entrance — CSS-only, runs immediately */
 @keyframes hero-fade-in {
   from {

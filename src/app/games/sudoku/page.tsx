@@ -202,7 +202,7 @@ function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
   return (
     <svg
       viewBox={`0 0 ${previewSize} ${previewSize}`}
-      className="w-full max-w-[360px] h-auto border-2 border-foreground bg-white"
+      className="w-full max-w-[360px] h-auto border-2 border-neutral-900 bg-white"
       shapeRendering="crispEdges"
       role="img"
       aria-label="Sudoku puzzle preview"

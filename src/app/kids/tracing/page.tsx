@@ -239,7 +239,7 @@ export default function TracingPage() {
       {/* Preview */}
       <div className="mb-6">
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">Preview</h2>
-        <div className="border border-border rounded-xl bg-white p-6 overflow-hidden">
+        <div className="paper-preview border border-border rounded-xl p-6 overflow-hidden">
           <svg width="100%" viewBox="0 0 480 120" className="max-w-full">
             {previewItems.map((item, i) => {
               const x = 12 + i * 78;

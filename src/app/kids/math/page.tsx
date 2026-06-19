@@ -276,7 +276,7 @@ export default function MathPage() {
       {/* Preview */}
       <div className="mb-6">
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">Preview</h2>
-        <div className="border border-border rounded-xl bg-white p-5">
+        <div className="paper-preview border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
             <span className="text-sm font-semibold capitalize">{operation} Worksheet</span>
             <span className="text-xs text-muted-foreground">Name: ____________  Score: __ / {problemsPerPage}</span>

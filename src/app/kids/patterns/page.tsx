@@ -523,7 +523,7 @@ export default function PatternsPage() {
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">
           Preview
         </h2>
-        <div className="border border-border rounded-xl bg-white p-5 space-y-4">
+        <div className="paper-preview border border-border rounded-xl p-5 space-y-4">
           {previewProblems.map((prob, i) => (
             <div key={i} className="flex items-center gap-1 flex-wrap">
               <span className="text-xs text-muted-foreground mr-2">
