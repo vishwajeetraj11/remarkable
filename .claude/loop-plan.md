@@ -93,4 +93,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 2.5 — per-page OG images (guides/packs sections + 4 detail pages, shared helper), debugger + reviewer clean  — 8aa0537
 - [x] 2.6 — internal "Related" links (cyclic site-map-driven, SSR-stable) on games/templates/kids details, debugger + reviewer clean  — 37cbc77
 - [x] 2.7 — metadata polish (SITE_URL dedup, themeColor viewport, applicationName, keywords, JSON-LD validated), debugger + reviewer clean — **PHASE 2 COMPLETE** — fd9d7a6
-- [x] 3.1 — ink intensity (light/regular/bold) shared across all templates via module resolver, regular=identity, debugger + reviewer clean
+- [x] 3.1 — ink intensity (light/regular/bold) shared across all templates via module resolver, regular=identity, debugger + reviewer clean  — d79acd6
