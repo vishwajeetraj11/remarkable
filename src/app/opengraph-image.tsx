@@ -134,7 +134,7 @@ export default function Image() {
                 fontSize: "22px",
               }}
             >
-              <span style={{ color: "#171717", fontWeight: 700 }}>12 puzzle types</span>
+              <span style={{ color: "#171717", fontWeight: 700 }}>13 puzzle types</span>
               <span style={{ color: "#171717", fontWeight: 700 }}>51+ page templates</span>
               <span style={{ color: "#171717", fontWeight: 700 }}>8 template packs</span>
             </div>

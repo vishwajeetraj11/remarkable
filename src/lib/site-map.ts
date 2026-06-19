@@ -81,6 +81,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/packs": "Packs",
   // Games
   "/games/kenken": "KenKen",
+  "/games/futoshiki": "Futoshiki",
   // Templates
   "/templates/all-in-one-planner": "All-in-One Planner",
   "/templates/project-planner": "Project Planner",
@@ -133,6 +134,7 @@ const GAME_PATHS = [
   "/games/cryptogram",
   "/games/kakuro",
   "/games/kenken",
+  "/games/futoshiki",
   "/games/word-ladder",
   "/games/number-fill",
   "/games/logic-puzzle",

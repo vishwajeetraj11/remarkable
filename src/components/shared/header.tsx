@@ -13,8 +13,9 @@ const navItems = [
       { label: "Cryptogram", href: "/games/cryptogram" },
       { label: "Kakuro", href: "/games/kakuro" },
       { label: "KenKen", href: "/games/kenken" },
+      { label: "Futoshiki", href: "/games/futoshiki" },
       { label: "Word Ladder", href: "/games/word-ladder" },
-      { label: "All 12 Puzzles →", href: "/games" },
+      { label: "All 13 Puzzles →", href: "/games" },
     ],
   },
   {

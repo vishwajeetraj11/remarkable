@@ -65,6 +65,11 @@ const games = [
     desc: "Arithmetic cage logic",
   },
   {
+    name: "Futoshiki",
+    href: "/games/futoshiki",
+    desc: "Inequality logic grids",
+  },
+  {
     name: "Word Ladder",
     href: "/games/word-ladder",
     desc: "Transform words step by step",
@@ -570,7 +575,7 @@ export default function Home() {
           >
             {(
               [
-                ["12", "puzzle types"],
+                ["13", "puzzle types"],
                 ["51+", "page templates"],
                 ["8", "template packs"],
                 ["11", "kids activities"],

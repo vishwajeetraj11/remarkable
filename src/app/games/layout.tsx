@@ -6,7 +6,7 @@ import { RelatedLinks } from "@/components/shared/related-links";
 export const metadata: Metadata = {
   title: "Games & Puzzles — Free Printable Puzzles for reMarkable",
   description:
-    "Six types of procedurally generated puzzles — sudoku, crossword, maze, word search, word scramble, and nonogram — ready to download as PDF for your reMarkable tablet.",
+    "Thirteen types of procedurally generated puzzles — sudoku, crossword, maze, word search, nonogram, kakuro, kenken, futoshiki, and more — ready to download as PDF for your reMarkable tablet.",
   keywords: [
     "printable puzzles",
     "sudoku pdf",

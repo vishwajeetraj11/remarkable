@@ -45,6 +45,7 @@ const categories = [
       { name: "Nonogram", href: "/games/nonogram", desc: "Reveal hidden pictures by filling cells using number clues", ready: true },
       { name: "Kakuro", href: "/games/kakuro", desc: "Math crossword — fill cells with digits that sum to the clues", ready: true },
       { name: "KenKen", href: "/games/kenken", desc: "Arithmetic logic puzzles with cage operations on a Latin square", ready: true },
+      { name: "Futoshiki", href: "/games/futoshiki", desc: "Latin-square grids solved with greater-than / less-than inequality clues", ready: true },
       { name: "Number Fill-In", href: "/games/number-fill", desc: "Fit numbers of various lengths into a crossword-style grid", ready: true },
     ],
   },

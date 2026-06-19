@@ -52,7 +52,7 @@ export default function Image() {
             lineHeight: 1.4,
           }}
         >
-          12 procedurally generated puzzles with answer keys
+          13 procedurally generated puzzles with answer keys
         </p>
         <div
           style={{
