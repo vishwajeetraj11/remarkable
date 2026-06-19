@@ -73,4 +73,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 
 ## Done log
 (loop appends `- [x] <task id> — <what shipped> — <commit sha>` here)
-- [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean
+- [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean — dc50fc2
