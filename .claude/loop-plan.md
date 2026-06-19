@@ -63,7 +63,7 @@ Extend `TemplateShell` + `variants.ts` so every template gains these without per
 
 One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-manifest. Each needs: page, thumb, metadata, sitemap entry.
 
-- [ ] **4.1 Dated yearly calendar 2026** — `/templates/calendar-2026` (and a 2027 variant) using the new dated-header support.
+- [~] **4.1 Dated yearly calendar 2026** — `/templates/calendar-2026` (and a 2027 variant) using the new dated-header support.
 - [ ] **4.2 Debt snowball / payoff tracker** — `/templates/debt-tracker`.
 - [ ] **4.3 Sinking funds tracker** — `/templates/sinking-funds`.
 - [ ] **4.4 Net worth tracker** — `/templates/net-worth`.
