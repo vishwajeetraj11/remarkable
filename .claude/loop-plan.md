@@ -30,7 +30,7 @@ The `.dark` token set and `@custom-variant dark` already exist in `globals.css`.
 
 ## Phase 2 — SEO foundation
 
-- [ ] **2.1 Single route manifest** — Create `src/lib/site-map.ts` exporting every route (games, templates, kids, guides, packs) as typed data. Refactor `sitemap.ts` to derive from it so it can never drift from disk again. Audit: ensure all ~60 template folders, all kids sub-routes, and all packs are included (current `sitemap.ts` is missing several template folders).
+- [~] **2.1 Single route manifest** — Create `src/lib/site-map.ts` exporting every route (games, templates, kids, guides, packs) as typed data. Refactor `sitemap.ts` to derive from it so it can never drift from disk again. Audit: ensure all ~60 template folders, all kids sub-routes, and all packs are included (current `sitemap.ts` is missing several template folders).
 - [ ] **2.2 Per-page metadata audit** — Verify **every** `page.tsx` exports a `metadata` object with unique title, description, and `alternates.canonical`. Fill in any missing ones. List offenders in the commit note.
 - [ ] **2.3 Breadcrumb structured data** — Add a reusable `BreadcrumbJsonLd` component and render it on all detail pages (games/templates/kids/guides) with `BreadcrumbList` schema. Add a visible breadcrumb UI too.
 - [ ] **2.4 FAQ structured data** — Add `FAQPage` JSON-LD to the home page and each index page (games, templates, kids), plus a visible FAQ section with real, useful Q&As (how to transfer, is it free, what devices, etc.).
