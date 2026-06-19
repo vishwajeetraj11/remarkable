@@ -92,6 +92,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/templates/net-worth": "Net Worth",
   "/templates/one-on-one": "One-on-One",
   "/templates/daily-plan-adhd": "Daily Plan (ADHD)",
+  "/templates/workout-log": "Workout Log",
   "/templates/mcp-docs": "MCP Docs",
   // Kids
   "/kids/math/custom": "Custom",
@@ -189,6 +190,7 @@ const TEMPLATE_PATHS = [
   "/templates/sleep-log",
   "/templates/weekly-review",
   "/templates/fitness-planner",
+  "/templates/workout-log",
   "/templates/weight-loss-tracker",
   "/templates/self-care-checklist",
   "/templates/password-log",

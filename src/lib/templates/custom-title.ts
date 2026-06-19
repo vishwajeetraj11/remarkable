@@ -49,6 +49,7 @@ export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/travel-planner",
   "/templates/vision-board",
   "/templates/weight-loss-tracker",
+  "/templates/workout-log",
   "/templates/yearly-roadmap",
 ]);
 

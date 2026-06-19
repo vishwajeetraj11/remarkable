@@ -137,6 +137,7 @@ const packs = [
     description: "Workout planning, weight tracking, and fitness goal templates.",
     templates: [
       { name: "Fitness Planner", href: "/templates/fitness-planner", desc: "Weekly workout log with sets, reps & weight" },
+      { name: "Workout Log", href: "/templates/workout-log", desc: "Per-session gym log: one workout per page with sets/reps/weight grid" },
       { name: "Weight Loss Tracker", href: "/templates/weight-loss-tracker", desc: "12-week progress tracker with graph" },
     ],
   },

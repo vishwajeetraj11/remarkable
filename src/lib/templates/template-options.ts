@@ -114,5 +114,6 @@ export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
   "/templates/vision-board",
   "/templates/weekly-review",
   "/templates/weight-loss-tracker",
+  "/templates/workout-log",
   "/templates/yearly-roadmap",
 ]);

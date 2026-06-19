@@ -1082,6 +1082,36 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/workout-log": (
+    <>
+      <rect x="8" y="14" width="48" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {/* session header fields */}
+      <rect x="8" y="24" width="22" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="62" y="24" width="34" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="8" y="32" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+      <rect x="62" y="32" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+      {/* grid header band */}
+      <rect x="8" y="42" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.05" />
+      {/* exercise grid: exercise col + 4 set cols + notes col */}
+      {Array.from({ length: 6 }, (_, r) => (
+        <g key={r}>
+          <line x1="8" y1={51 + r * 12} x2="112" y2={51 + r * 12} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <rect x="10" y={54 + r * 12} width={18 + (r * 3) % 8} height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+        </g>
+      ))}
+      {/* vertical column separators */}
+      {[34, 50, 66, 82, 94].map((x, i) => (
+        <line key={i} x1={x} y1="42" x2={x} y2="123" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+      ))}
+      <rect x="8" y="42" width="104" height="81" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill="none" />
+      {/* notes box */}
+      <rect x="8" y="130" width="104" height="22" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.08" fill="none" />
+      {[136, 144].map((yy, i) => (
+        <line key={i} x1="11" y1={yy} x2="109" y2={yy} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.05" />
+      ))}
+    </>
+  ),
+
   "/templates/weight-loss-tracker": (
     <>
       <rect x="8" y="14" width="60" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
