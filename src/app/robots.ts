@@ -3,6 +3,20 @@ import type { MetadataRoute } from "next";
 const BASE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://remarkable.vishwajeet.co";
 
+const AI_CRAWLERS = [
+  "OAI-SearchBot",
+  "GPTBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "Claude-User",
+  "Claude-SearchBot",
+  "Google-Extended",
+  "Applebot-Extended",
+  "PerplexityBot",
+  "Claude-Web",
+  "anthropic-ai",
+] as const;
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -10,27 +24,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
       },
-      // Explicitly allow known AI crawlers
-      {
-        userAgent: "GPTBot",
+      ...AI_CRAWLERS.map((userAgent) => ({
+        userAgent,
         allow: "/",
-      },
-      {
-        userAgent: "Claude-Web",
-        allow: "/",
-      },
-      {
-        userAgent: "anthropic-ai",
-        allow: "/",
-      },
-      {
-        userAgent: "PerplexityBot",
-        allow: "/",
-      },
-      {
-        userAgent: "Applebot-Extended",
-        allow: "/",
-      },
+      })),
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
     // Non-standard but picked up by some crawlers

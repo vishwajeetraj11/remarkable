@@ -36,6 +36,7 @@ const packs = [
       { name: "Project Brief", href: "/templates/project-brief", desc: "Objective, scope, and stakeholders" },
       { name: "Decision Log", href: "/templates/decision-log", desc: "Record decisions with rationale" },
       { name: "Action-Item Tracker", href: "/templates/action-tracker", desc: "Tabular action tracking" },
+      { name: "Kanban Board", href: "/templates/kanban-board", desc: "Visual task board with workflow columns" },
       { name: "Project Timeline", href: "/templates/project-timeline", desc: "Visual milestone timeline" },
     ],
   },
@@ -46,6 +47,7 @@ const packs = [
     templates: [
       { name: "Low-Friction Daily Plan", href: "/templates/daily-plan-adhd", desc: "Energy check + one big thing" },
       { name: "Time-Block Page", href: "/templates/time-block", desc: "Half-hour time blocking grid" },
+      { name: "Eisenhower Matrix", href: "/templates/eisenhower-matrix", desc: "Sort tasks by urgency and importance" },
       { name: "Brain Dump", href: "/templates/brain-dump", desc: "Dump then sort into actions" },
       { name: "3 Priorities", href: "/templates/three-priorities", desc: "Just three things to focus on" },
       { name: "Shutdown Checklist", href: "/templates/shutdown-checklist", desc: "End-of-day routine" },
@@ -63,6 +65,7 @@ const packs = [
       { name: "Reading Log", href: "/templates/reading-log", desc: "Track books read" },
       { name: "Book Notes", href: "/templates/book-notes", desc: "Takeaways, quotes, and chapter notes" },
       { name: "Revision Planner", href: "/templates/revision-planner", desc: "Subject schedule with checkboxes" },
+      { name: "MCP Documentation PDF", href: "/templates/mcp-docs", desc: "Full MCP docs fetched & formatted for reMarkable" },
     ],
   },
   {

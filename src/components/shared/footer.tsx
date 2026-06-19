@@ -25,7 +25,7 @@ export function Footer() {
               <li><Link href="/templates/meeting-notes" className="hover:text-foreground transition-colors">Meeting Notes</Link></li>
               <li><Link href="/templates/three-priorities" className="hover:text-foreground transition-colors">3 Priorities</Link></li>
               <li><Link href="/templates/habit-tracker" className="hover:text-foreground transition-colors">Habit Tracker</Link></li>
-              <li><Link href="/templates" className="hover:text-foreground transition-colors font-medium">All 49+ Templates →</Link></li>
+              <li><Link href="/templates" className="hover:text-foreground transition-colors font-medium">All 51+ Templates →</Link></li>
             </ul>
           </div>
           <div>

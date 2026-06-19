@@ -8,8 +8,30 @@ Remarkable Skills is a free web app for generating printable PDFs optimized for 
 
 The site has three main content areas:
 1. **Puzzle Games** — Procedurally generated printable puzzles (sudoku, crossword, maze, word search, nonogram, cryptogram, kakuro, kenken, word ladder, number fill, logic puzzle, word scramble).
-2. **Templates** — 49+ printable page templates for planning, note-taking, study, finance, wellness, and home life.
+2. **Templates** — 51+ printable page templates for planning, note-taking, study, finance, wellness, and home life.
 3. **Kids Activities** — Printable worksheets for children (math, tracing, coloring, sight words, spelling, cursive, vocabulary, patterns, telling time, money counting, connect the dots).
+
+---
+
+## Top-Level Pages
+
+### Home (https://remarkable.vishwajeet.co)
+Landing page for Remarkable Skills, linking to the main puzzle generators, printable templates, kids activities, guides, and puzzle packs. Introduces the site as a free source of PDF tools for e-ink tablets and standard paper.
+
+### Games & Puzzles (https://remarkable.vishwajeet.co/games)
+Index page for printable puzzle generators, including Sudoku, word search, crossword, maze, nonogram, word scramble, cryptogram, Kakuro, KenKen, word ladder, number fill, and logic puzzles.
+
+### Printable Templates (https://remarkable.vishwajeet.co/templates)
+Index page for 51+ printable templates across planning, calendars, note-taking, meetings, projects, ADHD support, study, finance, wellness, home, and life administration.
+
+### Kids Activities (https://remarkable.vishwajeet.co/kids)
+Index page for educational printables and worksheet generators for children, including tracing, math, coloring, connect-the-dots, sight words, spelling, cursive, vocabulary, patterns, telling time, and money counting.
+
+### Guides (https://remarkable.vishwajeet.co/guides)
+Index page for educational guides about using PDFs on e-ink tablets, printable worksheets for homeschool, ADHD productivity templates, and puzzle difficulty calibration.
+
+### Puzzle Packs (https://remarkable.vishwajeet.co/packs)
+Index page for themed multi-activity PDF bundles, including road trip, classroom, and brain training packs.
 
 ---
 
@@ -18,11 +40,29 @@ The site has three main content areas:
 ### Sudoku (https://remarkable.vishwajeet.co/games/sudoku)
 Classic 9×9 sudoku puzzles generated procedurally. Available in four difficulty levels: Easy, Medium, Hard, and Evil. Each generated PDF includes the puzzle and a solution page. Users can select page size (reMarkable 2, Paper Pro, A4, Letter, etc.) before downloading.
 
+### Easy Sudoku (https://remarkable.vishwajeet.co/games/sudoku/easy)
+Beginner-friendly 9×9 sudoku puzzles with more given clues and simpler solving paths. Each PDF includes a solution page.
+
+### Medium Sudoku (https://remarkable.vishwajeet.co/games/sudoku/medium)
+Moderate 9×9 sudoku puzzles with a balanced clue count and intermediate solving challenge. Each PDF includes a solution page.
+
+### Hard Sudoku (https://remarkable.vishwajeet.co/games/sudoku/hard)
+Challenging 9×9 sudoku puzzles requiring more advanced deduction. Each PDF includes a solution page.
+
+### Evil Sudoku (https://remarkable.vishwajeet.co/games/sudoku/evil)
+Expert-level 9×9 sudoku puzzles with fewer clues and tougher solving paths. Each PDF includes a solution page.
+
 ### Word Search (https://remarkable.vishwajeet.co/games/word-search)
 Themed word search grids. A hidden list of words is embedded in a letter grid at various angles (horizontal, vertical, diagonal). Themes rotate across categories like animals, food, sports, and geography.
 
+### Custom Word Search Generator (https://remarkable.vishwajeet.co/games/word-search/custom)
+Custom word search generator for creating printable puzzles from a user-supplied word list. The generated PDF is optimized for reMarkable tablets and standard paper sizes.
+
 ### Crossword (https://remarkable.vishwajeet.co/games/crossword)
 Auto-generated crossword puzzles with across/down clue lists. Grid size and word density vary per generation.
+
+### Custom Crossword Generator (https://remarkable.vishwajeet.co/games/crossword/custom)
+Custom crossword generator for creating printable crossword PDFs from user-supplied words and clues. Designed for teachers, families, and study activities that need specific vocabulary.
 
 ### Maze (https://remarkable.vishwajeet.co/games/maze)
 Printable mazes generated with recursive backtracking. Available in small, medium, and large grid sizes. Each maze has exactly one solution path.
@@ -96,6 +136,9 @@ Record of decisions made, with context, options considered, rationale, and outco
 ### Action Tracker (https://remarkable.vishwajeet.co/templates/action-tracker)
 Rolling action item list with owner, due date, status, and notes columns.
 
+### Kanban Board (https://remarkable.vishwajeet.co/templates/kanban-board)
+Printable kanban workflow board with adjustable columns and reusable card slots for tasks, owners, and due dates.
+
 ### Project Timeline (https://remarkable.vishwajeet.co/templates/project-timeline)
 Horizontal Gantt-style project timeline with milestone markers and phase labels.
 
@@ -104,6 +147,9 @@ Low-overwhelm daily planning template designed for ADHD and executive function c
 
 ### Time Block (https://remarkable.vishwajeet.co/templates/time-block)
 Hourly time-blocking schedule template. Hours listed from 5am to midnight with task columns.
+
+### Eisenhower Matrix (https://remarkable.vishwajeet.co/templates/eisenhower-matrix)
+Urgent-important prioritization matrix with four writing quadrants: do, schedule, delegate, and delete.
 
 ### Brain Dump (https://remarkable.vishwajeet.co/templates/brain-dump)
 Free-form unlined capture page for clearing mental clutter. Large open space with a few prompt sections (thoughts, tasks, ideas, worries).
@@ -217,6 +263,21 @@ Letter and shape tracing practice sheets for early childhood education. Covers u
 ### Math Worksheets (https://remarkable.vishwajeet.co/kids/math)
 Arithmetic drill worksheets. Sub-pages for addition, subtraction, multiplication, and division with configurable difficulty and problem count.
 
+### Addition Worksheets (https://remarkable.vishwajeet.co/kids/math/addition)
+Printable addition drill worksheets with configurable difficulty and problem count. Designed for repeated arithmetic practice on paper or e-ink tablets.
+
+### Subtraction Worksheets (https://remarkable.vishwajeet.co/kids/math/subtraction)
+Printable subtraction drill worksheets with configurable difficulty and problem count. Designed for repeated arithmetic practice on paper or e-ink tablets.
+
+### Multiplication Worksheets (https://remarkable.vishwajeet.co/kids/math/multiplication)
+Printable multiplication drill worksheets with configurable difficulty and problem count. Designed for repeated arithmetic practice on paper or e-ink tablets.
+
+### Division Worksheets (https://remarkable.vishwajeet.co/kids/math/division)
+Printable division drill worksheets with configurable difficulty and problem count. Designed for repeated arithmetic practice on paper or e-ink tablets.
+
+### Custom Math Worksheet Generator (https://remarkable.vishwajeet.co/kids/math/custom)
+Custom math worksheet generator for configuring exact operations, number ranges, and problem counts. Outputs printable PDFs for reMarkable tablets and standard paper sizes.
+
 ### Coloring Pages (https://remarkable.vishwajeet.co/kids/coloring)
 Simple printable coloring pages with outlines of animals, objects, and scenes.
 
@@ -225,6 +286,18 @@ Dot-to-dot picture puzzles. Number the dots sequentially to reveal a hidden imag
 
 ### Sight Words (https://remarkable.vishwajeet.co/kids/sight-words)
 Dolch and Fry sight word practice sheets organized by grade level: Kindergarten, 1st grade, 2nd grade, 3rd grade.
+
+### Kindergarten Sight Words (https://remarkable.vishwajeet.co/kids/sight-words/kindergarten)
+Kindergarten sight word practice sheets with grade-appropriate reading and writing exercises.
+
+### 1st Grade Sight Words (https://remarkable.vishwajeet.co/kids/sight-words/1st-grade)
+First grade sight word practice sheets with grade-appropriate reading and writing exercises.
+
+### 2nd Grade Sight Words (https://remarkable.vishwajeet.co/kids/sight-words/2nd-grade)
+Second grade sight word practice sheets with grade-appropriate reading and writing exercises.
+
+### 3rd Grade Sight Words (https://remarkable.vishwajeet.co/kids/sight-words/3rd-grade)
+Third grade sight word practice sheets with grade-appropriate reading and writing exercises.
 
 ### Spelling Practice (https://remarkable.vishwajeet.co/kids/spelling)
 Spelling word worksheets with trace, copy, and write-from-memory sections.
@@ -259,6 +332,22 @@ Recommendations for ADHD-friendly templates on the site. Covers the ADHD Daily P
 
 ### Puzzle Difficulty Guide (https://remarkable.vishwajeet.co/guides/puzzle-difficulty-guide)
 Explains how difficulty levels are calibrated for each puzzle type. Covers sudoku (clue count and technique requirements), maze (grid density), nonogram (solution uniqueness guarantee), and others.
+
+---
+
+## Packs
+
+### Puzzle Packs (https://remarkable.vishwajeet.co/packs)
+Themed bundles combining multiple puzzle and worksheet types into a single PDF. Users can choose a pack, configure page size and quantity, then download.
+
+### Road Trip Activity Pack (https://remarkable.vishwajeet.co/packs/road-trip)
+Travel-themed word searches, crosswords, mazes, and word scrambles. Designed for long car rides, family travel, and geography-themed activities.
+
+### Classroom Pack (https://remarkable.vishwajeet.co/packs/classroom)
+Educational activity pack with math worksheets, spelling practice, sight word exercises, and pattern sequences. Built for teachers, homeschoolers, and printable classroom work.
+
+### Brain Training Pack (https://remarkable.vishwajeet.co/packs/brain-training)
+Logic-focused puzzle bundle with Sudoku, Kakuro, KenKen, cryptograms, and logic grid puzzles. Designed for reasoning practice and puzzle variety in a single PDF.
 
 ---
 

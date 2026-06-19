@@ -282,6 +282,26 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/kanban-board": (
+    <>
+      <rect x="8" y="14" width="50" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {[0, 1, 2, 3].map((c) => (
+        <g key={c}>
+          <rect x={8 + c * 27} y="28" width="23" height="126" rx="1.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill="none" />
+          <rect x={8 + c * 27} y="28" width="23" height="10" rx="1.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x={12 + c * 27} y="32" width="15" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+          {Array.from({ length: 4 }, (_, r) => (
+            <g key={r}>
+              <rect x={11 + c * 27} y={46 + r * 25} width="17" height="18" rx="2" stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.08" fill={r === c % 3 ? "currentColor" : "none"} fillOpacity={r === c % 3 ? "0.025" : "0"} />
+              <line x1={14 + c * 27} y1={53 + r * 25} x2={25 + c * 27} y2={53 + r * 25} stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.06" />
+              <line x1={14 + c * 27} y1={59 + r * 25} x2={23 + c * 27} y2={59 + r * 25} stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.05" />
+            </g>
+          ))}
+        </g>
+      ))}
+    </>
+  ),
+
   "/templates/project-timeline": (
     <>
       <rect x="8" y="14" width="50" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
@@ -328,6 +348,26 @@ export const thumbs: Record<string, React.ReactNode> = {
       ))}
       <rect x="27" y="35" width="85" height="20" rx="1" fill="currentColor" fillOpacity="0.04" />
       <rect x="27" y="79" width="85" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+    </>
+  ),
+
+  "/templates/eisenhower-matrix": (
+    <>
+      <rect x="8" y="14" width="56" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {[0, 1, 2, 3].map((q) => {
+        const x = 8 + (q % 2) * 54;
+        const y = 28 + Math.floor(q / 2) * 62;
+        return (
+          <g key={q}>
+            <rect x={x} y={y} width="50" height="56" rx="2" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" fill="none" />
+            <rect x={x} y={y} width="50" height="10" rx="2" fill="currentColor" fillOpacity="0.05" />
+            <text x={x + 25} y={y + 7} fontSize="4" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">{["DO", "SCHEDULE", "DELEGATE", "DELETE"][q]}</text>
+            {Array.from({ length: 4 }, (_, i) => (
+              <line key={i} x1={x + 6} y1={y + 20 + i * 8} x2={x + 44} y2={y + 20 + i * 8} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.07" />
+            ))}
+          </g>
+        );
+      })}
     </>
   ),
 

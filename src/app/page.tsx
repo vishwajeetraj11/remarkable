@@ -77,6 +77,8 @@ const showcaseTemplates = [
 
 const moreTemplates = [
   { name: "Daily Focus", href: "/templates/daily-focus" },
+  { name: "Eisenhower Matrix", href: "/templates/eisenhower-matrix" },
+  { name: "Kanban Board", href: "/templates/kanban-board" },
   { name: "Meeting Notes", href: "/templates/meeting-notes" },
   { name: "Fitness Planner", href: "/templates/fitness-planner" },
   { name: "Vision Board", href: "/templates/vision-board" },
@@ -540,7 +542,7 @@ export default function Home() {
             {(
               [
                 ["12", "puzzle types"],
-                ["49+", "page templates"],
+                ["51+", "page templates"],
                 ["8", "template packs"],
                 ["11", "kids activities"],
               ] as const
@@ -640,7 +642,7 @@ export default function Home() {
                 href="/templates"
                 className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                All 49+ templates →
+                All 51+ templates →
               </Link>
             </div>
           </Reveal>
@@ -687,7 +689,7 @@ export default function Home() {
                 href="/templates"
                 className="font-medium text-foreground hover:underline underline-offset-2"
               >
-                All 49+ →
+                All 51+ →
               </Link>
             </div>
           </Reveal>

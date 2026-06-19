@@ -10,7 +10,9 @@ const gameRoutes = [
   "/games/sudoku/hard",
   "/games/sudoku/evil",
   "/games/word-search",
+  "/games/word-search/custom",
   "/games/crossword",
+  "/games/crossword/custom",
   "/games/maze",
   "/games/nonogram",
   "/games/word-scramble",
@@ -40,9 +42,11 @@ const templateRoutes = [
   "/templates/project-brief",
   "/templates/decision-log",
   "/templates/action-tracker",
+  "/templates/kanban-board",
   "/templates/project-timeline",
   "/templates/daily-plan-adhd",
   "/templates/time-block",
+  "/templates/eisenhower-matrix",
   "/templates/brain-dump",
   "/templates/three-priorities",
   "/templates/shutdown-checklist",
@@ -78,6 +82,7 @@ const templateRoutes = [
 const kidsRoutes = [
   "/kids/tracing",
   "/kids/math",
+  "/kids/math/custom",
   "/kids/math/addition",
   "/kids/math/subtraction",
   "/kids/math/multiplication",
@@ -104,11 +109,22 @@ const guideRoutes = [
   "/guides/puzzle-difficulty-guide",
 ];
 
+const packRoutes = [
+  "/packs/road-trip",
+  "/packs/classroom",
+  "/packs/brain-training",
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const indexRoutes = ["/games", "/kids", "/templates", "/guides", "/packs"];
-  const pageRoutes = [...gameRoutes, ...templateRoutes, ...kidsRoutes];
+  const pageRoutes = [
+    ...gameRoutes,
+    ...templateRoutes,
+    ...kidsRoutes,
+    ...packRoutes,
+  ];
 
   return [
     {

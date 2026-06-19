@@ -26,7 +26,7 @@ const navItems = [
       { label: "Fitness Planner", href: "/templates/fitness-planner" },
       { label: "Vision Board", href: "/templates/vision-board" },
       { label: "Cornell Notes", href: "/templates/cornell" },
-      { label: "All 49+ Templates →", href: "/templates" },
+      { label: "All 51+ Templates →", href: "/templates" },
     ],
   },
   {
