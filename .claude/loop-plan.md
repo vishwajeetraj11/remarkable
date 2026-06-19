@@ -79,4 +79,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean — dc50fc2
 - [x] 1.2 — theme toggle button (desktop + mobile, hydration-safe), debugger+reviewer clean  — 213da38
 - [x] 1.3 — dark-mode audit: .paper-preview token-remap utility + chrome fixes, debugger+reviewer clean — **PHASE 1 COMPLETE** — a5bb366
-- [x] 2.1 — single route manifest (site-map.ts) → sitemap derives from it, 104 URLs, debugger+reviewer clean
+- [x] 2.1 — single route manifest (site-map.ts) → sitemap derives from it, 104 URLs, debugger+reviewer clean  — 51dce8b
