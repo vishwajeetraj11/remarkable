@@ -69,7 +69,7 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
   - Shipped: new `/templates/debt-tracker` — debt list table (Creditor/Balance/APR/Min/Due/Order + TOTAL row), snowball/avalanche method, payoff thermometer + milestones; multi-page; registered (manifest+label, thumb, Life Admin pack, HEADER + PAGE_NAV registries; not LINE_SPACING). Debugger (layout fits all devices node-verified, controls correct, in sitemap, no regressions) + reviewer (approve) clean. Orchestrator made PAGE_NAV comment count-agnostic (was "51 callers"). Deferred P2: local `drawCapture` could reuse `drawLabeledLine`; table strokes use raw colors (matches bill-tracker, ink-intensity won't apply there).
 - [x] **4.3 Sinking funds tracker** — `/templates/sinking-funds`.
   - Shipped: new `/templates/sinking-funds` — funds table (Fund/Goal/Saved/Remaining/Monthly/Target + TOTAL) + 6 per-fund progress thermometers (distinct from debt-tracker); multi-page; registered (Life Admin pack, manifest+label, thumb, HEADER + PAGE_NAV; not LINE_SPACING). Debugger (layout fits node-verified, controls correct, sitemap, no regressions) + reviewer (approve, genuine adaptation) clean. P2 (leave): preset thermometer labels.
-- [ ] **4.4 Net worth tracker** — `/templates/net-worth`.
+- [~] **4.4 Net worth tracker** — `/templates/net-worth`.
 - [ ] **4.5 Weekly dated planner** — `/templates/weekly-dated` (vertical + horizontal variants).
 - [ ] **4.6 Project planner with index** — `/templates/project-planner` (uses hyperlinked PDF nav).
 - [ ] **4.7 Bullet journal collection pack** — index + monthly log + future log + trackers, bundled.
