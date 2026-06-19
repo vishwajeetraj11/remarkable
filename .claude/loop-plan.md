@@ -51,7 +51,7 @@ Extend `TemplateShell` + `variants.ts` so every template gains these without per
 
 - [x] **3.1 Accent / ink intensity** — Add a control for line/ink weight or a subtle accent so users can make lines lighter/darker for their e-ink contrast preference. Thread through `pdf-utils.ts`.
   - Shipped: `InkIntensity` (light/regular/bold) in `TemplateVariants`; `INK_INTENSITY` map (greyShift/widthScale) in `constants.ts`; threaded via module-level resolver (`setInkIntensity` in createDoc/addPage) so all ~52 templates gain it with ZERO page.tsx edits (~352 call sites untouched). "regular" = mathematical identity → default PDFs byte-identical; light/bold add `-light`/`-bold` filename suffix. "Ink" control in variant-controls. Debugger (identity proven, no resolver leakage, no page touched) + reviewer (approve; interleave + vanishing-line risks cleared) clean. Deferred P2: drop redundant `setInkIntensity` re-call in `drawHorizontalLines`.
-- [ ] **3.2 Custom title text** — Optional text input so users can set their own page title/label printed on the PDF.
+- [~] **3.2 Custom title text** — Optional text input so users can set their own page title/label printed on the PDF.
 - [ ] **3.3 Line spacing / density** — A control for ruling spacing (narrow/medium/wide) and grid density where applicable.
 - [ ] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
 - [ ] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
