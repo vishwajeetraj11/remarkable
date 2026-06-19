@@ -29,6 +29,7 @@ export const TEMPLATES_WITH_LINE_SPACING = new Set<string>([
   "/templates/one-on-one",
   "/templates/paper-summary",
   "/templates/project-brief",
+  "/templates/project-planner",
   "/templates/project-timeline",
   "/templates/quarterly-goals",
   "/templates/recipe-page",

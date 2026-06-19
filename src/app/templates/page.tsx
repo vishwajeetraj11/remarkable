@@ -69,6 +69,7 @@ const packs = [
       { name: "Action-Item Tracker", href: "/templates/action-tracker", desc: "Tabular action tracking" },
       { name: "Kanban Board", href: "/templates/kanban-board", desc: "Visual task board with workflow columns" },
       { name: "Project Timeline", href: "/templates/project-timeline", desc: "Visual milestone timeline" },
+      { name: "Project Planner", href: "/templates/project-planner", desc: "Hyperlinked planner with a tappable contents page" },
     ],
   },
   {

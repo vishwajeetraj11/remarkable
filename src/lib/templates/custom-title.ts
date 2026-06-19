@@ -36,6 +36,7 @@ export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/one-on-one",
   "/templates/password-log",
   "/templates/project-brief",
+  "/templates/project-planner",
   "/templates/project-timeline",
   "/templates/quarterly-goals",
   "/templates/reading-log",

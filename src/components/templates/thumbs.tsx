@@ -371,6 +371,27 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/project-planner": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="12" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      {/* "Project Planner" title hint */}
+      <rect x="12" y="12" width="40" height="4" rx="1" fill="white" fillOpacity="0.7" />
+      {/* CONTENTS label */}
+      <rect x="8" y="28" width="22" height="3" rx="1" fill="currentColor" fillOpacity="0.3" />
+      {/* Hyperlinked contents rows with dot leaders + page numbers */}
+      {["Overview & Brief","Goals & Success","Milestones","Task List","Risks & Issues","Notes"].map((label, i) => (
+        <g key={label}>
+          <text x="12" y={42 + i * 14} fontSize="5.5" fill="currentColor" fillOpacity="0.7" fontFamily="sans-serif">{label}</text>
+          <line x1={12 + label.length * 3} y1={40 + i * 14} x2="98" y2={40 + i * 14} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" strokeDasharray="2 2" />
+          <text x="100" y={42 + i * 14} fontSize="5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">p.{[2,3,4,5,6,7][i]}</text>
+        </g>
+      ))}
+      {/* Back-to-index hint */}
+      <text x="106" y="150" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">‹ Index</text>
+    </>
+  ),
+
   /* ===== Pack 3: Focus / ADHD ===== */
 
   "/templates/daily-plan-adhd": (

@@ -83,6 +83,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/games/kenken": "KenKen",
   // Templates
   "/templates/all-in-one-planner": "All-in-One Planner",
+  "/templates/project-planner": "Project Planner",
   "/templates/calendar-2026": "2026 Calendar",
   "/templates/weekly-dated": "Weekly Dated Planner",
   "/templates/debt-tracker": "Debt Tracker",
@@ -157,6 +158,7 @@ const TEMPLATE_PATHS = [
   "/templates/action-tracker",
   "/templates/kanban-board",
   "/templates/project-timeline",
+  "/templates/project-planner",
   "/templates/daily-plan-adhd",
   "/templates/time-block",
   "/templates/eisenhower-matrix",
