@@ -105,6 +105,9 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/guides/printable-worksheets-for-homeschool": "Printable Worksheets for Homeschool",
   "/guides/adhd-productivity-templates": "ADHD Productivity Templates",
   "/guides/puzzle-difficulty-guide": "Puzzle Difficulty Guide",
+  "/guides/best-remarkable-planner-setup": "Best reMarkable Planner Setup",
+  "/guides/free-dated-2026-calendar-eink": "Free Dated 2026 Calendar",
+  "/guides/bullet-journaling-on-remarkable": "Bullet Journaling on reMarkable",
 };
 
 /** Resolve a label for a path: explicit override, else title-cased slug. */
@@ -240,6 +243,9 @@ const GUIDE_PATHS = [
   "/guides/printable-worksheets-for-homeschool",
   "/guides/adhd-productivity-templates",
   "/guides/puzzle-difficulty-guide",
+  "/guides/best-remarkable-planner-setup",
+  "/guides/free-dated-2026-calendar-eink",
+  "/guides/bullet-journaling-on-remarkable",
 ];
 
 /**

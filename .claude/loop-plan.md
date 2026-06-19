@@ -90,7 +90,8 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 
 ## Phase 6 — Content / guides (SEO long-tail)
 
-- [~] **6.1 New guide pages** — Add 3–4 long-form guides targeting search intent (e.g. "best reMarkable planner setup", "free dated 2026 calendar for e-ink", "bullet journaling on reMarkable"). Wire into `/guides`, nav, sitemap.
+- [x] **6.1 New guide pages** — Add 3–4 long-form guides targeting search intent (e.g. "best reMarkable planner setup", "free dated 2026 calendar for e-ink", "bullet journaling on reMarkable"). Wire into `/guides`, nav, sitemap.
+  - Shipped: 3 server-component guides (`best-remarkable-planner-setup`, `free-dated-2026-calendar-eink`, `bullet-journaling-on-remarkable`), 660–810 words each, internally linked to this session's new templates (calendar-2026, weekly-dated, bullet-journal, dot-grid, all-in-one, etc.); registered (guides index, site-map label+path, nav). **Debugger ‖ reviewer run in PARALLEL** (first parallel verify, ~2× faster): debugger (13 internal links all 200, all 7 guides in sitemap, homeschool still reachable) + reviewer (approve, every feature claim verified true, no dangerouslySetInnerHTML) clean. Reviewer P2: coder had dropped Homeschool from nav → **orchestrator restored it** (dropdown now 6 guides). Deferred P2 (site-wide, pre-existing): doubled "— Remarkable Skills | Remarkable Skills" title on guides.
 - [ ] **6.2 Pack expansion** — Add new bundled packs (e.g. "2026 planner pack", "finance pack", "student pack") via the `[slug]` pack route + `pack-bundler`.
 
 ---

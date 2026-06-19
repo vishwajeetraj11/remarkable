@@ -50,6 +50,8 @@ const navItems = [
     label: "Guides",
     href: "/guides",
     children: [
+      { label: "Best reMarkable Planner Setup", href: "/guides/best-remarkable-planner-setup" },
+      { label: "Free 2026 Calendar", href: "/guides/free-dated-2026-calendar-eink" },
       { label: "Transfer PDFs to Tablet", href: "/guides/transfer-pdfs-to-tablet" },
       { label: "Puzzle Difficulty Guide", href: "/guides/puzzle-difficulty-guide" },
       { label: "ADHD Productivity Templates", href: "/guides/adhd-productivity-templates" },
