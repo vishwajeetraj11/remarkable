@@ -84,6 +84,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   // Templates
   "/templates/all-in-one-planner": "All-in-One Planner",
   "/templates/calendar-2026": "2026 Calendar",
+  "/templates/debt-tracker": "Debt Tracker",
   "/templates/one-on-one": "One-on-One",
   "/templates/daily-plan-adhd": "Daily Plan (ADHD)",
   "/templates/mcp-docs": "MCP Docs",
@@ -167,6 +168,7 @@ const TEMPLATE_PATHS = [
   "/templates/monthly-budget",
   "/templates/expense-tracker",
   "/templates/bill-tracker",
+  "/templates/debt-tracker",
   "/templates/habit-tracker",
   "/templates/meal-planner",
   "/templates/grocery-list",

@@ -635,6 +635,53 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/debt-tracker": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="38" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Table header row */}
+      <rect x="8" y="24" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+      <rect x="10" y="26" width="26" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="44" y="26" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="64" y="26" width="8" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="78" y="26" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="98" y="26" width="10" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Column separators */}
+      {[40, 62, 76, 96].map((x) => (
+        <line key={x} x1={x} y1="24" x2={x} y2="106" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+      ))}
+      {/* Debt rows */}
+      {Array.from({ length: 5 }, (_, i) => (
+        <g key={i}>
+          <line x1="8" y1={42 + i * 13} x2="112" y2={42 + i * 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <line x1="10" y1={46 + i * 13} x2={30 + (i * 5) % 8} y2={46 + i * 13} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+          <rect x="44" y={44 + i * 13} width={10 + (i * 3) % 5} height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="64" y={44 + i * 13} width="7" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="78" y={44 + i * 13} width="11" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <text x={103} y={47 + i * 13} fontSize="4.5" fill="currentColor" fillOpacity="0.12" textAnchor="middle" fontFamily="sans-serif">{i + 1}</text>
+        </g>
+      ))}
+      {/* Totals row */}
+      <line x1="8" y1="106" x2="112" y2="106" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+      <rect x="10" y="110" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      <rect x="44" y="110" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Payoff thermometer */}
+      <rect x="8" y="126" width="104" height="12" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
+      <rect x="8" y="126" width="44" height="12" rx="1.5" fill="currentColor" fillOpacity="0.1" />
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((s) => (
+        <line key={s} x1={8 + s * 10.4} y1="126" x2={8 + s * 10.4} y2="138" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+      ))}
+      {/* Milestone checkboxes */}
+      {[0, 1, 2].map((i) => (
+        <g key={`m${i}`}>
+          <rect x={8 + i * 36} y="148" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill={i === 0 ? "currentColor" : "none"} fillOpacity={i === 0 ? "0.06" : "0"} />
+          <line x1={16 + i * 36} y1="150.5" x2={30 + i * 36} y2="150.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+        </g>
+      ))}
+    </>
+  ),
+
   "/templates/habit-tracker": (
     <>
       <line x1="8" y1="16" x2="46" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />

@@ -51,10 +51,10 @@ export const TEMPLATES_WITH_LINE_SPACING = new Set<string>([
 // single-page render is harmless even if included — but membership here is
 // derived strictly from the (a)+(b) criteria above.
 //
-// Derived by grepping template page.tsx files for `drawPageNumber(` (51 callers)
-// and excluding planner + monthly-calendar (they set showPageCount={false}).
-// Note: all-in-one-planner also sets showPageCount={false} but never calls
-// drawPageNumber, so it's already absent from the 51 callers.
+// Derived by grepping template page.tsx files for `drawPageNumber(` and
+// excluding any that set showPageCount={false} (e.g. planner, monthly-calendar,
+// calendar-2026). Note: all-in-one-planner sets showPageCount={false} and never
+// calls drawPageNumber, so it's already absent from the drawPageNumber callers.
 //
 // KEEP IN SYNC: when adding a new template, add its route path here if (and
 // only if) it calls drawPageNumber AND is multi-page (page-count slider
@@ -72,6 +72,7 @@ export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
   "/templates/daily-focus",
   "/templates/daily-plan-adhd",
   "/templates/daily-reflection",
+  "/templates/debt-tracker",
   "/templates/decision-log",
   "/templates/dot-grid",
   "/templates/eisenhower-matrix",

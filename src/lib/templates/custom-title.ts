@@ -20,6 +20,7 @@ export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/cleaning-schedule",
   "/templates/client-call",
   "/templates/daily-focus",
+  "/templates/debt-tracker",
   "/templates/decision-log",
   "/templates/eisenhower-matrix",
   "/templates/expense-tracker",
