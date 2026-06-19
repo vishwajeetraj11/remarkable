@@ -7,6 +7,35 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import BundleGenerator from "@/components/games/bundle-generator";
+import { Faq } from "@/components/shared/faq";
+
+const faqs = [
+  {
+    question: "Are the games free to download?",
+    answer:
+      "Yes. Every puzzle is free to generate and download as a PDF — no account or payment required.",
+  },
+  {
+    question: "Can I choose the difficulty?",
+    answer:
+      "Most puzzles offer difficulty options — Sudoku, for example, ranges from easy to evil. You can adjust difficulty, size, and style before generating.",
+  },
+  {
+    question: "Do the puzzles include answer keys?",
+    answer:
+      "Yes. Every generated puzzle PDF includes an answer key so you can check your work.",
+  },
+  {
+    question: "Are the puzzles printable?",
+    answer:
+      "Yes. Each puzzle is a PDF you can read on an e-ink tablet or print on A4 or US Letter paper.",
+  },
+  {
+    question: "Do the puzzles repeat?",
+    answer:
+      "No. Every puzzle is procedurally generated, so you get a fresh, unique PDF each time you generate one.",
+  },
+];
 
 const categories = [
   {
@@ -45,45 +74,51 @@ const categories = [
 
 export default function GamesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight">Games & Puzzles</h1>
-        <p className="mt-2 text-muted-foreground">
-          Every puzzle is procedurally generated — you get a fresh, unique PDF
-          every time. Answer keys included.
-        </p>
-      </div>
+    <>
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold tracking-tight">Games & Puzzles</h1>
+          <p className="mt-2 text-muted-foreground">
+            Every puzzle is procedurally generated — you get a fresh, unique PDF
+            every time. Answer keys included.
+          </p>
+        </div>
 
-      <div className="space-y-12">
-        {categories.map((category) => (
-          <div key={category.name}>
-            <h2 className="text-xl font-semibold mb-4">{category.name}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {category.puzzles.map((puzzle) => (
-                <Link key={puzzle.href} href={puzzle.href}>
-                  <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base">
-                          {puzzle.name}
-                        </CardTitle>
-                        {puzzle.ready && (
-                          <Badge variant="secondary" className="text-xs">
-                            Ready
-                          </Badge>
-                        )}
-                      </div>
-                      <CardDescription>{puzzle.desc}</CardDescription>
-                    </CardHeader>
-                  </Card>
-                </Link>
-              ))}
+        <div className="space-y-12">
+          {categories.map((category) => (
+            <div key={category.name}>
+              <h2 className="text-xl font-semibold mb-4">{category.name}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {category.puzzles.map((puzzle) => (
+                  <Link key={puzzle.href} href={puzzle.href}>
+                    <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-base">
+                            {puzzle.name}
+                          </CardTitle>
+                          {puzzle.ready && (
+                            <Badge variant="secondary" className="text-xs">
+                              Ready
+                            </Badge>
+                          )}
+                        </div>
+                        <CardDescription>{puzzle.desc}</CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <BundleGenerator />
       </div>
 
-      <BundleGenerator />
-    </div>
+      <div className="border-t border-border">
+        <Faq items={faqs} />
+      </div>
+    </>
   );
 }
