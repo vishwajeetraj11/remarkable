@@ -1,15 +1,18 @@
 // Manual registry of template route paths whose generated PDF header is drawn
-// via the shared `drawHeader` helper (see pdf-utils.ts). Only these templates
-// support the optional "Custom title" control, because that control works by
-// overriding the title passed to drawHeader. Templates that draw their header
-// inline (not through drawHeader) are intentionally excluded — showing the
-// input there would be a confusing no-op.
+// via the shared `drawHeader` helper (see pdf-utils.ts). Membership means the
+// template HAS a header bar, which gates two shared, header-only controls:
+//   - "Custom title" (overrides the title passed to drawHeader), and
+//   - "Start date" (prints a formatted date in the header subtitle).
+// Both controls share the exact same "uses drawHeader" criterion, so they
+// share this one Set. Templates that draw their header inline (not through
+// drawHeader) are intentionally excluded — showing those inputs there would be
+// a confusing no-op.
 //
 // KEEP IN SYNC: when adding a new template, add its route path here if (and
 // only if) its PDF header routes through drawHeader. This Set is the single
-// touch point for gating the input — do not edit individual template page.tsx
-// files.
-export const TEMPLATES_WITH_CUSTOM_TITLE = new Set<string>([
+// touch point for gating both header controls — do not edit individual
+// template page.tsx files.
+export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/action-tracker",
   "/templates/bill-tracker",
   "/templates/birthday-tracker",
@@ -42,3 +45,7 @@ export const TEMPLATES_WITH_CUSTOM_TITLE = new Set<string>([
   "/templates/weight-loss-tracker",
   "/templates/yearly-roadmap",
 ]);
+
+// Back-compat alias: the custom-title control's gating criterion ("uses
+// drawHeader") is identical to the header set above, so it is the same Set.
+export const TEMPLATES_WITH_CUSTOM_TITLE = TEMPLATES_WITH_HEADER;

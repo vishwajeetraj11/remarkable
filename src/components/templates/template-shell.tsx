@@ -20,7 +20,7 @@ import {
   type LineSpacing,
   DEFAULT_VARIANTS,
 } from "@/lib/templates/variants";
-import { TEMPLATES_WITH_CUSTOM_TITLE } from "@/lib/templates/custom-title";
+import { TEMPLATES_WITH_HEADER } from "@/lib/templates/custom-title";
 import {
   TEMPLATES_WITH_LINE_SPACING,
   TEMPLATES_WITH_PAGE_NAV,
@@ -57,8 +57,11 @@ export function TemplateShell({
   const pathname = usePathname();
   const thumb = thumbs[pathname];
   // Only templates whose PDF header routes through drawHeader can honor a
-  // custom title, so gate the input on the shared registry.
-  const supportsCustomTitle = TEMPLATES_WITH_CUSTOM_TITLE.has(pathname);
+  // custom title or print a dated header, so both header-only controls gate on
+  // the same shared registry.
+  const hasHeader = TEMPLATES_WITH_HEADER.has(pathname);
+  const supportsCustomTitle = hasHeader;
+  const supportsStartDate = hasHeader;
   // Only templates that draw ruled lines via drawHorizontalLines expose the
   // line-spacing control (see template-options.ts).
   const supportsLineSpacing = TEMPLATES_WITH_LINE_SPACING.has(pathname);
@@ -128,6 +131,20 @@ export function TemplateShell({
               maxLength={60}
               onChange={(e) =>
                 setVariants({ ...variants, customTitle: e.target.value })
+              }
+            />
+          </div>
+        )}
+
+        {supportsStartDate && (
+          <div className="space-y-1.5">
+            <Label htmlFor="start-date">Start date (optional)</Label>
+            <Input
+              id="start-date"
+              type="date"
+              value={variants.startDate ?? ""}
+              onChange={(e) =>
+                setVariants({ ...variants, startDate: e.target.value })
               }
             />
           </div>

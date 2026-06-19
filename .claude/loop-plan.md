@@ -56,7 +56,8 @@ Extend `TemplateShell` + `variants.ts` so every template gains these without per
 - [x] **3.3 Line spacing / density** — A control for ruling spacing (narrow/medium/wide) and grid density where applicable.
 - [x] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
   - Shipped: opt-in `tappableNav` (default off → byte-identical); `drawPageNumber` adds in-range "‹ Prev / Next ›" footer tap targets via `doc.link({pageNumber})` only when on + `total>1`; gated to 49 multi-page drawPageNumber templates (`TEMPLATES_WITH_PAGE_NAV` in `template-options.ts`); `-nav` suffix. Debugger (default-identity, link bounding, no setPage/correct-page, gating, 3.2/3.3 intact) + reviewer (approve; geometry clear of page number) clean. Orchestrator fixed reviewer P2 (registry comment "two"→accurate). Deferred P2: taller tap band; registry drift test.
-- [~] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
+- [x] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
+  - Shipped (shared, header-only scope): `startDate?` + `formatStartDate` (local-parts, deterministic hardcoded format, validates/rejects bad dates, no UTC off-by-one); `drawHeader` prints the date in the subtitle (becomes subtitle, or appends ` · date` with overflow-fit) only when set → empty=identity; gated to the 31 header templates via registry rename `TEMPLATES_WITH_CUSTOM_TITLE`→`TEMPLATES_WITH_HEADER` (+ alias, 3.2 intact); `-dated` suffix. First debugger run no-opped → re-ran; debugger (identity, UTC check day=6, gating, alias) + reviewer (approve) clean. Date *grids/cells* intentionally deferred to Phase 4 (per-page). Deferred P2: date silently drops if title fills bar (graceful); double-format. **PHASE 3 (template flexibility) COMPLETE.**
 
 ## Phase 4 — New templates (research-driven)
 
@@ -98,4 +99,5 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 3.1 — ink intensity (light/regular/bold) shared across all templates via module resolver, regular=identity, debugger + reviewer clean  — d79acd6
 - [x] 3.2 — custom title (first-header-only, gated to 31 supported templates via registry) — product decision "ship partial", debugger + reviewer clean
 - [x] 3.3 — line spacing (narrow/regular/wide, regular=identity), gated to 24 ruled templates, debugger + reviewer clean — 85ed867
-- [x] 3.4 — hyperlinked PDFs (opt-in tappable prev/next, default-identity), gated to 49 templates, debugger + reviewer clean  — 9fbf049
+- [x] 3.4 — hyperlinked PDFs (opt-in tappable prev/next, default-identity), gated to 49 templates, debugger + reviewer clean — 0718f52
+- [x] 3.5 — dated headers (optional start-date in header subtitle, empty=identity), gated to 31 header templates, debugger(re-run) + reviewer clean — **PHASE 3 COMPLETE**  — 9fbf049

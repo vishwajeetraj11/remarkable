@@ -4,6 +4,7 @@ import {
   type TemplateVariants,
   type InkIntensity,
   LINE_SPACING_SCALE,
+  formatStartDate,
   getPageDimensions,
   getMargins,
   getSimpleMargins,
@@ -103,6 +104,17 @@ export function drawHeader(
     customTitleConsumed = true;
   }
 
+  // Resolve the effective subtitle. When a start date is set it either becomes
+  // the subtitle (if the template passed none) or is appended to the existing
+  // one as " · {date}". When no start date is set, `formattedDate` is "" and
+  // `subtitle` is exactly opts.subtitle, so the rendering below is
+  // byte-identical to before this option existed.
+  const formattedDate = formatStartDate(variants.startDate);
+  let subtitle = opts.subtitle;
+  if (formattedDate) {
+    subtitle = subtitle ? `${subtitle} · ${formattedDate}` : formattedDate;
+  }
+
   if (opts.dark) {
     const [r, g, b] = COLORS.headerBgDark;
     doc.setFillColor(r, g, b);
@@ -115,11 +127,22 @@ export function drawHeader(
     // text never collides with the header bar border (measured at 9pt bold).
     const titleX = m.left + 8;
     const maxTitleW = bodyW - 8 - (titleX - m.left);
-    doc.text(fitTextToWidth(doc, title, maxTitleW), titleX, m.top + 18);
-    if (opts.subtitle) {
+    const drawnTitle = fitTextToWidth(doc, title, maxTitleW);
+    // Measure the title's end x while the title font (9pt bold) is still active.
+    const titleEndX = titleX + doc.getTextWidth(drawnTitle);
+    doc.text(drawnTitle, titleX, m.top + 18);
+    if (subtitle) {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);
-      doc.text(opts.subtitle, w - m.right - 8, m.top + 18, { align: "right" });
+      // Right-aligned subtitle. Only when a date was injected do we constrain
+      // it to the space left of the title (with an 8pt gap) so the appended
+      // date can't overrun into the title. When no date is set we draw the raw
+      // subtitle exactly as before, guaranteeing byte-identical default output.
+      if (formattedDate) {
+        const maxSubW = w - m.right - 8 - titleEndX - 8;
+        subtitle = maxSubW > 0 ? fitTextToWidth(doc, subtitle, maxSubW) : "";
+      }
+      doc.text(subtitle, w - m.right - 8, m.top + 18, { align: "right" });
     }
   } else {
     const [r, g, b] = COLORS.headerBg;
@@ -137,11 +160,22 @@ export function drawHeader(
     // (measured at 8pt bold).
     const titleX = m.left + 6;
     const maxTitleW = bodyW - 6 - (titleX - m.left);
-    doc.text(fitTextToWidth(doc, title, maxTitleW), titleX, m.top + 18);
-    if (opts.subtitle) {
+    const drawnTitle = fitTextToWidth(doc, title, maxTitleW);
+    // Measure the title's end x while the title font (8pt bold) is still active.
+    const titleEndX = titleX + doc.getTextWidth(drawnTitle);
+    doc.text(drawnTitle, titleX, m.top + 18);
+    if (subtitle) {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(7);
-      doc.text(opts.subtitle, w - m.right - 6, m.top + 18, { align: "right" });
+      // Right-aligned subtitle. Only when a date was injected do we constrain
+      // it to the space left of the title (with a 6pt gap) so the appended date
+      // can't overrun into the title. When no date is set we draw the raw
+      // subtitle exactly as before, guaranteeing byte-identical default output.
+      if (formattedDate) {
+        const maxSubW = w - m.right - 6 - titleEndX - 6;
+        subtitle = maxSubW > 0 ? fitTextToWidth(doc, subtitle, maxSubW) : "";
+      }
+      doc.text(subtitle, w - m.right - 6, m.top + 18, { align: "right" });
     }
   }
   doc.setFont("helvetica", "normal");
