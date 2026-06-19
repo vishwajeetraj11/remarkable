@@ -4,6 +4,7 @@ export type WeekStart = "monday" | "sunday";
 export type Handedness = "right" | "left";
 export type Orientation = "portrait" | "landscape";
 export type InkIntensity = "light" | "regular" | "bold";
+export type LineSpacing = "narrow" | "regular" | "wide";
 
 export interface TemplateVariants {
   weekStart: WeekStart;
@@ -11,10 +12,23 @@ export interface TemplateVariants {
   orientation: Orientation;
   device: DeviceKey;
   inkIntensity: InkIntensity;
+  // Ruled-line density for templates with ruled writing lines (see
+  // drawHorizontalLines). "regular" is the identity (scale 1.0) so default
+  // output stays byte-identical.
+  lineSpacing: LineSpacing;
   // Optional user-supplied page title that overrides the template's default
   // header title (see drawHeader). Empty/absent means "use the default".
   customTitle?: string;
 }
+
+// Multiplier applied to drawHorizontalLines' base spacing per line-density
+// choice. "regular" MUST be exactly 1.0 so the ruled output is byte-identical
+// to before this option existed (spacing * 1.0 === spacing).
+export const LINE_SPACING_SCALE: Record<LineSpacing, number> = {
+  narrow: 0.8,
+  regular: 1.0,
+  wide: 1.25,
+};
 
 export const DEFAULT_VARIANTS: TemplateVariants = {
   weekStart: "monday",
@@ -22,6 +36,7 @@ export const DEFAULT_VARIANTS: TemplateVariants = {
   orientation: "portrait",
   device: "remarkable2",
   inkIntensity: "regular",
+  lineSpacing: "regular",
   customTitle: "",
 };
 
@@ -48,5 +63,6 @@ export function variantSuffix(v: TemplateVariants) {
   const o = v.orientation === "portrait" ? "p" : "l";
   const h = v.handedness === "right" ? "rh" : "lh";
   const i = v.inkIntensity === "regular" ? "" : `-${v.inkIntensity}`;
-  return `${d}-${o}-${h}${i}`;
+  const ls = v.lineSpacing === "regular" ? "" : `-${v.lineSpacing}`;
+  return `${d}-${o}-${h}${i}${ls}`;
 }

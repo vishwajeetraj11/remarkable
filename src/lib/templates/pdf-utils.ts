@@ -3,6 +3,7 @@ import { COLORS, INK_INTENSITY, MM_TO_PT } from "./constants";
 import {
   type TemplateVariants,
   type InkIntensity,
+  LINE_SPACING_SCALE,
   getPageDimensions,
   getMargins,
   getSimpleMargins,
@@ -179,10 +180,15 @@ export function drawHorizontalLines(
   const [r, g, b] = inkColor(COLORS.lineLight);
   doc.setDrawColor(r, g, b);
   doc.setLineWidth(inkWidth(0.3));
-  let y = opts.startY + opts.spacing;
+  // Scale the ruled-line spacing per the chosen density. At "regular" the
+  // scale is exactly 1.0, so spacing === opts.spacing and the line positions
+  // are byte-identical to before this option existed. Region geometry
+  // (startY/endY) is unchanged; only how many ruled lines fit it changes.
+  const spacing = opts.spacing * LINE_SPACING_SCALE[variants.lineSpacing];
+  let y = opts.startY + spacing;
   while (y <= opts.endY) {
     doc.line(m.left + 4, y, w - m.right - 4, y);
-    y += opts.spacing;
+    y += spacing;
   }
 }
 

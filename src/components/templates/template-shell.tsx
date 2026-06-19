@@ -6,13 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { VariantControls } from "./variant-controls";
 import { thumbs } from "./thumbs";
 import {
   type TemplateVariants,
+  type LineSpacing,
   DEFAULT_VARIANTS,
 } from "@/lib/templates/variants";
 import { TEMPLATES_WITH_CUSTOM_TITLE } from "@/lib/templates/custom-title";
+import { TEMPLATES_WITH_LINE_SPACING } from "@/lib/templates/template-options";
 
 export interface TemplateShellProps {
   title: string;
@@ -47,6 +56,9 @@ export function TemplateShell({
   // Only templates whose PDF header routes through drawHeader can honor a
   // custom title, so gate the input on the shared registry.
   const supportsCustomTitle = TEMPLATES_WITH_CUSTOM_TITLE.has(pathname);
+  // Only templates that draw ruled lines via drawHorizontalLines expose the
+  // line-spacing control (see template-options.ts).
+  const supportsLineSpacing = TEMPLATES_WITH_LINE_SPACING.has(pathname);
   const [variants, setVariants] = useState<TemplateVariants>(DEFAULT_VARIANTS);
   const [pageCount, setPageCount] = useState(defaultPageCount);
   const [generating, setGenerating] = useState(false);
@@ -110,6 +122,27 @@ export function TemplateShell({
                 setVariants({ ...variants, customTitle: e.target.value })
               }
             />
+          </div>
+        )}
+
+        {supportsLineSpacing && (
+          <div className="space-y-1.5">
+            <Label>Line spacing</Label>
+            <Select
+              value={variants.lineSpacing}
+              onValueChange={(v) =>
+                setVariants({ ...variants, lineSpacing: v as LineSpacing })
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="narrow">Narrow</SelectItem>
+                <SelectItem value="regular">Regular</SelectItem>
+                <SelectItem value="wide">Wide</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         )}
 
