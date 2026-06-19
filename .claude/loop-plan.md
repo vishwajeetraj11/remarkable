@@ -54,7 +54,8 @@ Extend `TemplateShell` + `variants.ts` so every template gains these without per
 - [x] **3.2 Custom title text** — Optional text input so users can set their own page title/label printed on the PDF.
   - PRODUCT DECISION (user: "ship partial, done right"): the shared `drawHeader` override only cleanly covers 31/53 templates (22 draw headers inline, 5 use multiple headers). Shipped: `customTitle?` in variants; `drawHeader` override applies the custom title to the **first header per PDF only** (module flag `customTitleConsumed` reset in `createDoc`) — fixes the 5 multi-header templates; `fitTextToWidth` ellipsis truncation; input gated by a shared `TEMPLATES_WITH_CUSTOM_TITLE` registry (`custom-title.ts`, 31 paths) so it only shows where it works (no no-op confusion); default output byte-identical; not in filename. Debugger (identity, first-header-only, no leak, gated input, 31==drawHeader-callers) + reviewer (approve) clean. Deferred P2: drift-guard test for the registry (repo has no test suite); the 22 inline-header templates remain unsupported by design.
 - [x] **3.3 Line spacing / density** — A control for ruling spacing (narrow/medium/wide) and grid density where applicable.
-- [~] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
+- [x] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
+  - Shipped: opt-in `tappableNav` (default off → byte-identical); `drawPageNumber` adds in-range "‹ Prev / Next ›" footer tap targets via `doc.link({pageNumber})` only when on + `total>1`; gated to 49 multi-page drawPageNumber templates (`TEMPLATES_WITH_PAGE_NAV` in `template-options.ts`); `-nav` suffix. Debugger (default-identity, link bounding, no setPage/correct-page, gating, 3.2/3.3 intact) + reviewer (approve; geometry clear of page number) clean. Orchestrator fixed reviewer P2 (registry comment "two"→accurate). Deferred P2: taller tap band; registry drift test.
 - [ ] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
 
 ## Phase 4 — New templates (research-driven)
@@ -95,4 +96,6 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 2.6 — internal "Related" links (cyclic site-map-driven, SSR-stable) on games/templates/kids details, debugger + reviewer clean  — 37cbc77
 - [x] 2.7 — metadata polish (SITE_URL dedup, themeColor viewport, applicationName, keywords, JSON-LD validated), debugger + reviewer clean — **PHASE 2 COMPLETE** — fd9d7a6
 - [x] 3.1 — ink intensity (light/regular/bold) shared across all templates via module resolver, regular=identity, debugger + reviewer clean  — d79acd6
-- [x] 3.2 — custom title (first-header-only, gated to 31 supported templates via registry) — product decision "ship partial", debugger + reviewer clean  — 9fbf049
+- [x] 3.2 — custom title (first-header-only, gated to 31 supported templates via registry) — product decision "ship partial", debugger + reviewer clean
+- [x] 3.3 — line spacing (narrow/regular/wide, regular=identity), gated to 24 ruled templates, debugger + reviewer clean — 85ed867
+- [x] 3.4 — hyperlinked PDFs (opt-in tappable prev/next, default-identity), gated to 49 templates, debugger + reviewer clean  — 9fbf049

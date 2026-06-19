@@ -39,3 +39,75 @@ export const TEMPLATES_WITH_LINE_SPACING = new Set<string>([
   "/templates/weekly-review",
   "/templates/yearly-roadmap",
 ]);
+
+// Manual registry of template route paths that support the optional "Tappable
+// navigation" control (see drawPageNumber in pdf-utils.ts). A template
+// qualifies only if BOTH:
+//   (a) its page.tsx calls the shared drawPageNumber helper (the footer where
+//       the prev/next tap targets are drawn), AND
+//   (b) it is multi-page via the shell page-count slider (showPageCount is not
+//       disabled), since the tappable links only do anything across pages.
+// The runtime guard in drawPageNumber additionally requires total > 1, so any
+// single-page render is harmless even if included — but membership here is
+// derived strictly from the (a)+(b) criteria above.
+//
+// Derived by grepping template page.tsx files for `drawPageNumber(` (51 callers)
+// and excluding planner + monthly-calendar (they set showPageCount={false}).
+// Note: all-in-one-planner also sets showPageCount={false} but never calls
+// drawPageNumber, so it's already absent from the 51 callers.
+//
+// KEEP IN SYNC: when adding a new template, add its route path here if (and
+// only if) it calls drawPageNumber AND is multi-page (page-count slider
+// enabled). This Set is the single touch point for gating the control — do not
+// edit individual template page.tsx files.
+export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
+  "/templates/action-tracker",
+  "/templates/bill-tracker",
+  "/templates/birthday-tracker",
+  "/templates/book-notes",
+  "/templates/brain-dump",
+  "/templates/cleaning-schedule",
+  "/templates/client-call",
+  "/templates/cornell",
+  "/templates/daily-focus",
+  "/templates/daily-plan-adhd",
+  "/templates/daily-reflection",
+  "/templates/decision-log",
+  "/templates/dot-grid",
+  "/templates/eisenhower-matrix",
+  "/templates/expense-tracker",
+  "/templates/fitness-planner",
+  "/templates/gratitude-journal",
+  "/templates/grid",
+  "/templates/grocery-list",
+  "/templates/habit-tracker",
+  "/templates/inbox-capture",
+  "/templates/kanban-board",
+  "/templates/lecture-notes",
+  "/templates/lined",
+  "/templates/meal-planner",
+  "/templates/meeting-notes",
+  "/templates/monthly-budget",
+  "/templates/mood-tracker",
+  "/templates/one-on-one",
+  "/templates/paper-summary",
+  "/templates/password-log",
+  "/templates/project-brief",
+  "/templates/project-timeline",
+  "/templates/quarterly-goals",
+  "/templates/reading-log",
+  "/templates/recipe-page",
+  "/templates/revision-planner",
+  "/templates/routine-tracker",
+  "/templates/savings-challenge",
+  "/templates/self-care-checklist",
+  "/templates/shutdown-checklist",
+  "/templates/sleep-log",
+  "/templates/three-priorities",
+  "/templates/time-block",
+  "/templates/travel-planner",
+  "/templates/vision-board",
+  "/templates/weekly-review",
+  "/templates/weight-loss-tracker",
+  "/templates/yearly-roadmap",
+]);

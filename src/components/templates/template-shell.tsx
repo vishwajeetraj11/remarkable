@@ -21,7 +21,10 @@ import {
   DEFAULT_VARIANTS,
 } from "@/lib/templates/variants";
 import { TEMPLATES_WITH_CUSTOM_TITLE } from "@/lib/templates/custom-title";
-import { TEMPLATES_WITH_LINE_SPACING } from "@/lib/templates/template-options";
+import {
+  TEMPLATES_WITH_LINE_SPACING,
+  TEMPLATES_WITH_PAGE_NAV,
+} from "@/lib/templates/template-options";
 
 export interface TemplateShellProps {
   title: string;
@@ -59,6 +62,11 @@ export function TemplateShell({
   // Only templates that draw ruled lines via drawHorizontalLines expose the
   // line-spacing control (see template-options.ts).
   const supportsLineSpacing = TEMPLATES_WITH_LINE_SPACING.has(pathname);
+  // Only multi-page templates that draw the shared footer via drawPageNumber
+  // expose the tappable-navigation control (see template-options.ts). Also
+  // require the page-count slider to be active so the links span >1 page.
+  const supportsPageNav =
+    showPageCount && TEMPLATES_WITH_PAGE_NAV.has(pathname);
   const [variants, setVariants] = useState<TemplateVariants>(DEFAULT_VARIANTS);
   const [pageCount, setPageCount] = useState(defaultPageCount);
   const [generating, setGenerating] = useState(false);
@@ -141,6 +149,26 @@ export function TemplateShell({
                 <SelectItem value="narrow">Narrow</SelectItem>
                 <SelectItem value="regular">Regular</SelectItem>
                 <SelectItem value="wide">Wide</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {supportsPageNav && (
+          <div className="space-y-1.5">
+            <Label>Tappable navigation</Label>
+            <Select
+              value={variants.tappableNav ? "on" : "off"}
+              onValueChange={(v) =>
+                setVariants({ ...variants, tappableNav: v === "on" })
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="off">Off</SelectItem>
+                <SelectItem value="on">On</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -19,6 +19,11 @@ export interface TemplateVariants {
   // Optional user-supplied page title that overrides the template's default
   // header title (see drawHeader). Empty/absent means "use the default".
   customTitle?: string;
+  // Optional tappable prev/next page navigation drawn in the shared footer
+  // (see drawPageNumber). Opt-in, default false; when false the footer is
+  // byte-identical to before this option existed. Only meaningful for
+  // multi-page output (the runtime guard also requires total > 1).
+  tappableNav?: boolean;
 }
 
 // Multiplier applied to drawHorizontalLines' base spacing per line-density
@@ -38,6 +43,7 @@ export const DEFAULT_VARIANTS: TemplateVariants = {
   inkIntensity: "regular",
   lineSpacing: "regular",
   customTitle: "",
+  tappableNav: false,
 };
 
 export function getPageDimensions(variants: TemplateVariants) {
@@ -64,5 +70,6 @@ export function variantSuffix(v: TemplateVariants) {
   const h = v.handedness === "right" ? "rh" : "lh";
   const i = v.inkIntensity === "regular" ? "" : `-${v.inkIntensity}`;
   const ls = v.lineSpacing === "regular" ? "" : `-${v.lineSpacing}`;
-  return `${d}-${o}-${h}${i}${ls}`;
+  const nav = v.tappableNav ? "-nav" : "";
+  return `${d}-${o}-${h}${i}${ls}${nav}`;
 }

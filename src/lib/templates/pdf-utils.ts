@@ -160,6 +160,35 @@ export function drawPageNumber(
   doc.setFontSize(7);
   doc.setTextColor(r, g, b);
   doc.text(`${page} / ${total}`, w / 2, h - 12, { align: "center" });
+
+  // Optional tappable prev/next navigation. Entirely gated behind
+  // variants.tappableNav AND a genuinely multi-page document (total > 1), so
+  // the default (tappableNav falsy) path above is byte-identical to before
+  // this option existed: no extra glyphs and no internal links are emitted.
+  if (variants.tappableNav && total > 1) {
+    const m = getSimpleMargins();
+    // Keep the affordances inside the page margins, on the same baseline/band
+    // as the centered page number (h - 12).
+    const labelY = h - 12;
+    const linkY = labelY - 7; // small footer band around the glyph baseline
+    const linkH = 10;
+    if (page > 1) {
+      const prev = "‹ Prev";
+      doc.text(prev, m.left, labelY);
+      doc.link(m.left, linkY, doc.getTextWidth(prev), linkH, {
+        pageNumber: page - 1,
+      });
+    }
+    if (page < total) {
+      const next = "Next ›";
+      const nextW = doc.getTextWidth(next);
+      doc.text(next, w - m.right - nextW, labelY);
+      doc.link(w - m.right - nextW, linkY, nextW, linkH, {
+        pageNumber: page + 1,
+      });
+    }
+  }
+
   const [br, bg, bb] = COLORS.black;
   doc.setTextColor(br, bg, bb);
 }
