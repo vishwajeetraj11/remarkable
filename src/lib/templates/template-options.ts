@@ -90,6 +90,7 @@ export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
   "/templates/meeting-notes",
   "/templates/monthly-budget",
   "/templates/mood-tracker",
+  "/templates/net-worth",
   "/templates/one-on-one",
   "/templates/paper-summary",
   "/templates/password-log",

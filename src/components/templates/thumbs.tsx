@@ -731,6 +731,56 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/net-worth": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="40" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Two side-by-side ledgers: Assets (left) + Liabilities (right) */}
+      {[0, 1].map((side) => {
+        const lx = side === 0 ? 8 : 62;
+        return (
+          <g key={`led${side}`}>
+            {/* Ledger header band */}
+            <rect x={lx} y="26" width="50" height="8" rx="1" fill="currentColor" fillOpacity="0.04" />
+            <rect x={lx + 2} y="28" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+            {/* Label / value separator */}
+            <line x1={lx + 30} y1="26" x2={lx + 30} y2="86" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+            {/* Rows */}
+            {Array.from({ length: 4 }, (_, i) => (
+              <g key={i}>
+                <line x1={lx} y1={42 + i * 11} x2={lx + 50} y2={42 + i * 11} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+                <line x1={lx + 2} y1={46 + i * 11} x2={lx + 18 + (i * 4) % 8} y2={46 + i * 11} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+                <rect x={lx + 32} y={44 + i * 11} width="10" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+              </g>
+            ))}
+            {/* Subtotal row */}
+            <line x1={lx} y1="86" x2={lx + 50} y2="86" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+            <rect x={lx + 2} y="90" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+          </g>
+        );
+      })}
+      {/* Net worth equation box */}
+      <rect x="8" y="100" width="104" height="18" rx="1.5" fill="currentColor" fillOpacity="0.04" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      <rect x="12" y="104" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      {[14, 50, 86].map((x) => (
+        <line key={x} x1={x} y1="113" x2={x + 22} y2="113" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      ))}
+      <text x="44" y="114" fontSize="6" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif">−</text>
+      <text x="80" y="114" fontSize="6" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif">=</text>
+      {/* 12-month grid (2 cols x 6) */}
+      {[0, 1].map((c) =>
+        Array.from({ length: 6 }, (_, r) => (
+          <g key={`${c}-${r}`}>
+            <line x1={c === 0 ? 8 : 62} y1={126 + r * 7} x2={(c === 0 ? 8 : 62) + 50} y2={126 + r * 7} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.05" />
+            <rect x={(c === 0 ? 8 : 62) + 2} y={128 + r * 7} width="8" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.07" />
+            <rect x={(c === 0 ? 8 : 62) + 24} y={128 + r * 7} width="12" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.04" />
+          </g>
+        ))
+      )}
+    </>
+  ),
+
   "/templates/habit-tracker": (
     <>
       <line x1="8" y1="16" x2="46" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />
