@@ -908,6 +908,37 @@ export const thumbs: Record<string, React.ReactNode> = {
 
   /* ===== Pack 6: Journal + Wellness ===== */
 
+  "/templates/bullet-journal": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="12" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="12" width="40" height="4" rx="1" fill="white" fillOpacity="0.7" />
+      {/* Key / legend signifiers */}
+      {["•", "✕", "○", "—"].map((sign, i) => (
+        <g key={sign}>
+          <text x="10" y={32 + i * 11} fontSize="6" fill="currentColor" fillOpacity="0.6" fontFamily="sans-serif" fontWeight="bold">{sign}</text>
+          <line x1="18" y1={30 + i * 11} x2={42 + (i * 5) % 10} y2={30 + i * 11} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" />
+        </g>
+      ))}
+      {/* Contents rows with dot leaders + page numbers */}
+      {["Future Log", "Monthly Log", "Weekly Log", "Trackers"].map((label, i) => (
+        <g key={label}>
+          <text x="62" y={32 + i * 11} fontSize="5" fill="currentColor" fillOpacity="0.7" fontFamily="sans-serif">{label}</text>
+          <line x1={62 + label.length * 2.7} y1={30 + i * 11} x2="100" y2={30 + i * 11} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" strokeDasharray="2 2" />
+          <text x="106" y={32 + i * 11} fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">p.{[2, 4, 5, 6][i]}</text>
+        </g>
+      ))}
+      {/* Index dot-grid hint */}
+      {Array.from({ length: 12 }, (_, row) =>
+        Array.from({ length: 12 }, (_, col) => (
+          <circle key={`${row}-${col}`} cx={12 + col * 9} cy={84 + row * 5.5} r="0.6" fill="currentColor" fillOpacity="0.1" />
+        )),
+      )}
+      {/* Back-to-index hint */}
+      <text x="106" y="152" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">‹ Index</text>
+    </>
+  ),
+
   "/templates/daily-reflection": (
     <>
       <rect x="8" y="14" width="52" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />

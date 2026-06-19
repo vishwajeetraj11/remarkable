@@ -84,6 +84,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   // Templates
   "/templates/all-in-one-planner": "All-in-One Planner",
   "/templates/project-planner": "Project Planner",
+  "/templates/bullet-journal": "Bullet Journal",
   "/templates/calendar-2026": "2026 Calendar",
   "/templates/weekly-dated": "Weekly Dated Planner",
   "/templates/debt-tracker": "Debt Tracker",
@@ -183,6 +184,7 @@ const TEMPLATE_PATHS = [
   "/templates/recipe-page",
   "/templates/daily-reflection",
   "/templates/gratitude-journal",
+  "/templates/bullet-journal",
   "/templates/mood-tracker",
   "/templates/sleep-log",
   "/templates/weekly-review",

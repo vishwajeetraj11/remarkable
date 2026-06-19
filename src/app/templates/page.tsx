@@ -122,6 +122,7 @@ const packs = [
     badge: "Pack 6",
     description: "Reflection, gratitude, mood, sleep, and weekly review templates.",
     templates: [
+      { name: "Bullet Journal Kit", href: "/templates/bullet-journal", desc: "Hyperlinked BuJo collections — key, future/monthly/weekly logs & trackers" },
       { name: "Daily Reflection", href: "/templates/daily-reflection", desc: "Guided daily journal" },
       { name: "Gratitude Journal", href: "/templates/gratitude-journal", desc: "Morning & evening gratitude" },
       { name: "Mood Tracker", href: "/templates/mood-tracker", desc: "Monthly mood grid" },

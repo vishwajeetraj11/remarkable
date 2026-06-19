@@ -16,6 +16,7 @@ export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/action-tracker",
   "/templates/bill-tracker",
   "/templates/birthday-tracker",
+  "/templates/bullet-journal",
   "/templates/calendar-2026",
   "/templates/cleaning-schedule",
   "/templates/client-call",
