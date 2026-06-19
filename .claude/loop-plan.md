@@ -77,7 +77,7 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
   - Shipped: new `/templates/project-planner` — hyperlinked INDEX (page 1) → 6 sections (overview/goals/milestones/tasks/risks/notes), 8 pages, `doc.link` index→section + "‹ Index" back-links (all targets in [1,8], no off-by-one), fixed page count; registered (Meetings+Projects pack, manifest+label, thumb, HEADER + LINE_SPACING; not PAGE_NAV). Debugger (page-math: 7 addPage→8 pages, startPages match draw order, links in range) + reviewer (approve) clean. Orchestrator took reviewer rec (b): relabeled project-name control → "Project name on contents page" to disambiguate from the shared Custom title. P2 (leave): tables hand-roll grids (matches action-tracker).
 - [x] **4.7 Bullet journal collection pack** — index + monthly log + future log + trackers, bundled.
   - Shipped: new `/templates/bullet-journal` — 6-page hyperlinked BuJo kit (Index/Key w/ standard Ryder Carroll signifiers + Future Log 2pp + Monthly + Weekly + Trackers), dot-grid aesthetic, index→collection links + "‹ Index" back-links (targets [1,6], 2-page Future Log offset correct → Monthly on p4); registered (Journal+Wellness pack, manifest+label, thumb, HEADER; not PAGE_NAV/LINE_SPACING). Debugger (page-math: 5 addPage→6 pages, startPages match draw order) + reviewer (approve, authentic BuJo) clean. P2 (leave): index density on smallest device degrades safely; dot-grid bypasses ink-intensity (matches dot-grid/project-planner refs).
-- [ ] **4.8 Workout log / gym tracker** — sets/reps/weight grid `/templates/workout-log`.
+- [~] **4.8 Workout log / gym tracker** — sets/reps/weight grid `/templates/workout-log`.
 
 ## Phase 5 — New puzzles & kids content
 
