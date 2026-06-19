@@ -682,6 +682,55 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/sinking-funds": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="44" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Table header row */}
+      <rect x="8" y="24" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+      <rect x="10" y="26" width="24" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="42" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="60" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="80" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="98" y="26" width="10" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Column separators */}
+      {[40, 58, 76, 94].map((x) => (
+        <line key={x} x1={x} y1="24" x2={x} y2="98" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+      ))}
+      {/* Fund rows */}
+      {Array.from({ length: 4 }, (_, i) => (
+        <g key={i}>
+          <line x1="8" y1={42 + i * 13} x2="112" y2={42 + i * 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <line x1="10" y1={46 + i * 13} x2={28 + (i * 5) % 8} y2={46 + i * 13} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+          <rect x="42" y={44 + i * 13} width="10" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="60" y={44 + i * 13} width="9" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="80" y={44 + i * 13} width="9" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+        </g>
+      ))}
+      {/* Totals row */}
+      <line x1="8" y1="98" x2="112" y2="98" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+      <rect x="10" y="102" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      {/* Per-fund progress thermometers (2 columns) */}
+      {Array.from({ length: 3 }, (_, row) =>
+        [0, 1].map((col) => {
+          const bx = col === 0 ? 8 : 64;
+          const by = 120 + row * 16;
+          const fill = [0, 3, 4].includes(row * 2 + col) ? (12 + (row * 2 + col) * 6) % 40 : 0;
+          return (
+            <g key={`${row}-${col}`}>
+              <rect x={bx} y={by} width="2" height="4" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+              <rect x={bx} y={by + 6} width="48" height="6" rx="1" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
+              {fill > 0 && (
+                <rect x={bx} y={by + 6} width={fill} height="6" rx="1" fill="currentColor" fillOpacity="0.1" />
+              )}
+            </g>
+          );
+        })
+      )}
+    </>
+  ),
+
   "/templates/habit-tracker": (
     <>
       <line x1="8" y1="16" x2="46" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />

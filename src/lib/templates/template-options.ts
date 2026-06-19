@@ -103,6 +103,7 @@ export const TEMPLATES_WITH_PAGE_NAV = new Set<string>([
   "/templates/savings-challenge",
   "/templates/self-care-checklist",
   "/templates/shutdown-checklist",
+  "/templates/sinking-funds",
   "/templates/sleep-log",
   "/templates/three-priorities",
   "/templates/time-block",

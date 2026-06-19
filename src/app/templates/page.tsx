@@ -107,6 +107,7 @@ const packs = [
       { name: "Expense Tracker", href: "/templates/expense-tracker", desc: "Daily expense log" },
       { name: "Bill Tracker", href: "/templates/bill-tracker", desc: "Bills with paid checkbox" },
       { name: "Debt Payoff Tracker", href: "/templates/debt-tracker", desc: "Snowball/avalanche payoff tracker" },
+      { name: "Sinking Funds Tracker", href: "/templates/sinking-funds", desc: "Save for future expenses by goal" },
       { name: "Habit Tracker", href: "/templates/habit-tracker", desc: "31-day habit grid" },
       { name: "Meal Planner", href: "/templates/meal-planner", desc: "Weekly meals grid" },
       { name: "Grocery List", href: "/templates/grocery-list", desc: "Categorized shopping list" },
