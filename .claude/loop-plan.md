@@ -71,7 +71,7 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
   - Shipped: new `/templates/sinking-funds` — funds table (Fund/Goal/Saved/Remaining/Monthly/Target + TOTAL) + 6 per-fund progress thermometers (distinct from debt-tracker); multi-page; registered (Life Admin pack, manifest+label, thumb, HEADER + PAGE_NAV; not LINE_SPACING). Debugger (layout fits node-verified, controls correct, sitemap, no regressions) + reviewer (approve, genuine adaptation) clean. P2 (leave): preset thermometer labels.
 - [x] **4.4 Net worth tracker** — `/templates/net-worth`.
   - Shipped: new `/templates/net-worth` — balance-sheet layout (side-by-side Assets/Liabilities ledgers w/ subtotals + net-worth equation box + 12-month tracking grid); distinct from debt/sinking-funds; multi-page; registered (Life Admin pack, manifest+label, thumb, HEADER + PAGE_NAV; not LINE_SPACING). Debugger (fits portrait+landscape node-verified, controls, sitemap, no regressions) + reviewer (approve) clean. P2 (leave): fixed form layout (whitespace on larger devices). NOTE: Life Admin now has 6 finance trackers → reinforces the Phase 6.2 dedicated finance pack idea.
-- [ ] **4.5 Weekly dated planner** — `/templates/weekly-dated` (vertical + horizontal variants).
+- [~] **4.5 Weekly dated planner** — `/templates/weekly-dated` (vertical + horizontal variants).
 - [ ] **4.6 Project planner with index** — `/templates/project-planner` (uses hyperlinked PDF nav).
 - [ ] **4.7 Bullet journal collection pack** — index + monthly log + future log + trackers, bundled.
 - [ ] **4.8 Workout log / gym tracker** — sets/reps/weight grid `/templates/workout-log`.
