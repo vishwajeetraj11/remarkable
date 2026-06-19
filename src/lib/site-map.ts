@@ -79,6 +79,8 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/kids": "Kids",
   "/guides": "Guides",
   "/packs": "Packs",
+  "/packs/logic-masters": "Logic Masters Pack",
+  "/packs/word-games": "Word Games Pack",
   // Games
   "/games/kenken": "KenKen",
   "/games/futoshiki": "Futoshiki",
@@ -254,7 +256,13 @@ const GUIDE_PATHS = [
  * component). TODO: make this the single source by importing `PACK_SLUGS`
  * into that layout's `generateStaticParams`. Until then, keep the two in sync.
  */
-export const PACK_SLUGS = ["road-trip", "classroom", "brain-training"] as const;
+export const PACK_SLUGS = [
+  "road-trip",
+  "classroom",
+  "brain-training",
+  "logic-masters",
+  "word-games",
+] as const;
 
 const PACK_PATHS = PACK_SLUGS.map((slug) => `/packs/${slug}`);
 

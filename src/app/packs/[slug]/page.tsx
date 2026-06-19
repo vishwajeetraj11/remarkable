@@ -31,6 +31,7 @@ import { generateKakuro } from "@/lib/generators/kakuro";
 import { generateKenKen } from "@/lib/generators/kenken";
 import { generateCryptogram } from "@/lib/generators/cryptogram";
 import { generateLogicGrid } from "@/lib/generators/logic-grid";
+import { generateFutoshiki } from "@/lib/generators/futoshiki";
 
 import type { WordSearchPuzzle } from "@/lib/generators/word-search";
 import type { CrosswordPuzzle } from "@/lib/generators/crossword";
@@ -40,6 +41,7 @@ import type { KakuroPuzzle, ClueCell } from "@/lib/generators/kakuro";
 import type { KenKenPuzzle } from "@/lib/generators/kenken";
 import type { CryptogramPuzzle } from "@/lib/generators/cryptogram";
 import type { LogicGridPuzzle } from "@/lib/generators/logic-grid";
+import type { FutoshikiPuzzle, Inequality } from "@/lib/generators/futoshiki";
 
 type PageSize = "A4" | "Letter" | "E-ink";
 
@@ -78,6 +80,18 @@ const PACK_DEFS: Record<string, PackDef> = {
     description:
       "Sudoku, Kakuro, KenKen, cryptograms, and logic grid puzzles.",
     sections: ["Sudoku", "Kakuro", "KenKen", "Cryptogram", "Logic Puzzle"],
+  },
+  "logic-masters": {
+    name: "Logic Masters Pack",
+    description:
+      "Number-logic puzzles for deduction lovers: Sudoku, Kakuro, KenKen, Futoshiki, and logic grids.",
+    sections: ["Sudoku", "Kakuro", "KenKen", "Futoshiki", "Logic Puzzle"],
+  },
+  "word-games": {
+    name: "Word Games Pack",
+    description:
+      "A bundle of vocabulary challenges: word searches, crosswords, word scrambles, and cryptograms.",
+    sections: ["Word Search", "Crossword", "Word Scramble", "Cryptogram"],
   },
 };
 
@@ -622,6 +636,78 @@ function renderLogicGrid(
   }
 }
 
+function horizontalSign(ineq: Inequality): "<" | ">" {
+  return ineq.c1 > ineq.c2 ? "<" : ">";
+}
+
+function verticalSign(ineq: Inequality): "∧" | "∨" {
+  return ineq.r1 > ineq.r2 ? "∧" : "∨";
+}
+
+function renderFutoshiki(
+  doc: jsPDF,
+  w: number,
+  h: number,
+  puzzle: FutoshikiPuzzle,
+  isAnswer: boolean
+) {
+  const n = puzzle.size;
+  const gridSize = Math.min(w - 80, h - 120) * 0.7;
+  const cellSize = gridSize / n;
+  const originX = (w - gridSize) / 2;
+  const originY = 55;
+
+  // Cell grid lines.
+  doc.setDrawColor(0);
+  doc.setLineWidth(0.6);
+  for (let i = 0; i <= n; i++) {
+    doc.line(
+      originX + i * cellSize,
+      originY,
+      originX + i * cellSize,
+      originY + gridSize
+    );
+    doc.line(
+      originX,
+      originY + i * cellSize,
+      originX + gridSize,
+      originY + i * cellSize
+    );
+  }
+
+  // Numbers: answer key shows the full solution; puzzle shows only givens.
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(Math.round(cellSize * 0.45));
+  doc.setTextColor(0);
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      const value = isAnswer ? puzzle.solution[r][c] : puzzle.givens[r][c];
+      if (value === 0) continue;
+      const cx = originX + c * cellSize + cellSize / 2;
+      const cy = originY + r * cellSize + cellSize * 0.66;
+      doc.text(String(value), cx, cy, { align: "center" });
+    }
+  }
+
+  // Inequality signs in the gaps between cells.
+  const signSize = Math.round(cellSize * 0.34);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(signSize);
+  for (const ineq of puzzle.inequalities) {
+    const row = Math.min(ineq.r1, ineq.r2);
+    const col = Math.min(ineq.c1, ineq.c2);
+    if (ineq.orientation === "horizontal") {
+      const x = originX + (col + 1) * cellSize;
+      const y = originY + row * cellSize + cellSize * 0.62;
+      doc.text(horizontalSign(ineq), x, y, { align: "center" });
+    } else {
+      const x = originX + col * cellSize + cellSize / 2;
+      const y = originY + (row + 1) * cellSize + signSize * 0.35;
+      doc.text(verticalSign(ineq), x, y, { align: "center" });
+    }
+  }
+}
+
 // ─── Classroom Pack Renderers ─────────────────────────────────────────────────
 
 interface MathProblem {
@@ -834,8 +920,10 @@ function generatePackPDF(slug: string, pageSize: PageSize, perType: number) {
         renderRoadTripSection(doc, w, h, section, pi, answerPages, pageNum);
       } else if (slug === "classroom") {
         renderClassroomSection(doc, w, h, section, pi, answerPages, pageNum);
-      } else if (slug === "brain-training") {
-        renderBrainTrainingSection(doc, w, h, section, pi, answerPages, pageNum);
+      } else {
+        // brain-training, logic-masters, word-games and any future puzzle pack
+        // share the puzzle-section renderer (keyed by section name).
+        renderPuzzleSection(doc, w, h, section, pi, answerPages, pageNum);
       }
     }
   }
@@ -949,7 +1037,7 @@ function renderClassroomSection(
   }
 }
 
-function renderBrainTrainingSection(
+function renderPuzzleSection(
   doc: jsPDF,
   w: number,
   h: number,
@@ -959,6 +1047,42 @@ function renderBrainTrainingSection(
   pageNum: number
 ) {
   switch (section) {
+    case "Word Search": {
+      const puzzle = generateWordSearch("general", 14);
+      renderWordSearch(doc, w, h, puzzle, false);
+      answerPages.push(() => {
+        drawPageHeader(doc, w, "Answer — Word Search", pageNum);
+        renderWordSearch(doc, w, h, puzzle, true);
+      });
+      break;
+    }
+    case "Crossword": {
+      const puzzle = generateCrossword("general");
+      renderCrossword(doc, w, h, puzzle, false);
+      answerPages.push(() => {
+        drawPageHeader(doc, w, "Answer — Crossword", pageNum);
+        renderCrossword(doc, w, h, puzzle, true);
+      });
+      break;
+    }
+    case "Word Scramble": {
+      const puzzle = generateWordScramble("medium", "everyday", 12);
+      renderWordScramble(doc, w, h, puzzle.scrambles, false);
+      answerPages.push(() => {
+        drawPageHeader(doc, w, "Answer — Word Scramble", pageNum);
+        renderWordScramble(doc, w, h, puzzle.scrambles, true);
+      });
+      break;
+    }
+    case "Futoshiki": {
+      const puzzle = generateFutoshiki(5, "medium");
+      renderFutoshiki(doc, w, h, puzzle, false);
+      answerPages.push(() => {
+        drawPageHeader(doc, w, "Answer — Futoshiki", pageNum);
+        renderFutoshiki(doc, w, h, puzzle, true);
+      });
+      break;
+    }
     case "Sudoku": {
       const puzzle = generateSudoku("medium");
       renderSudoku(doc, w, h, puzzle, false);

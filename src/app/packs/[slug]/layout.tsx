@@ -16,6 +16,16 @@ const PACK_META: Record<string, { name: string; description: string }> = {
     description:
       "Sudoku, Kakuro, KenKen, cryptograms, and logic grid puzzles.",
   },
+  "logic-masters": {
+    name: "Logic Masters Pack",
+    description:
+      "Number-logic puzzles for deduction lovers: Sudoku, Kakuro, KenKen, Futoshiki, and logic grids.",
+  },
+  "word-games": {
+    name: "Word Games Pack",
+    description:
+      "A bundle of vocabulary challenges: word searches, crosswords, word scrambles, and cryptograms.",
+  },
 };
 
 export function generateStaticParams() {
@@ -23,6 +33,8 @@ export function generateStaticParams() {
     { slug: "road-trip" },
     { slug: "classroom" },
     { slug: "brain-training" },
+    { slug: "logic-masters" },
+    { slug: "word-games" },
   ];
 }
 

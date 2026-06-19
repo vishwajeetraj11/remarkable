@@ -45,6 +45,22 @@ const packs = [
       "Sudoku, Kakuro, KenKen, cryptograms, and logic grid puzzles. A serious workout for your reasoning skills.",
     contents: ["Sudoku", "Kakuro", "KenKen", "Cryptogram", "Logic Puzzle"],
   },
+  {
+    slug: "logic-masters",
+    name: "Logic Masters Pack",
+    badge: "5 puzzle types",
+    description:
+      "Sudoku, Kakuro, KenKen, Futoshiki, and logic grids. Pure number-logic deduction for puzzle veterans.",
+    contents: ["Sudoku", "Kakuro", "KenKen", "Futoshiki", "Logic Puzzle"],
+  },
+  {
+    slug: "word-games",
+    name: "Word Games Pack",
+    badge: "4 puzzle types",
+    description:
+      "Word searches, crosswords, word scrambles, and cryptograms — a vocabulary workout in one printable bundle.",
+    contents: ["Word Search", "Crossword", "Word Scramble", "Cryptogram"],
+  },
 ];
 
 export default function PacksPage() {
