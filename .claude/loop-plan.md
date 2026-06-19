@@ -65,7 +65,7 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 
 - [x] **4.1 Dated yearly calendar 2026** — `/templates/calendar-2026` (and a 2027 variant) using the new dated-header support.
   - Shipped: new `/templates/calendar-2026` — date-filled calendar (linked TOC + 12 month pages), year selector 2026/2027, real LOCAL date math (no UTC drift), weekStart-aware, hyperlinked TOC + back-links; full registration (manifest+label, thumb, Core Planner listing, nav, TEMPLATES_WITH_HEADER; correctly NOT in PAGE_NAV since showPageCount=false). Debugger (node-verified dates: Jan2026=Thu, Jan2027=Fri, both week-starts, Feb=28; in sitemap) + reviewer (approve) clean. Orchestrator checked reviewer's thumb-offset P2 → **false positive** (col-2 already correct; col-3 would break it) → left as-is. P2 (leave): "< TOC" glyph; Year label a11y (project-wide pattern).
-- [ ] **4.2 Debt snowball / payoff tracker** — `/templates/debt-tracker`.
+- [~] **4.2 Debt snowball / payoff tracker** — `/templates/debt-tracker`.
 - [ ] **4.3 Sinking funds tracker** — `/templates/sinking-funds`.
 - [ ] **4.4 Net worth tracker** — `/templates/net-worth`.
 - [ ] **4.5 Weekly dated planner** — `/templates/weekly-dated` (vertical + horizontal variants).
