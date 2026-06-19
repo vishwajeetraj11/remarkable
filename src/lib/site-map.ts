@@ -24,6 +24,12 @@ export type Route = {
   changeFrequency: ChangeFrequency;
   /** 0.0–1.0 sitemap priority. */
   priority: number;
+  /**
+   * Human-readable label for this route, used by breadcrumbs and
+   * internal-linking UI (e.g. `/games/sudoku` → "Sudoku"). When omitted,
+   * `labelForPath` falls back to a title-cased last path segment.
+   */
+  label?: string;
 };
 
 /** A logical grouping of routes (e.g. all games, all templates). */
@@ -44,14 +50,63 @@ const INDEX = { changeFrequency: "weekly", priority: 0.8 } as const;
 const DETAIL = { changeFrequency: "monthly", priority: 0.7 } as const;
 const GUIDE = { changeFrequency: "monthly", priority: 0.6 } as const;
 
-const index = (path: string): Route => ({ path, ...INDEX });
-const detail = (path: string): Route => ({ path, ...DETAIL });
-const guide = (path: string): Route => ({ path, ...GUIDE });
+const index = (path: string): Route => ({ path, ...INDEX, label: labelFor(path) });
+const detail = (path: string): Route => ({ path, ...DETAIL, label: labelFor(path) });
+const guide = (path: string): Route => ({ path, ...GUIDE, label: labelFor(path) });
+
+// ─── Human-readable labels ───────────────────────────────────────────────────
+// Breadcrumb/internal-linking label source (flagged in task 2.1). Most labels
+// are derived from the slug via title-casing; only paths whose title-cased slug
+// is wrong or awkward need an explicit override below.
+
+/** Title-cases a path's last segment (e.g. `/games/word-search` → "Word Search"). */
+function titleCaseSlug(path: string): string {
+  const slug = path.split("/").filter(Boolean).pop() ?? "";
+  return slug
+    .split("-")
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+/**
+ * Explicit label overrides for paths whose title-cased slug would be wrong,
+ * abbreviated, or awkward. Anything not listed falls back to `titleCaseSlug`.
+ */
+const LABEL_OVERRIDES: Record<string, string> = {
+  "/": "Home",
+  "/games": "Games",
+  "/templates": "Templates",
+  "/kids": "Kids",
+  "/guides": "Guides",
+  "/packs": "Packs",
+  // Games
+  "/games/kenken": "KenKen",
+  // Templates
+  "/templates/all-in-one-planner": "All-in-One Planner",
+  "/templates/one-on-one": "One-on-One",
+  "/templates/daily-plan-adhd": "Daily Plan (ADHD)",
+  "/templates/mcp-docs": "MCP Docs",
+  // Kids
+  "/kids/math/custom": "Custom",
+  "/kids/sight-words/1st-grade": "1st Grade",
+  "/kids/sight-words/2nd-grade": "2nd Grade",
+  "/kids/sight-words/3rd-grade": "3rd Grade",
+  // Guides
+  "/guides/transfer-pdfs-to-tablet": "Transfer PDFs to Tablet",
+  "/guides/printable-worksheets-for-homeschool": "Printable Worksheets for Homeschool",
+  "/guides/adhd-productivity-templates": "ADHD Productivity Templates",
+  "/guides/puzzle-difficulty-guide": "Puzzle Difficulty Guide",
+};
+
+/** Resolve a label for a path: explicit override, else title-cased slug. */
+function labelFor(path: string): string {
+  return LABEL_OVERRIDES[path] ?? titleCaseSlug(path);
+}
 
 // ─── Source data ─────────────────────────────────────────────────────────────
 // Keep these arrays in sync with `src/app/<section>/**/page.tsx`.
 
-const HOME_ROUTE: Route = { path: "/", ...HOME };
+const HOME_ROUTE: Route = { path: "/", ...HOME, label: labelFor("/") };
 
 /** Game slugs whose page lives at `/games/<slug>` (+ explicit sub-routes). */
 const GAME_PATHS = [
@@ -224,6 +279,16 @@ function sectionById(id: Section["id"]): Section {
 /** All detail/sub routes for a section (excludes the section index). */
 export function routesFor(id: Section["id"]): Route[] {
   return sectionById(id).routes;
+}
+
+/**
+ * Resolve a human-readable label for any path — even dynamic ones not listed in
+ * the source arrays (e.g. `/games/sudoku/easy`). Uses the same override +
+ * title-case logic the route map is built from, so breadcrumb crumb names stay
+ * consistent with sitemap/internal-linking labels.
+ */
+export function labelForPath(path: string): string {
+  return labelFor(path);
 }
 
 export const homeRoute: Route = HOME_ROUTE;
