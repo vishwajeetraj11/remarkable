@@ -6,6 +6,10 @@ import { Footer } from "@/components/shared/footer";
 import { ClarityInit } from "@/components/shared/clarity";
 import { FeedbackWidget } from "@/components/shared/feedback-widget";
 import { EmailCaptureBanner } from "@/components/shared/email-capture";
+import {
+  ThemeProvider,
+  themeInitScript,
+} from "@/components/shared/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,8 +116,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
         {jsonLd.map((schema, i) => (
           <script
@@ -122,12 +130,14 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FeedbackWidget />
-        <EmailCaptureBanner />
-        <ClarityInit />
+        <ThemeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <FeedbackWidget />
+          <EmailCaptureBanner />
+          <ClarityInit />
+        </ThemeProvider>
       </body>
     </html>
   );
