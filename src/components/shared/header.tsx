@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MobileNavToggle } from "@/components/shared/mobile-nav";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 const navItems = [
   {
@@ -76,8 +77,9 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop nav — pure server-rendered HTML, zero JS */}
-        <nav className="hidden md:flex items-center gap-1">
+        <div className="flex items-center gap-1">
+          {/* Desktop nav — pure server-rendered HTML, zero JS */}
+          <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <div key={item.href} className="group relative">
               <Link
@@ -103,9 +105,12 @@ export function Header() {
               )}
             </div>
           ))}
-        </nav>
+          </nav>
 
-        <MobileNavToggle navItems={navItems} />
+          <ThemeToggle className="hidden md:inline-flex" />
+
+          <MobileNavToggle navItems={navItems} />
+        </div>
       </div>
     </header>
   );

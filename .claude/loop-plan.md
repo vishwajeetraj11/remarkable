@@ -23,7 +23,8 @@ The `.dark` token set and `@custom-variant dark` already exist in `globals.css`.
 
 - [x] **1.1 Theme provider** — Add a client `ThemeProvider` (prefer `next-themes`; if not desired, a small custom provider writing `.dark` on `<html>` + `localStorage`). Add `suppressHydrationWarning` to `<html>` in `layout.tsx`. No flash on load (inline script or next-themes default).
   - Shipped: custom ~90-line provider (no dependency) — blocking `<head>` init script (no FOUC), localStorage `theme` key, system-pref fallback, `useTheme()` hook exposed; no button yet. Debugger + reviewer both clean (no P0/P1). P2: init-script resolver duplicates `resolveInitialTheme` — keep in sync when 1.2 lands.
-- [~] **1.2 Theme toggle button** — Add a sun/moon toggle (lucide-react) to `header.tsx`, placed before/after the nav, accessible (`aria-label`, keyboard). Works on mobile nav too.
+- [x] **1.2 Theme toggle button** — Add a sun/moon toggle (lucide-react) to `header.tsx`, placed before/after the nav, accessible (`aria-label`, keyboard). Works on mobile nav too.
+  - Shipped: `theme-toggle.tsx` client island (Sun/Moon, `toggleTheme()`), desktop header (right side) + mobile menu; hydration-safe via `useSyncExternalStore` `useHydrated()` (neutral placeholder pre-mount), 48px target, action-reflecting `aria-label`. Debugger (runtime OK) + reviewer (approve) clean. P2s (deferred): move `useHydrated` into provider for DRY; collapse redundant placeholder/light icon branch; cosmetic header re-indent.
 - [ ] **1.3 Dark-mode audit** — Sweep pages for hardcoded `bg-white` / light-only colors (e.g. `template-shell.tsx` uses `bg-white` for preview) and replace with tokens so dark mode looks correct everywhere. PDF output stays light (that's correct — e-ink is white paper).
 
 ## Phase 2 — SEO foundation
@@ -74,3 +75,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 ## Done log
 (loop appends `- [x] <task id> — <what shipped> — <commit sha>` here)
 - [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean — dc50fc2
+- [x] 1.2 — theme toggle button (desktop + mobile, hydration-safe), debugger+reviewer clean
