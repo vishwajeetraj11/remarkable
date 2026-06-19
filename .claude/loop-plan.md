@@ -49,7 +49,7 @@ The `.dark` token set and `@custom-variant dark` already exist in `globals.css`.
 
 Extend `TemplateShell` + `variants.ts` so every template gains these without per-page work.
 
-- [ ] **3.1 Accent / ink intensity** — Add a control for line/ink weight or a subtle accent so users can make lines lighter/darker for their e-ink contrast preference. Thread through `pdf-utils.ts`.
+- [~] **3.1 Accent / ink intensity** — Add a control for line/ink weight or a subtle accent so users can make lines lighter/darker for their e-ink contrast preference. Thread through `pdf-utils.ts`.
 - [ ] **3.2 Custom title text** — Optional text input so users can set their own page title/label printed on the PDF.
 - [ ] **3.3 Line spacing / density** — A control for ruling spacing (narrow/medium/wide) and grid density where applicable.
 - [ ] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
