@@ -56,7 +56,7 @@ Extend `TemplateShell` + `variants.ts` so every template gains these without per
 - [x] **3.3 Line spacing / density** — A control for ruling spacing (narrow/medium/wide) and grid density where applicable.
 - [x] **3.4 Hyperlinked PDFs** — Use jsPDF link annotations to add tappable navigation (e.g. a footer "← index" / page jumps) for multi-page exports. This is a top community request for e-ink planners.
   - Shipped: opt-in `tappableNav` (default off → byte-identical); `drawPageNumber` adds in-range "‹ Prev / Next ›" footer tap targets via `doc.link({pageNumber})` only when on + `total>1`; gated to 49 multi-page drawPageNumber templates (`TEMPLATES_WITH_PAGE_NAV` in `template-options.ts`); `-nav` suffix. Debugger (default-identity, link bounding, no setPage/correct-page, gating, 3.2/3.3 intact) + reviewer (approve; geometry clear of page number) clean. Orchestrator fixed reviewer P2 (registry comment "two"→accurate). Deferred P2: taller tap band; registry drift test.
-- [ ] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
+- [~] **3.5 Dated headers** — Optional start-date so planners/calendars print real dates/weekdays instead of blanks (huge for 2026 demand).
 
 ## Phase 4 — New templates (research-driven)
 
