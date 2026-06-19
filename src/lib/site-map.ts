@@ -1,0 +1,256 @@
+/**
+ * Single source of truth for the site's public route map.
+ *
+ * Hand-maintained route lists used to live inline in `src/app/sitemap.ts` and
+ * drifted from the actual `src/app/**` folders. This module centralizes every
+ * public route with sitemap-relevant metadata so `sitemap.ts` (and future
+ * features such as internal-linking and breadcrumbs) can derive from one typed
+ * source instead of duplicating string arrays.
+ *
+ * When you add a new public page under `src/app/**`, add its path here.
+ */
+
+import type { MetadataRoute } from "next";
+
+/** Sitemap change-frequency values supported by Next's `MetadataRoute.Sitemap`. */
+export type ChangeFrequency = NonNullable<
+  MetadataRoute.Sitemap[number]["changeFrequency"]
+>;
+
+/** A single public route plus the metadata sitemaps care about. */
+export type Route = {
+  /** Absolute path beginning with `/` (e.g. `/games/sudoku/easy`). */
+  path: string;
+  changeFrequency: ChangeFrequency;
+  /** 0.0–1.0 sitemap priority. */
+  priority: number;
+};
+
+/** A logical grouping of routes (e.g. all games, all templates). */
+export type Section = {
+  id: "home" | "games" | "templates" | "kids" | "guides" | "packs";
+  /** The section's index/landing route, if any (e.g. `/games`). */
+  index: Route | null;
+  /** Detail/sub routes that belong to the section. */
+  routes: Route[];
+};
+
+// ─── Priority + change-frequency presets ─────────────────────────────────────
+// Mirrors what sitemap.ts historically assigned:
+//   home 1.0, section index 0.8, detail page 0.7, guide 0.6.
+
+const HOME = { changeFrequency: "weekly", priority: 1.0 } as const;
+const INDEX = { changeFrequency: "weekly", priority: 0.8 } as const;
+const DETAIL = { changeFrequency: "monthly", priority: 0.7 } as const;
+const GUIDE = { changeFrequency: "monthly", priority: 0.6 } as const;
+
+const index = (path: string): Route => ({ path, ...INDEX });
+const detail = (path: string): Route => ({ path, ...DETAIL });
+const guide = (path: string): Route => ({ path, ...GUIDE });
+
+// ─── Source data ─────────────────────────────────────────────────────────────
+// Keep these arrays in sync with `src/app/<section>/**/page.tsx`.
+
+const HOME_ROUTE: Route = { path: "/", ...HOME };
+
+/** Game slugs whose page lives at `/games/<slug>` (+ explicit sub-routes). */
+const GAME_PATHS = [
+  "/games/sudoku",
+  "/games/sudoku/easy",
+  "/games/sudoku/medium",
+  "/games/sudoku/hard",
+  "/games/sudoku/evil",
+  "/games/word-search",
+  "/games/word-search/custom",
+  "/games/crossword",
+  "/games/crossword/custom",
+  "/games/maze",
+  "/games/nonogram",
+  "/games/word-scramble",
+  "/games/cryptogram",
+  "/games/kakuro",
+  "/games/kenken",
+  "/games/word-ladder",
+  "/games/number-fill",
+  "/games/logic-puzzle",
+];
+
+const TEMPLATE_PATHS = [
+  "/templates/all-in-one-planner",
+  "/templates/yearly-roadmap",
+  "/templates/quarterly-goals",
+  "/templates/monthly-calendar",
+  "/templates/planner",
+  "/templates/daily-focus",
+  "/templates/inbox-capture",
+  "/templates/lined",
+  "/templates/dot-grid",
+  "/templates/grid",
+  "/templates/cornell",
+  "/templates/meeting-notes",
+  "/templates/one-on-one",
+  "/templates/client-call",
+  "/templates/project-brief",
+  "/templates/decision-log",
+  "/templates/action-tracker",
+  "/templates/kanban-board",
+  "/templates/project-timeline",
+  "/templates/daily-plan-adhd",
+  "/templates/time-block",
+  "/templates/eisenhower-matrix",
+  "/templates/brain-dump",
+  "/templates/three-priorities",
+  "/templates/shutdown-checklist",
+  "/templates/routine-tracker",
+  "/templates/lecture-notes",
+  "/templates/paper-summary",
+  "/templates/reading-log",
+  "/templates/book-notes",
+  "/templates/revision-planner",
+  "/templates/monthly-budget",
+  "/templates/expense-tracker",
+  "/templates/bill-tracker",
+  "/templates/habit-tracker",
+  "/templates/meal-planner",
+  "/templates/grocery-list",
+  "/templates/recipe-page",
+  "/templates/daily-reflection",
+  "/templates/gratitude-journal",
+  "/templates/mood-tracker",
+  "/templates/sleep-log",
+  "/templates/weekly-review",
+  "/templates/fitness-planner",
+  "/templates/weight-loss-tracker",
+  "/templates/self-care-checklist",
+  "/templates/password-log",
+  "/templates/cleaning-schedule",
+  "/templates/travel-planner",
+  "/templates/birthday-tracker",
+  "/templates/vision-board",
+  "/templates/savings-challenge",
+  // `/templates/mcp-docs` is a public, indexable template page (its layout sets
+  // a canonical and no `robots: noindex`); it was previously missing from the
+  // sitemap. Included here to fix that drift.
+  "/templates/mcp-docs",
+];
+
+const KIDS_PATHS = [
+  "/kids/tracing",
+  "/kids/math",
+  "/kids/math/custom",
+  // `/kids/math/[operation]` — params from generateStaticParams in
+  // src/app/kids/math/[operation]/page.tsx
+  "/kids/math/addition",
+  "/kids/math/subtraction",
+  "/kids/math/multiplication",
+  "/kids/math/division",
+  "/kids/coloring",
+  "/kids/connect-dots",
+  "/kids/sight-words",
+  // `/kids/sight-words/[grade]` — params from generateStaticParams in
+  // src/app/kids/sight-words/[grade]/page.tsx
+  "/kids/sight-words/kindergarten",
+  "/kids/sight-words/1st-grade",
+  "/kids/sight-words/2nd-grade",
+  "/kids/sight-words/3rd-grade",
+  "/kids/spelling",
+  "/kids/cursive",
+  "/kids/vocabulary",
+  "/kids/patterns",
+  "/kids/telling-time",
+  "/kids/money-counting",
+];
+
+const GUIDE_PATHS = [
+  "/guides/transfer-pdfs-to-tablet",
+  "/guides/printable-worksheets-for-homeschool",
+  "/guides/adhd-productivity-templates",
+  "/guides/puzzle-difficulty-guide",
+];
+
+/**
+ * Pack slugs — the `/packs/[slug]` routes. Currently mirrored here and in
+ * `generateStaticParams` in `src/app/packs/[slug]/layout.tsx` (a server
+ * component). TODO: make this the single source by importing `PACK_SLUGS`
+ * into that layout's `generateStaticParams`. Until then, keep the two in sync.
+ */
+export const PACK_SLUGS = ["road-trip", "classroom", "brain-training"] as const;
+
+const PACK_PATHS = PACK_SLUGS.map((slug) => `/packs/${slug}`);
+
+// ─── Sections ────────────────────────────────────────────────────────────────
+
+export const sections: Section[] = [
+  {
+    id: "home",
+    index: HOME_ROUTE,
+    routes: [],
+  },
+  {
+    id: "games",
+    index: index("/games"),
+    routes: GAME_PATHS.map(detail),
+  },
+  {
+    id: "templates",
+    index: index("/templates"),
+    routes: TEMPLATE_PATHS.map(detail),
+  },
+  {
+    id: "kids",
+    index: index("/kids"),
+    routes: KIDS_PATHS.map(detail),
+  },
+  {
+    id: "guides",
+    index: index("/guides"),
+    routes: GUIDE_PATHS.map(guide),
+  },
+  {
+    id: "packs",
+    index: index("/packs"),
+    routes: PACK_PATHS.map(detail),
+  },
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function sectionById(id: Section["id"]): Section {
+  const section = sections.find((s) => s.id === id);
+  if (!section) throw new Error(`Unknown site-map section: ${id}`);
+  return section;
+}
+
+/** All detail/sub routes for a section (excludes the section index). */
+export function routesFor(id: Section["id"]): Route[] {
+  return sectionById(id).routes;
+}
+
+export const homeRoute: Route = HOME_ROUTE;
+export const gameRoutes: Route[] = routesFor("games");
+export const templateRoutes: Route[] = routesFor("templates");
+export const kidsRoutes: Route[] = routesFor("kids");
+export const guideRoutes: Route[] = routesFor("guides");
+export const packRoutes: Route[] = routesFor("packs");
+
+/** Every section index route (e.g. `/games`, `/templates`, ...). */
+export const indexRoutes: Route[] = sections
+  .map((s) => s.index)
+  .filter((r): r is Route => r !== null && r.path !== "/");
+
+/** Every public route in the site, deduplicated by path. */
+export const allRoutes: Route[] = (() => {
+  const seen = new Set<string>();
+  const out: Route[] = [];
+  for (const section of sections) {
+    const candidates = section.index
+      ? [section.index, ...section.routes]
+      : section.routes;
+    for (const route of candidates) {
+      if (seen.has(route.path)) continue;
+      seen.add(route.path);
+      out.push(route);
+    }
+  }
+  return out;
+})();

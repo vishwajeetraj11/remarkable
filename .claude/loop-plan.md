@@ -30,9 +30,10 @@ The `.dark` token set and `@custom-variant dark` already exist in `globals.css`.
 
 ## Phase 2 — SEO foundation
 
-- [~] **2.1 Single route manifest** — Create `src/lib/site-map.ts` exporting every route (games, templates, kids, guides, packs) as typed data. Refactor `sitemap.ts` to derive from it so it can never drift from disk again. Audit: ensure all ~60 template folders, all kids sub-routes, and all packs are included (current `sitemap.ts` is missing several template folders).
+- [x] **2.1 Single route manifest** — Create `src/lib/site-map.ts` exporting every route (games, templates, kids, guides, packs) as typed data. Refactor `sitemap.ts` to derive from it so it can never drift from disk again. Audit: ensure all ~60 template folders, all kids sub-routes, and all packs are included (current `sitemap.ts` is missing several template folders).
+  - Shipped: typed `site-map.ts` (`sections` + helpers `allRoutes`/`templateRoutes`/`PACK_SLUGS`/etc.); `sitemap.ts` now derives from it (104 URLs, was missing `/templates/mcp-docs`). Debugger (xmllint-clean, 1:1 disk match, no regressions) + reviewer (approve) clean. Orchestrator fixed reviewer P2 (incorrect "client component" comment). **Deferred follow-ups for later tasks:** (a) add optional `label?` to `Route` for 2.3 breadcrumbs / 2.6 internal-linking; (b) make `PACK_SLUGS` the single source by importing into `packs/[slug]/layout.tsx` generateStaticParams; (c) optional drift-guard test walking `src/app/**/page.tsx` vs `allRoutes`.
 - [ ] **2.2 Per-page metadata audit** — Verify **every** `page.tsx` exports a `metadata` object with unique title, description, and `alternates.canonical`. Fill in any missing ones. List offenders in the commit note.
-- [ ] **2.3 Breadcrumb structured data** — Add a reusable `BreadcrumbJsonLd` component and render it on all detail pages (games/templates/kids/guides) with `BreadcrumbList` schema. Add a visible breadcrumb UI too.
+- [ ] **2.3 Breadcrumb structured data** — Add a reusable `BreadcrumbJsonLd` component and render it on all detail pages (games/templates/kids/guides) with `BreadcrumbList` schema. Add a visible breadcrumb UI too. (Add an optional `label?` field to `Route` in `site-map.ts` here — deferred from 2.1 — since breadcrumbs/linking need human-readable titles.)
 - [ ] **2.4 FAQ structured data** — Add `FAQPage` JSON-LD to the home page and each index page (games, templates, kids), plus a visible FAQ section with real, useful Q&As (how to transfer, is it free, what devices, etc.).
 - [ ] **2.5 Per-page OG images** — Ensure each top-level section has a dynamic `opengraph-image.tsx`; add per-detail OG images for the highest-traffic pages (sudoku, planner, monthly-calendar, habit-tracker).
 - [ ] **2.6 Internal linking** — Add a "Related" links block to detail pages (e.g. each template links to 3–4 sibling templates; each game to related games). Improves crawl depth + dwell.
@@ -78,3 +79,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 1.1 — theme provider (custom, no-FOUC inline script + useTheme hook), debugger+reviewer clean — dc50fc2
 - [x] 1.2 — theme toggle button (desktop + mobile, hydration-safe), debugger+reviewer clean  — 213da38
 - [x] 1.3 — dark-mode audit: .paper-preview token-remap utility + chrome fixes, debugger+reviewer clean — **PHASE 1 COMPLETE** — a5bb366
+- [x] 2.1 — single route manifest (site-map.ts) → sitemap derives from it, 104 URLs, debugger+reviewer clean
