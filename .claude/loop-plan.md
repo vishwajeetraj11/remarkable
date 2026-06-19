@@ -87,4 +87,4 @@ One template per task. Reuse `TemplateShell`, add to nav/home/sitemap/route-mani
 - [x] 2.2 — per-page metadata audit: VERIFIED NO-OP (all 93 routes already complete: unique title/desc + canonical)
 - [x] 2.3 — breadcrumbs (SSR BreadcrumbList JSON-LD + visible nav, all 5 sections incl. packs), label? added to site-map, debugger clean + reviewer P1 (packs) fixed  — 15cbc3b
 - [x] 2.4 — FAQ (FAQPage JSON-LD + no-JS details on home/games/templates/kids), debugger clean + reviewer P1 (pack count) fixed  — 3011dcf
-- [x] 2.5 — per-page OG images (guides/packs sections + 4 detail pages, shared helper), debugger + reviewer clean
+- [x] 2.5 — per-page OG images (guides/packs sections + 4 detail pages, shared helper), debugger + reviewer clean  — 8aa0537
