@@ -21,7 +21,7 @@ Rules:
 
 The `.dark` token set and `@custom-variant dark` already exist in `globals.css`. Only wiring is missing.
 
-- [ ] **1.1 Theme provider** — Add a client `ThemeProvider` (prefer `next-themes`; if not desired, a small custom provider writing `.dark` on `<html>` + `localStorage`). Add `suppressHydrationWarning` to `<html>` in `layout.tsx`. No flash on load (inline script or next-themes default).
+- [~] **1.1 Theme provider** — Add a client `ThemeProvider` (prefer `next-themes`; if not desired, a small custom provider writing `.dark` on `<html>` + `localStorage`). Add `suppressHydrationWarning` to `<html>` in `layout.tsx`. No flash on load (inline script or next-themes default).
 - [ ] **1.2 Theme toggle button** — Add a sun/moon toggle (lucide-react) to `header.tsx`, placed before/after the nav, accessible (`aria-label`, keyboard). Works on mobile nav too.
 - [ ] **1.3 Dark-mode audit** — Sweep pages for hardcoded `bg-white` / light-only colors (e.g. `template-shell.tsx` uses `bg-white` for preview) and replace with tokens so dark mode looks correct everywhere. PDF output stays light (that's correct — e-ink is white paper).
 
