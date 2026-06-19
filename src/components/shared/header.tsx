@@ -23,6 +23,7 @@ const navItems = [
     children: [
       { label: "Weekly Planner", href: "/templates/planner" },
       { label: "Monthly Calendar", href: "/templates/monthly-calendar" },
+      { label: "2026 Calendar", href: "/templates/calendar-2026" },
       { label: "Habit Tracker", href: "/templates/habit-tracker" },
       { label: "Fitness Planner", href: "/templates/fitness-planner" },
       { label: "Vision Board", href: "/templates/vision-board" },

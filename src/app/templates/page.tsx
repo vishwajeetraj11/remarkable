@@ -46,6 +46,7 @@ const packs = [
       { name: "Yearly Roadmap", href: "/templates/yearly-roadmap", desc: "Full-year overview with quarterly goals" },
       { name: "Quarterly Goals", href: "/templates/quarterly-goals", desc: "Quarter focus with monthly breakdowns" },
       { name: "Monthly Calendar", href: "/templates/monthly-calendar", desc: "Traditional grid calendar" },
+      { name: "2026 Calendar", href: "/templates/calendar-2026", desc: "Dated 2026/2027 calendar with real day numbers" },
       { name: "Weekly Planner", href: "/templates/planner", desc: "Seven-column weekly layout" },
       { name: "Daily Focus Page", href: "/templates/daily-focus", desc: "Top 3 priorities + schedule + tasks" },
       { name: "Inbox / Capture", href: "/templates/inbox-capture", desc: "Quick-capture GTD inbox page" },

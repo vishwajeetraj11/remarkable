@@ -91,6 +91,32 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/calendar-2026": (
+    <>
+      <line x1="8" y1="16" x2="40" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />
+      <text x="106" y="17" fontSize="7" fill="currentColor" fillOpacity="0.2" textAnchor="end" fontFamily="sans-serif" fontWeight="bold">2026</text>
+      {Array.from({ length: 7 }, (_, col) => (
+        <text key={`d${col}`} x={14.5 + col * 15} y="25" fontSize="3.5" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">{["M", "T", "W", "T", "F", "S", "S"][col]}</text>
+      ))}
+      {Array.from({ length: 5 }, (_, row) =>
+        Array.from({ length: 7 }, (_, col) => {
+          // January 2026 starts on a Thursday (Mon-start column index 3).
+          const d = row * 7 + col - 2;
+          const x = 8 + col * 15;
+          const y = 28 + row * 26;
+          return (
+            <g key={`${row}-${col}`}>
+              <rect x={x} y={y} width="13" height="22" rx="1.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" />
+              {d >= 1 && d <= 31 ? (
+                <text x={x + 2.5} y={y + 6} fontSize="4.5" fill="currentColor" fillOpacity="0.25" fontFamily="sans-serif">{d}</text>
+              ) : null}
+            </g>
+          );
+        }),
+      )}
+    </>
+  ),
+
   "/templates/planner": (
     <>
       <rect x="8" y="14" width="104" height="8" rx="1" fill="currentColor" fillOpacity="0.06" />
