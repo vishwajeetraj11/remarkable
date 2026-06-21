@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MobileNavToggle } from "@/components/shared/mobile-nav";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 const navItems = [
   {
@@ -12,8 +13,9 @@ const navItems = [
       { label: "Cryptogram", href: "/games/cryptogram" },
       { label: "Kakuro", href: "/games/kakuro" },
       { label: "KenKen", href: "/games/kenken" },
+      { label: "Futoshiki", href: "/games/futoshiki" },
       { label: "Word Ladder", href: "/games/word-ladder" },
-      { label: "All 12 Puzzles →", href: "/games" },
+      { label: "All 13 Puzzles →", href: "/games" },
     ],
   },
   {
@@ -21,12 +23,14 @@ const navItems = [
     href: "/templates",
     children: [
       { label: "Weekly Planner", href: "/templates/planner" },
+      { label: "Weekly Dated Planner", href: "/templates/weekly-dated" },
       { label: "Monthly Calendar", href: "/templates/monthly-calendar" },
+      { label: "2026 Calendar", href: "/templates/calendar-2026" },
       { label: "Habit Tracker", href: "/templates/habit-tracker" },
       { label: "Fitness Planner", href: "/templates/fitness-planner" },
       { label: "Vision Board", href: "/templates/vision-board" },
       { label: "Cornell Notes", href: "/templates/cornell" },
-      { label: "All 49+ Templates →", href: "/templates" },
+      { label: "All 51+ Templates →", href: "/templates" },
     ],
   },
   {
@@ -35,16 +39,19 @@ const navItems = [
     children: [
       { label: "Letter Tracing", href: "/kids/tracing" },
       { label: "Math Worksheets", href: "/kids/math" },
+      { label: "Number Bonds", href: "/kids/number-bonds" },
       { label: "Sight Words", href: "/kids/sight-words" },
       { label: "Telling Time", href: "/kids/telling-time" },
       { label: "Cursive Practice", href: "/kids/cursive" },
-      { label: "All 11 Activities →", href: "/kids" },
+      { label: "All 12 Activities →", href: "/kids" },
     ],
   },
   {
     label: "Guides",
     href: "/guides",
     children: [
+      { label: "Best reMarkable Planner Setup", href: "/guides/best-remarkable-planner-setup" },
+      { label: "Free 2026 Calendar", href: "/guides/free-dated-2026-calendar-eink" },
       { label: "Transfer PDFs to Tablet", href: "/guides/transfer-pdfs-to-tablet" },
       { label: "Puzzle Difficulty Guide", href: "/guides/puzzle-difficulty-guide" },
       { label: "ADHD Productivity Templates", href: "/guides/adhd-productivity-templates" },
@@ -76,8 +83,9 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop nav — pure server-rendered HTML, zero JS */}
-        <nav className="hidden md:flex items-center gap-1">
+        <div className="flex items-center gap-1">
+          {/* Desktop nav — pure server-rendered HTML, zero JS */}
+          <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <div key={item.href} className="group relative">
               <Link
@@ -103,9 +111,12 @@ export function Header() {
               )}
             </div>
           ))}
-        </nav>
+          </nav>
 
-        <MobileNavToggle navItems={navItems} />
+          <ThemeToggle className="hidden md:inline-flex" />
+
+          <MobileNavToggle navItems={navItems} />
+        </div>
       </div>
     </header>
   );

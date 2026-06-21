@@ -345,7 +345,7 @@ export default function VocabularyPage() {
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">
           Preview
         </h2>
-        <div className="border border-border rounded-xl bg-white p-5">
+        <div className="paper-preview border border-border rounded-xl p-5">
           <div className="grid grid-cols-2 gap-3">
             {previewCards.map((card, i) => (
               <div

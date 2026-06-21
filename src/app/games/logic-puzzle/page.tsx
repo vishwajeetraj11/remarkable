@@ -309,7 +309,7 @@ function LogicGridPreview({ puzzle }: { puzzle: LogicGridPuzzle }) {
   return (
     <svg
       viewBox={`0 0 ${totalW} ${totalH}`}
-      className="w-full max-w-[400px] h-auto border-2 border-foreground bg-white"
+      className="w-full max-w-[400px] h-auto border-2 border-neutral-900 bg-white"
       shapeRendering="crispEdges"
       role="img"
       aria-label="Logic grid puzzle preview"

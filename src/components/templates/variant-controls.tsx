@@ -6,6 +6,7 @@ import type {
   WeekStart,
   Handedness,
   Orientation,
+  InkIntensity,
 } from "@/lib/templates/variants";
 import { Label } from "@/components/ui/label";
 import {
@@ -33,7 +34,7 @@ function Toggle({
         className={`relative inline-flex h-5 w-9 items-center rounded-full border-2 transition-colors focus:outline-none ${checked ? "bg-foreground border-foreground" : "bg-muted border-border"}`}
       >
         <span
-          className={`inline-block h-3 w-3 rounded-full bg-white transition-transform ${checked ? "translate-x-4" : "translate-x-0.5"}`}
+          className={`inline-block h-3 w-3 rounded-full bg-background transition-transform ${checked ? "translate-x-4" : "translate-x-0.5"}`}
         />
       </button>
       <Label className="cursor-pointer" onClick={onToggle}>
@@ -105,6 +106,25 @@ export function VariantControls({
           <SelectContent>
             <SelectItem value="right">Right-handed (margin left)</SelectItem>
             <SelectItem value="left">Left-handed (margin right)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-1.5">
+        <Label>Ink</Label>
+        <Select
+          value={variants.inkIntensity}
+          onValueChange={(v) =>
+            onChange({ ...variants, inkIntensity: v as InkIntensity })
+          }
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="light">Light (fainter lines)</SelectItem>
+            <SelectItem value="regular">Regular</SelectItem>
+            <SelectItem value="bold">Bold (darker lines)</SelectItem>
           </SelectContent>
         </Select>
       </div>

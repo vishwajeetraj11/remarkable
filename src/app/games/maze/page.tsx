@@ -355,7 +355,7 @@ export default function MazePage() {
       </div>
 
       {/* Canvas preview */}
-      <div className="border border-border rounded-xl overflow-hidden bg-white">
+      <div className="paper-preview border border-border rounded-xl overflow-hidden">
         <canvas
           ref={canvasRef}
           className="w-full aspect-square"

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 interface NavItem {
   label: string;
@@ -61,6 +62,13 @@ export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
               )}
             </div>
           ))}
+
+          <div className="mt-2 flex items-center gap-2 border-t border-border pt-3">
+            <ThemeToggle className="-ml-2" />
+            <span className="text-sm font-medium text-muted-foreground">
+              Theme
+            </span>
+          </div>
         </div>
       )}
     </>

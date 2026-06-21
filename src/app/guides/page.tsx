@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "Guides — Remarkable Skills",
   description:
     "Practical guides for e-ink tablet users — transferring PDFs, choosing puzzle difficulty, ADHD-friendly productivity, and homeschool worksheets.",
+  keywords: [
+    "remarkable guides",
+    "transfer pdf to remarkable",
+    "e-ink tablet tips",
+    "adhd productivity templates",
+    "homeschool printables guide",
+    "puzzle difficulty guide",
+  ],
   alternates: { canonical: "/guides" },
 };
 
@@ -38,6 +46,24 @@ const guides = [
     href: "/guides/printable-worksheets-for-homeschool",
     description:
       "Math, reading, spelling, cursive, telling time, money counting, and pattern worksheets organized by age and subject.",
+  },
+  {
+    title: "How to Set Up the Best Planner on Your reMarkable",
+    href: "/guides/best-remarkable-planner-setup",
+    description:
+      "Build a complete planning system from free templates — an all-in-one planner, a dated 2026 calendar, weekly and daily pages, and a habit tracker.",
+  },
+  {
+    title: "Free Dated 2026 Calendar for E-Ink Tablets",
+    href: "/guides/free-dated-2026-calendar-eink",
+    description:
+      "Download a free, fully dated 2026 calendar PDF for reMarkable, Supernote, BOOX, and Kindle Scribe — with week-start options and transfer steps.",
+  },
+  {
+    title: "Bullet Journaling on a reMarkable Tablet",
+    href: "/guides/bullet-journaling-on-remarkable",
+    description:
+      "Run a real BuJo on e-ink — the key and signifiers, index, future/monthly/daily logs, collections, dot-grid, and trackers.",
   },
 ];
 

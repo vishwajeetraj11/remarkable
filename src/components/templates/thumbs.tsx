@@ -91,6 +91,32 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/calendar-2026": (
+    <>
+      <line x1="8" y1="16" x2="40" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />
+      <text x="106" y="17" fontSize="7" fill="currentColor" fillOpacity="0.2" textAnchor="end" fontFamily="sans-serif" fontWeight="bold">2026</text>
+      {Array.from({ length: 7 }, (_, col) => (
+        <text key={`d${col}`} x={14.5 + col * 15} y="25" fontSize="3.5" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">{["M", "T", "W", "T", "F", "S", "S"][col]}</text>
+      ))}
+      {Array.from({ length: 5 }, (_, row) =>
+        Array.from({ length: 7 }, (_, col) => {
+          // January 2026 starts on a Thursday (Mon-start column index 3).
+          const d = row * 7 + col - 2;
+          const x = 8 + col * 15;
+          const y = 28 + row * 26;
+          return (
+            <g key={`${row}-${col}`}>
+              <rect x={x} y={y} width="13" height="22" rx="1.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" />
+              {d >= 1 && d <= 31 ? (
+                <text x={x + 2.5} y={y + 6} fontSize="4.5" fill="currentColor" fillOpacity="0.25" fontFamily="sans-serif">{d}</text>
+              ) : null}
+            </g>
+          );
+        }),
+      )}
+    </>
+  ),
+
   "/templates/planner": (
     <>
       <rect x="8" y="14" width="104" height="8" rx="1" fill="currentColor" fillOpacity="0.06" />
@@ -104,6 +130,34 @@ export const thumbs: Record<string, React.ReactNode> = {
       <rect x="40" y="53" width="12" height="24" rx="1.5" fill="currentColor" fillOpacity="0.06" />
       <rect x="70" y="41" width="12" height="14" rx="1.5" fill="currentColor" fillOpacity="0.07" />
       <rect x="25" y="76" width="12" height="20" rx="1.5" fill="currentColor" fillOpacity="0.05" />
+    </>
+  ),
+
+  "/templates/weekly-dated": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="10" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.7" />
+      {/* 7 day rows down the page (vertical layout) */}
+      {Array.from({ length: 7 }, (_, i) => {
+        const y = 26 + i * 19;
+        const weekend = i >= 5;
+        return (
+          <g key={i}>
+            {weekend && (
+              <rect x="8" y={y} width="104" height="18" fill="currentColor" fillOpacity="0.05" />
+            )}
+            <rect x="8" y={y} width="104" height="18" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" fill="none" />
+            {/* Day label in left gutter */}
+            <text x="11" y={y + 8} fontSize="5" fill="currentColor" fillOpacity="0.55" fontFamily="sans-serif" fontWeight="bold">{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i]}</text>
+            <text x="11" y={y + 15} fontSize="4" fill="currentColor" fillOpacity="0.3" fontFamily="sans-serif">{6 + i} Jan</text>
+            {/* Gutter divider */}
+            <line x1="30" y1={y + 2} x2="30" y2={y + 16} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" />
+            {/* Ruled writing lines */}
+            <line x1="34" y1={y + 7} x2="108" y2={y + 7} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+            <line x1="34" y1={y + 13} x2="108" y2={y + 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+          </g>
+        );
+      })}
     </>
   ),
 
@@ -282,6 +336,26 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/kanban-board": (
+    <>
+      <rect x="8" y="14" width="50" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {[0, 1, 2, 3].map((c) => (
+        <g key={c}>
+          <rect x={8 + c * 27} y="28" width="23" height="126" rx="1.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill="none" />
+          <rect x={8 + c * 27} y="28" width="23" height="10" rx="1.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x={12 + c * 27} y="32" width="15" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+          {Array.from({ length: 4 }, (_, r) => (
+            <g key={r}>
+              <rect x={11 + c * 27} y={46 + r * 25} width="17" height="18" rx="2" stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.08" fill={r === c % 3 ? "currentColor" : "none"} fillOpacity={r === c % 3 ? "0.025" : "0"} />
+              <line x1={14 + c * 27} y1={53 + r * 25} x2={25 + c * 27} y2={53 + r * 25} stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.06" />
+              <line x1={14 + c * 27} y1={59 + r * 25} x2={23 + c * 27} y2={59 + r * 25} stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.05" />
+            </g>
+          ))}
+        </g>
+      ))}
+    </>
+  ),
+
   "/templates/project-timeline": (
     <>
       <rect x="8" y="14" width="50" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
@@ -294,6 +368,27 @@ export const thumbs: Record<string, React.ReactNode> = {
           <rect x={x - 10} y={i % 2 === 0 ? 50 : 56} width="20" height="8" rx="1.5" fill="currentColor" fillOpacity="0.04" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.08" />
         </g>
       ))}
+    </>
+  ),
+
+  "/templates/project-planner": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="12" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      {/* "Project Planner" title hint */}
+      <rect x="12" y="12" width="40" height="4" rx="1" fill="white" fillOpacity="0.7" />
+      {/* CONTENTS label */}
+      <rect x="8" y="28" width="22" height="3" rx="1" fill="currentColor" fillOpacity="0.3" />
+      {/* Hyperlinked contents rows with dot leaders + page numbers */}
+      {["Overview & Brief","Goals & Success","Milestones","Task List","Risks & Issues","Notes"].map((label, i) => (
+        <g key={label}>
+          <text x="12" y={42 + i * 14} fontSize="5.5" fill="currentColor" fillOpacity="0.7" fontFamily="sans-serif">{label}</text>
+          <line x1={12 + label.length * 3} y1={40 + i * 14} x2="98" y2={40 + i * 14} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" strokeDasharray="2 2" />
+          <text x="100" y={42 + i * 14} fontSize="5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">p.{[2,3,4,5,6,7][i]}</text>
+        </g>
+      ))}
+      {/* Back-to-index hint */}
+      <text x="106" y="150" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">‹ Index</text>
     </>
   ),
 
@@ -328,6 +423,26 @@ export const thumbs: Record<string, React.ReactNode> = {
       ))}
       <rect x="27" y="35" width="85" height="20" rx="1" fill="currentColor" fillOpacity="0.04" />
       <rect x="27" y="79" width="85" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+    </>
+  ),
+
+  "/templates/eisenhower-matrix": (
+    <>
+      <rect x="8" y="14" width="56" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {[0, 1, 2, 3].map((q) => {
+        const x = 8 + (q % 2) * 54;
+        const y = 28 + Math.floor(q / 2) * 62;
+        return (
+          <g key={q}>
+            <rect x={x} y={y} width="50" height="56" rx="2" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" fill="none" />
+            <rect x={x} y={y} width="50" height="10" rx="2" fill="currentColor" fillOpacity="0.05" />
+            <text x={x + 25} y={y + 7} fontSize="4" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">{["DO", "SCHEDULE", "DELEGATE", "DELETE"][q]}</text>
+            {Array.from({ length: 4 }, (_, i) => (
+              <line key={i} x1={x + 6} y1={y + 20 + i * 8} x2={x + 44} y2={y + 20 + i * 8} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.07" />
+            ))}
+          </g>
+        );
+      })}
     </>
   ),
 
@@ -569,6 +684,152 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/debt-tracker": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="38" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Table header row */}
+      <rect x="8" y="24" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+      <rect x="10" y="26" width="26" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="44" y="26" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="64" y="26" width="8" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="78" y="26" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="98" y="26" width="10" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Column separators */}
+      {[40, 62, 76, 96].map((x) => (
+        <line key={x} x1={x} y1="24" x2={x} y2="106" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+      ))}
+      {/* Debt rows */}
+      {Array.from({ length: 5 }, (_, i) => (
+        <g key={i}>
+          <line x1="8" y1={42 + i * 13} x2="112" y2={42 + i * 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <line x1="10" y1={46 + i * 13} x2={30 + (i * 5) % 8} y2={46 + i * 13} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+          <rect x="44" y={44 + i * 13} width={10 + (i * 3) % 5} height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="64" y={44 + i * 13} width="7" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="78" y={44 + i * 13} width="11" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <text x={103} y={47 + i * 13} fontSize="4.5" fill="currentColor" fillOpacity="0.12" textAnchor="middle" fontFamily="sans-serif">{i + 1}</text>
+        </g>
+      ))}
+      {/* Totals row */}
+      <line x1="8" y1="106" x2="112" y2="106" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+      <rect x="10" y="110" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      <rect x="44" y="110" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Payoff thermometer */}
+      <rect x="8" y="126" width="104" height="12" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
+      <rect x="8" y="126" width="44" height="12" rx="1.5" fill="currentColor" fillOpacity="0.1" />
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((s) => (
+        <line key={s} x1={8 + s * 10.4} y1="126" x2={8 + s * 10.4} y2="138" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+      ))}
+      {/* Milestone checkboxes */}
+      {[0, 1, 2].map((i) => (
+        <g key={`m${i}`}>
+          <rect x={8 + i * 36} y="148" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill={i === 0 ? "currentColor" : "none"} fillOpacity={i === 0 ? "0.06" : "0"} />
+          <line x1={16 + i * 36} y1="150.5" x2={30 + i * 36} y2="150.5" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+        </g>
+      ))}
+    </>
+  ),
+
+  "/templates/sinking-funds": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="44" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Table header row */}
+      <rect x="8" y="24" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.04" />
+      <rect x="10" y="26" width="24" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="42" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="60" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="80" y="26" width="12" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="98" y="26" width="10" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      {/* Column separators */}
+      {[40, 58, 76, 94].map((x) => (
+        <line key={x} x1={x} y1="24" x2={x} y2="98" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+      ))}
+      {/* Fund rows */}
+      {Array.from({ length: 4 }, (_, i) => (
+        <g key={i}>
+          <line x1="8" y1={42 + i * 13} x2="112" y2={42 + i * 13} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <line x1="10" y1={46 + i * 13} x2={28 + (i * 5) % 8} y2={46 + i * 13} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+          <rect x="42" y={44 + i * 13} width="10" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="60" y={44 + i * 13} width="9" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+          <rect x="80" y={44 + i * 13} width="9" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+        </g>
+      ))}
+      {/* Totals row */}
+      <line x1="8" y1="98" x2="112" y2="98" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+      <rect x="10" y="102" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      {/* Per-fund progress thermometers (2 columns) */}
+      {Array.from({ length: 3 }, (_, row) =>
+        [0, 1].map((col) => {
+          const bx = col === 0 ? 8 : 64;
+          const by = 120 + row * 16;
+          const fill = [0, 3, 4].includes(row * 2 + col) ? (12 + (row * 2 + col) * 6) % 40 : 0;
+          return (
+            <g key={`${row}-${col}`}>
+              <rect x={bx} y={by} width="2" height="4" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+              <rect x={bx} y={by + 6} width="48" height="6" rx="1" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" fill="none" />
+              {fill > 0 && (
+                <rect x={bx} y={by + 6} width={fill} height="6" rx="1" fill="currentColor" fillOpacity="0.1" />
+              )}
+            </g>
+          );
+        })
+      )}
+    </>
+  ),
+
+  "/templates/net-worth": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="11" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="11" width="40" height="5" rx="1" fill="white" fillOpacity="0.5" />
+      {/* Two side-by-side ledgers: Assets (left) + Liabilities (right) */}
+      {[0, 1].map((side) => {
+        const lx = side === 0 ? 8 : 62;
+        return (
+          <g key={`led${side}`}>
+            {/* Ledger header band */}
+            <rect x={lx} y="26" width="50" height="8" rx="1" fill="currentColor" fillOpacity="0.04" />
+            <rect x={lx + 2} y="28" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+            {/* Label / value separator */}
+            <line x1={lx + 30} y1="26" x2={lx + 30} y2="86" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+            {/* Rows */}
+            {Array.from({ length: 4 }, (_, i) => (
+              <g key={i}>
+                <line x1={lx} y1={42 + i * 11} x2={lx + 50} y2={42 + i * 11} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+                <line x1={lx + 2} y1={46 + i * 11} x2={lx + 18 + (i * 4) % 8} y2={46 + i * 11} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+                <rect x={lx + 32} y={44 + i * 11} width="10" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.05" />
+              </g>
+            ))}
+            {/* Subtotal row */}
+            <line x1={lx} y1="86" x2={lx + 50} y2="86" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+            <rect x={lx + 2} y="90" width="16" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+          </g>
+        );
+      })}
+      {/* Net worth equation box */}
+      <rect x="8" y="100" width="104" height="18" rx="1.5" fill="currentColor" fillOpacity="0.04" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      <rect x="12" y="104" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      {[14, 50, 86].map((x) => (
+        <line key={x} x1={x} y1="113" x2={x + 22} y2="113" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      ))}
+      <text x="44" y="114" fontSize="6" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif">−</text>
+      <text x="80" y="114" fontSize="6" fill="currentColor" fillOpacity="0.18" textAnchor="middle" fontFamily="sans-serif">=</text>
+      {/* 12-month grid (2 cols x 6) */}
+      {[0, 1].map((c) =>
+        Array.from({ length: 6 }, (_, r) => (
+          <g key={`${c}-${r}`}>
+            <line x1={c === 0 ? 8 : 62} y1={126 + r * 7} x2={(c === 0 ? 8 : 62) + 50} y2={126 + r * 7} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.05" />
+            <rect x={(c === 0 ? 8 : 62) + 2} y={128 + r * 7} width="8" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.07" />
+            <rect x={(c === 0 ? 8 : 62) + 24} y={128 + r * 7} width="12" height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.04" />
+          </g>
+        ))
+      )}
+    </>
+  ),
+
   "/templates/habit-tracker": (
     <>
       <line x1="8" y1="16" x2="46" y2="16" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.15" />
@@ -646,6 +907,37 @@ export const thumbs: Record<string, React.ReactNode> = {
   ),
 
   /* ===== Pack 6: Journal + Wellness ===== */
+
+  "/templates/bullet-journal": (
+    <>
+      {/* Dark header bar */}
+      <rect x="8" y="8" width="104" height="12" rx="1.5" fill="currentColor" fillOpacity="0.7" />
+      <rect x="12" y="12" width="40" height="4" rx="1" fill="white" fillOpacity="0.7" />
+      {/* Key / legend signifiers */}
+      {["•", "✕", "○", "—"].map((sign, i) => (
+        <g key={sign}>
+          <text x="10" y={32 + i * 11} fontSize="6" fill="currentColor" fillOpacity="0.6" fontFamily="sans-serif" fontWeight="bold">{sign}</text>
+          <line x1="18" y1={30 + i * 11} x2={42 + (i * 5) % 10} y2={30 + i * 11} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.12" />
+        </g>
+      ))}
+      {/* Contents rows with dot leaders + page numbers */}
+      {["Future Log", "Monthly Log", "Weekly Log", "Trackers"].map((label, i) => (
+        <g key={label}>
+          <text x="62" y={32 + i * 11} fontSize="5" fill="currentColor" fillOpacity="0.7" fontFamily="sans-serif">{label}</text>
+          <line x1={62 + label.length * 2.7} y1={30 + i * 11} x2="100" y2={30 + i * 11} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.2" strokeDasharray="2 2" />
+          <text x="106" y={32 + i * 11} fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">p.{[2, 4, 5, 6][i]}</text>
+        </g>
+      ))}
+      {/* Index dot-grid hint */}
+      {Array.from({ length: 12 }, (_, row) =>
+        Array.from({ length: 12 }, (_, col) => (
+          <circle key={`${row}-${col}`} cx={12 + col * 9} cy={84 + row * 5.5} r="0.6" fill="currentColor" fillOpacity="0.1" />
+        )),
+      )}
+      {/* Back-to-index hint */}
+      <text x="106" y="152" fontSize="4.5" fill="currentColor" fillOpacity="0.4" textAnchor="end" fontFamily="sans-serif">‹ Index</text>
+    </>
+  ),
 
   "/templates/daily-reflection": (
     <>
@@ -786,6 +1078,36 @@ export const thumbs: Record<string, React.ReactNode> = {
           <rect x="76" y={45 + i * 14} width="8" height="3" rx="0.5" fill="currentColor" fillOpacity="0.05" />
           <rect x="94" y={45 + i * 14} width={8 + (i * 3) % 10} height="3" rx="0.5" fill="currentColor" fillOpacity="0.04" />
         </g>
+      ))}
+    </>
+  ),
+
+  "/templates/workout-log": (
+    <>
+      <rect x="8" y="14" width="48" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {/* session header fields */}
+      <rect x="8" y="24" width="22" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="62" y="24" width="34" height="3" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      <rect x="8" y="32" width="14" height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+      <rect x="62" y="32" width="20" height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+      {/* grid header band */}
+      <rect x="8" y="42" width="104" height="9" rx="1" fill="currentColor" fillOpacity="0.05" />
+      {/* exercise grid: exercise col + 4 set cols + notes col */}
+      {Array.from({ length: 6 }, (_, r) => (
+        <g key={r}>
+          <line x1="8" y1={51 + r * 12} x2="112" y2={51 + r * 12} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.06" />
+          <rect x="10" y={54 + r * 12} width={18 + (r * 3) % 8} height="3" rx="0.5" fill="currentColor" fillOpacity="0.06" />
+        </g>
+      ))}
+      {/* vertical column separators */}
+      {[34, 50, 66, 82, 94].map((x, i) => (
+        <line key={i} x1={x} y1="42" x2={x} y2="123" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.07" />
+      ))}
+      <rect x="8" y="42" width="104" height="81" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.1" fill="none" />
+      {/* notes box */}
+      <rect x="8" y="130" width="104" height="22" rx="1" stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.08" fill="none" />
+      {[136, 144].map((yy, i) => (
+        <line key={i} x1="11" y1={yy} x2="109" y2={yy} stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.05" />
       ))}
     </>
   ),

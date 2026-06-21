@@ -428,7 +428,7 @@ export default function ColoringPage() {
       {/* Preview */}
       <div className="mb-6">
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">Preview</h2>
-        <div className="border border-border rounded-xl bg-white p-6 flex items-center gap-6">
+        <div className="paper-preview border border-border rounded-xl p-6 flex items-center gap-6">
           <svg width={previewSize} height={previewSize} className="border border-border/30 rounded flex-shrink-0">
             {theme === "mandala" && (
               <>

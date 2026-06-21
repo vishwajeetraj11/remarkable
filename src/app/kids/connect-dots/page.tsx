@@ -305,7 +305,7 @@ export default function ConnectDotsPage() {
       {/* Preview */}
       <div className="mb-6">
         <h2 className="text-sm font-medium mb-3 text-muted-foreground uppercase tracking-wide">Preview — {shapes[0].name}</h2>
-        <div className="border border-border rounded-xl bg-white p-5 flex items-center gap-5">
+        <div className="paper-preview border border-border rounded-xl p-5 flex items-center gap-5">
           <svg width={220} height={180} className="border border-border/30 rounded flex-shrink-0 bg-white">
             <text x={110} y={14} textAnchor="middle" fontSize={8} fill="#aaa">Connect 1 → {Math.min(dotCount, 20)}</text>
             {previewDots.map((dot, i) => (

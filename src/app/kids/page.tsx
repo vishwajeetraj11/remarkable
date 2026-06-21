@@ -5,6 +5,35 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { Faq } from "@/components/shared/faq";
+
+const faqs = [
+  {
+    question: "What age ranges are these activities for?",
+    answer:
+      "Activities span roughly ages 3 to 12, from early letter tracing and coloring pages to multiplication, cursive, and money counting. Each activity lists its suggested age range.",
+  },
+  {
+    question: "What subjects are covered?",
+    answer:
+      "Worksheets cover handwriting (tracing and cursive), reading (sight words, spelling, vocabulary), math (arithmetic, money, telling time), and visual skills (coloring, connect the dots, patterns).",
+  },
+  {
+    question: "Are the worksheets printable?",
+    answer:
+      "Yes. Every worksheet is a PDF you can print on A4 or US Letter paper, or write on directly with an e-ink tablet.",
+  },
+  {
+    question: "Are they organized by grade level?",
+    answer:
+      "Some activities, such as sight words, use grade-level word banks from Kindergarten through 3rd grade. Others offer easy, medium, and hard difficulty options instead.",
+  },
+  {
+    question: "Are the worksheets different each time?",
+    answer:
+      "Yes. Everything is generated fresh each time, so kids always get a new sheet to practice with.",
+  },
+];
 
 const activities = [
   {
@@ -20,6 +49,13 @@ const activities = [
     desc: "Clean arithmetic practice sheets with addition, subtraction, multiplication, and division. Answer key included on the last page.",
     detail: "10–30 problems per page · single or double digit",
     age: "Ages 5–12",
+  },
+  {
+    name: "Number Bonds",
+    href: "/kids/number-bonds",
+    desc: "Part-part-whole number bonds and fill-in-the-blank skip counting sequences. Generated fresh with an answer key on the last page.",
+    detail: "Number bonds · Skip counting by 2/5/10",
+    age: "Ages 5–9",
   },
   {
     name: "Coloring Pages",
@@ -88,31 +124,42 @@ const activities = [
 
 export default function KidsPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight">Kids Activities</h1>
-        <p className="mt-2 text-muted-foreground max-w-xl">
-          Educational worksheets and fun activities for young learners.
-          Everything is generated fresh each time so kids always have something new.
-        </p>
+    <>
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <div className="mb-10">
+          <h1 className="text-3xl font-bold tracking-tight">Kids Activities</h1>
+          <p className="mt-2 text-muted-foreground max-w-xl">
+            Educational worksheets and fun activities for young learners.
+            Everything is generated fresh each time so kids always have something
+            new.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {activities.map((a) => (
+            <Link key={a.href} href={a.href}>
+              <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base">{a.name}</CardTitle>
+                    <span className="text-xs text-muted-foreground shrink-0 mt-0.5">
+                      {a.age}
+                    </span>
+                  </div>
+                  <CardDescription className="mt-1">{a.desc}</CardDescription>
+                  <p className="text-xs text-muted-foreground/70 mt-2 font-mono">
+                    {a.detail}
+                  </p>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {activities.map((a) => (
-          <Link key={a.href} href={a.href}>
-            <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
-              <CardHeader>
-                <div className="flex items-start justify-between gap-2">
-                  <CardTitle className="text-base">{a.name}</CardTitle>
-                  <span className="text-xs text-muted-foreground shrink-0 mt-0.5">{a.age}</span>
-                </div>
-                <CardDescription className="mt-1">{a.desc}</CardDescription>
-                <p className="text-xs text-muted-foreground/70 mt-2 font-mono">{a.detail}</p>
-              </CardHeader>
-            </Card>
-          </Link>
-        ))}
+      <div className="border-t border-border">
+        <Faq items={faqs} />
       </div>
-    </div>
+    </>
   );
 }

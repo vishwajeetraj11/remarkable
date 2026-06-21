@@ -1,5 +1,34 @@
 import Link from "next/link";
 import { Reveal } from "@/components/shared/reveal";
+import { Faq } from "@/components/shared/faq";
+
+const faqs = [
+  {
+    question: "Is Remarkable Skills free?",
+    answer:
+      "Yes. Every puzzle, template, and kids activity is completely free to generate and download as a PDF — there is no paywall or subscription.",
+  },
+  {
+    question: "Do I need an account?",
+    answer:
+      "No. Everything is generated in your browser, so you can create and download PDFs without signing up or logging in.",
+  },
+  {
+    question: "Which devices are supported?",
+    answer:
+      "The PDFs are optimized for the reMarkable 2 and Paper Pro, and also work well on Supernote, BOOX, and Kindle Scribe. You can choose A4 or US Letter page sizes to fit your device or printer.",
+  },
+  {
+    question: "Are the puzzles unique each time?",
+    answer:
+      "Yes. Puzzles are procedurally generated, so you get a fresh, unique PDF every time you generate one — complete with answer keys.",
+  },
+  {
+    question: "How do I get a PDF onto my tablet?",
+    answer:
+      "Download the generated PDF, then transfer it to your tablet via USB, the device's cloud sync, or its companion app.",
+  },
+];
 
 const games = [
   { name: "Sudoku", href: "/games/sudoku", desc: "Easy to evil difficulty" },
@@ -34,6 +63,11 @@ const games = [
     name: "KenKen",
     href: "/games/kenken",
     desc: "Arithmetic cage logic",
+  },
+  {
+    name: "Futoshiki",
+    href: "/games/futoshiki",
+    desc: "Inequality logic grids",
   },
   {
     name: "Word Ladder",
@@ -77,6 +111,8 @@ const showcaseTemplates = [
 
 const moreTemplates = [
   { name: "Daily Focus", href: "/templates/daily-focus" },
+  { name: "Eisenhower Matrix", href: "/templates/eisenhower-matrix" },
+  { name: "Kanban Board", href: "/templates/kanban-board" },
   { name: "Meeting Notes", href: "/templates/meeting-notes" },
   { name: "Fitness Planner", href: "/templates/fitness-planner" },
   { name: "Vision Board", href: "/templates/vision-board" },
@@ -93,6 +129,11 @@ const kids = [
     name: "Math Worksheets",
     href: "/kids/math",
     desc: "Addition, subtraction, multiplication & division",
+  },
+  {
+    name: "Number Bonds",
+    href: "/kids/number-bonds",
+    desc: "Part-part-whole bonds & skip counting",
   },
   {
     name: "Coloring Pages",
@@ -539,10 +580,10 @@ export default function Home() {
           >
             {(
               [
-                ["12", "puzzle types"],
-                ["49+", "page templates"],
+                ["13", "puzzle types"],
+                ["51+", "page templates"],
                 ["8", "template packs"],
-                ["11", "kids activities"],
+                ["12", "kids activities"],
               ] as const
             ).map(([num, label]) => (
               <p key={label} className="text-sm text-muted-foreground">
@@ -640,7 +681,7 @@ export default function Home() {
                 href="/templates"
                 className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                All 49+ templates →
+                All 51+ templates →
               </Link>
             </div>
           </Reveal>
@@ -687,7 +728,7 @@ export default function Home() {
                 href="/templates"
                 className="font-medium text-foreground hover:underline underline-offset-2"
               >
-                All 49+ →
+                All 51+ →
               </Link>
             </div>
           </Reveal>
@@ -730,6 +771,11 @@ export default function Home() {
           ))}
         </div>
       </Reveal>
+
+      {/* FAQ */}
+      <div className="border-t border-border">
+        <Faq items={faqs} />
+      </div>
 
       {/* How it works — streamlined */}
       <Reveal className="border-t border-border">

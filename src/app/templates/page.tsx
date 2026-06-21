@@ -1,4 +1,33 @@
 import { TemplatesView } from "@/components/templates/templates-view";
+import { Faq } from "@/components/shared/faq";
+
+const faqs = [
+  {
+    question: "How many templates are there?",
+    answer:
+      "There are 51+ templates organized into 8 themed packs — plus a hyperlinked all-in-one planner — covering planning, meetings, focus, study, life admin, journaling, fitness, and life planning.",
+  },
+  {
+    question: "Which devices do the templates work on?",
+    answer:
+      "Templates are optimized for the reMarkable 2 and Paper Pro, and also work on Supernote, BOOX, and Kindle Scribe. Choose A4 or US Letter to match your device.",
+  },
+  {
+    question: "Can I print the templates on paper?",
+    answer:
+      "Yes. Each template is a PDF you can print at home on A4 or US Letter paper, or use directly on an e-ink tablet.",
+  },
+  {
+    question: "Do I need an account to download a template?",
+    answer:
+      "No. Templates are generated in your browser and download instantly — no sign-up or login required.",
+  },
+  {
+    question: "Are the templates free?",
+    answer:
+      "Yes. Every template is completely free to generate and download as a PDF.",
+  },
+];
 
 const packs = [
   {
@@ -17,7 +46,9 @@ const packs = [
       { name: "Yearly Roadmap", href: "/templates/yearly-roadmap", desc: "Full-year overview with quarterly goals" },
       { name: "Quarterly Goals", href: "/templates/quarterly-goals", desc: "Quarter focus with monthly breakdowns" },
       { name: "Monthly Calendar", href: "/templates/monthly-calendar", desc: "Traditional grid calendar" },
+      { name: "2026 Calendar", href: "/templates/calendar-2026", desc: "Dated 2026/2027 calendar with real day numbers" },
       { name: "Weekly Planner", href: "/templates/planner", desc: "Seven-column weekly layout" },
+      { name: "Weekly Dated Planner", href: "/templates/weekly-dated", desc: "Real dates — vertical rows or horizontal columns" },
       { name: "Daily Focus Page", href: "/templates/daily-focus", desc: "Top 3 priorities + schedule + tasks" },
       { name: "Inbox / Capture", href: "/templates/inbox-capture", desc: "Quick-capture GTD inbox page" },
       { name: "Lined Paper", href: "/templates/lined", desc: "Classic ruled paper" },
@@ -36,7 +67,9 @@ const packs = [
       { name: "Project Brief", href: "/templates/project-brief", desc: "Objective, scope, and stakeholders" },
       { name: "Decision Log", href: "/templates/decision-log", desc: "Record decisions with rationale" },
       { name: "Action-Item Tracker", href: "/templates/action-tracker", desc: "Tabular action tracking" },
+      { name: "Kanban Board", href: "/templates/kanban-board", desc: "Visual task board with workflow columns" },
       { name: "Project Timeline", href: "/templates/project-timeline", desc: "Visual milestone timeline" },
+      { name: "Project Planner", href: "/templates/project-planner", desc: "Hyperlinked planner with a tappable contents page" },
     ],
   },
   {
@@ -46,6 +79,7 @@ const packs = [
     templates: [
       { name: "Low-Friction Daily Plan", href: "/templates/daily-plan-adhd", desc: "Energy check + one big thing" },
       { name: "Time-Block Page", href: "/templates/time-block", desc: "Half-hour time blocking grid" },
+      { name: "Eisenhower Matrix", href: "/templates/eisenhower-matrix", desc: "Sort tasks by urgency and importance" },
       { name: "Brain Dump", href: "/templates/brain-dump", desc: "Dump then sort into actions" },
       { name: "3 Priorities", href: "/templates/three-priorities", desc: "Just three things to focus on" },
       { name: "Shutdown Checklist", href: "/templates/shutdown-checklist", desc: "End-of-day routine" },
@@ -63,6 +97,7 @@ const packs = [
       { name: "Reading Log", href: "/templates/reading-log", desc: "Track books read" },
       { name: "Book Notes", href: "/templates/book-notes", desc: "Takeaways, quotes, and chapter notes" },
       { name: "Revision Planner", href: "/templates/revision-planner", desc: "Subject schedule with checkboxes" },
+      { name: "MCP Documentation PDF", href: "/templates/mcp-docs", desc: "Full MCP docs fetched & formatted for reMarkable" },
     ],
   },
   {
@@ -73,6 +108,9 @@ const packs = [
       { name: "Monthly Budget", href: "/templates/monthly-budget", desc: "Budget vs. actual spending" },
       { name: "Expense Tracker", href: "/templates/expense-tracker", desc: "Daily expense log" },
       { name: "Bill Tracker", href: "/templates/bill-tracker", desc: "Bills with paid checkbox" },
+      { name: "Debt Payoff Tracker", href: "/templates/debt-tracker", desc: "Snowball/avalanche payoff tracker" },
+      { name: "Sinking Funds Tracker", href: "/templates/sinking-funds", desc: "Save for future expenses by goal" },
+      { name: "Net Worth Tracker", href: "/templates/net-worth", desc: "Assets, liabilities, and net worth over time" },
       { name: "Habit Tracker", href: "/templates/habit-tracker", desc: "31-day habit grid" },
       { name: "Meal Planner", href: "/templates/meal-planner", desc: "Weekly meals grid" },
       { name: "Grocery List", href: "/templates/grocery-list", desc: "Categorized shopping list" },
@@ -84,6 +122,7 @@ const packs = [
     badge: "Pack 6",
     description: "Reflection, gratitude, mood, sleep, and weekly review templates.",
     templates: [
+      { name: "Bullet Journal Kit", href: "/templates/bullet-journal", desc: "Hyperlinked BuJo collections — key, future/monthly/weekly logs & trackers" },
       { name: "Daily Reflection", href: "/templates/daily-reflection", desc: "Guided daily journal" },
       { name: "Gratitude Journal", href: "/templates/gratitude-journal", desc: "Morning & evening gratitude" },
       { name: "Mood Tracker", href: "/templates/mood-tracker", desc: "Monthly mood grid" },
@@ -98,6 +137,7 @@ const packs = [
     description: "Workout planning, weight tracking, and fitness goal templates.",
     templates: [
       { name: "Fitness Planner", href: "/templates/fitness-planner", desc: "Weekly workout log with sets, reps & weight" },
+      { name: "Workout Log", href: "/templates/workout-log", desc: "Per-session gym log: one workout per page with sets/reps/weight grid" },
       { name: "Weight Loss Tracker", href: "/templates/weight-loss-tracker", desc: "12-week progress tracker with graph" },
     ],
   },
@@ -118,8 +158,14 @@ const packs = [
 
 export default function TemplatesPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <TemplatesView packs={packs} />
-    </div>
+    <>
+      <div className="mx-auto max-w-6xl px-4 py-12">
+        <TemplatesView packs={packs} />
+      </div>
+
+      <div className="border-t border-border">
+        <Faq items={faqs} />
+      </div>
+    </>
   );
 }

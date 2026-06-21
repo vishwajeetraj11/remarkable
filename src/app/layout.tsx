@@ -1,11 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL as siteUrl } from "@/lib/site-url";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { ClarityInit } from "@/components/shared/clarity";
 import { FeedbackWidget } from "@/components/shared/feedback-widget";
 import { EmailCaptureBanner } from "@/components/shared/email-capture";
+import {
+  ThemeProvider,
+  themeInitScript,
+} from "@/components/shared/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,11 +22,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://remarkable.vishwajeet.co";
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "Remarkable Skills",
+  manifest: "/manifest.webmanifest",
   title: {
     default: "Remarkable Skills — Free Puzzles & Templates for reMarkable",
     template: "%s | Remarkable Skills",
@@ -41,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 49+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 51+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
     url: siteUrl,
     siteName: "Remarkable Skills",
     locale: "en_US",
@@ -51,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 49+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 51+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
   },
   alternates: {
     canonical: "/",
@@ -70,14 +81,6 @@ const jsonLd = [
     url: siteUrl,
     description:
       "Free puzzles, templates, and activities for the reMarkable tablet",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/templates`,
-      },
-      "query-input": "required name=search_term_string",
-    },
     publisher: {
       "@type": "Organization",
       name: "Remarkable Skills",
@@ -101,10 +104,10 @@ const jsonLd = [
       priceCurrency: "USD",
     },
     description:
-      "Free, procedurally generated puzzles, games, and 49+ printable templates optimized for the reMarkable paper tablet and other e-ink devices.",
+      "Free, procedurally generated puzzles, games, and 51+ printable templates optimized for the reMarkable paper tablet and other e-ink devices.",
     featureList: [
       "Sudoku, crossword, maze, word search, nonogram puzzle generators",
-      "49+ planning, productivity, and wellness templates",
+      "51+ planning, productivity, and wellness templates",
       "Kids worksheets (math, tracing, spelling, sight words)",
       "Optimized for reMarkable 2, Paper Pro, Supernote, BOOX, Kindle Scribe",
       "Client-side PDF generation — no account required",
@@ -120,8 +123,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
         {jsonLd.map((schema, i) => (
           <script
@@ -130,12 +137,14 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FeedbackWidget />
-        <EmailCaptureBanner />
-        <ClarityInit />
+        <ThemeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <FeedbackWidget />
+          <EmailCaptureBanner />
+          <ClarityInit />
+        </ThemeProvider>
       </body>
     </html>
   );
