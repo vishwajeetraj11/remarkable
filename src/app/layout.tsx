@@ -5,6 +5,7 @@ import { SITE_URL as siteUrl } from "@/lib/site-url";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { ClarityInit } from "@/components/shared/clarity";
+import { PostHogInit } from "@/components/shared/posthog";
 import { GoogleAdsTag } from "@/components/shared/google-ads-tag";
 import { ConsentBanner } from "@/components/shared/consent-banner";
 import { FeedbackWidget } from "@/components/shared/feedback-widget";
@@ -151,6 +152,7 @@ export default function RootLayout({
           <FeedbackWidget />
           <EmailCaptureBanner />
           <ClarityInit />
+          <PostHogInit />
           <GoogleAdsTag />
           <ConsentBanner />
         </ThemeProvider>

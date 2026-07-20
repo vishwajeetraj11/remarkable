@@ -25,9 +25,10 @@ export default function PrivacyPage() {
           <p>
             Remarkable Skills is a free tool site. There are no accounts, and
             every PDF is generated entirely in your browser — the puzzles and
-            templates you create are never uploaded anywhere. We use one
-            analytics tool (Microsoft Clarity) and, only if you accept the
-            cookie banner, one advertising measurement tag (Google Ads).
+            templates you create are never uploaded anywhere. We use two
+            analytics tools (Microsoft Clarity and PostHog) and, only if you
+            accept the cookie banner, one advertising measurement tag (Google
+            Ads).
           </p>
         </section>
 
@@ -72,6 +73,24 @@ export default function PrivacyPage() {
               Microsoft&apos;s privacy statement
             </a>
             . We use this only to improve the site.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2>Analytics — PostHog</h2>
+          <p>
+            We use PostHog for product analytics (pages visited, which
+            generators are used, when a PDF is created) to understand which
+            tools are worth improving. Data is processed as described in the{" "}
+            <a
+              href="https://posthog.com/privacy"
+              className="underline hover:text-foreground"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              PostHog privacy policy
+            </a>
+            . We do not send PostHog the content of any PDF you generate.
           </p>
         </section>
 
