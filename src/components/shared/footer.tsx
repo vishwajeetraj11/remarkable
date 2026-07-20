@@ -43,12 +43,17 @@ export function Footer() {
               Free, procedurally generated puzzles, templates, and activities optimized for the reMarkable paper tablet.
             </p>
             <p className="mt-3 text-xs text-muted-foreground/60">
-              Not affiliated with reMarkable AS.
+              Not affiliated with reMarkable AS, Ratta (Supernote), or Onyx
+              International (BOOX). All trademarks belong to their respective
+              owners.
             </p>
           </div>
         </div>
-        <div className="mt-8 pt-6 border-t border-border text-center text-xs text-muted-foreground">
-          Remarkable Skills &mdash; Free tools for your paper tablet
+        <div className="mt-8 pt-6 border-t border-border flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
+          <span>Remarkable Skills &mdash; Free tools for your paper tablet</span>
+          <Link href="/privacy" className="hover:text-foreground transition-colors underline">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>
