@@ -5,6 +5,8 @@ import { SITE_URL as siteUrl } from "@/lib/site-url";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { ClarityInit } from "@/components/shared/clarity";
+import { GoogleAdsTag } from "@/components/shared/google-ads-tag";
+import { ConsentBanner } from "@/components/shared/consent-banner";
 import { FeedbackWidget } from "@/components/shared/feedback-widget";
 import { EmailCaptureBanner } from "@/components/shared/email-capture";
 import {
@@ -70,6 +72,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  verification: {
+    other: {
+      "p:domain_verify": "19fe5215de60b6f978bb53933a7c93c7",
+    },
   },
 };
 
@@ -144,6 +151,8 @@ export default function RootLayout({
           <FeedbackWidget />
           <EmailCaptureBanner />
           <ClarityInit />
+          <GoogleAdsTag />
+          <ConsentBanner />
         </ThemeProvider>
       </body>
     </html>
