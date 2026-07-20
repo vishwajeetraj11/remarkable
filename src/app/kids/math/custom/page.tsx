@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -228,7 +229,7 @@ export default function CustomMathPage() {
       });
     });
 
-    doc.save(`math-custom-${pageCount}p.pdf`);
+    savePdf(doc, `math-custom-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

@@ -12,6 +12,18 @@ export function trackDownload() {
   window.dispatchEvent(new Event("rs_download"));
 }
 
+/**
+ * Save a generated jsPDF document and record the download in one step.
+ * The dispatched `rs_download` event drives the email-capture banner.
+ */
+export function savePdf(
+  doc: { save: (filename: string) => void },
+  filename: string
+) {
+  doc.save(filename);
+  trackDownload();
+}
+
 export function getDownloadCount(): number {
   if (typeof window === "undefined") return 0;
   return parseInt(localStorage.getItem(DOWNLOAD_COUNT_KEY) || "0", 10);

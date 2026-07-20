@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { jsPDF } from "jspdf";
@@ -940,7 +941,7 @@ function generatePackPDF(slug: string, pageSize: PageSize, perType: number) {
     }
   }
 
-  doc.save(`${slug}-pack.pdf`);
+  savePdf(doc, `${slug}-pack.pdf`);
 }
 
 function renderRoadTripSection(

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -150,7 +151,7 @@ export default function SightWordsPage() {
       }
     }
 
-    doc.save(
+    savePdf(doc, 
       `sight-words-${grade}-${wordsPerPage}w-${pageCount}p.pdf`,
     );
     setGenerating(false);

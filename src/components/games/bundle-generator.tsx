@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import jsPDF from "jspdf";
 import {
   Card,
@@ -1230,7 +1231,7 @@ export default function BundleGenerator() {
         }
       }
 
-      doc.save("puzzle-bundle.pdf");
+      savePdf(doc, "puzzle-bundle.pdf");
     } finally {
       setGenerating(false);
     }

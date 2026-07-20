@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -250,7 +251,7 @@ function generatePDF(
     drawAnswerKey(doc, puzzles, start, end, pageW);
   }
 
-  doc.save(`cryptogram-${puzzles.length}puzzles.pdf`);
+  savePdf(doc, `cryptogram-${puzzles.length}puzzles.pdf`);
 }
 
 // ─── Preview Component ────────────────────────────────────────────────────────

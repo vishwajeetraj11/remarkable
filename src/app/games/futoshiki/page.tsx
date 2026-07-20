@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -209,7 +210,7 @@ function generatePDF(
     }
   }
 
-  doc.save(`futoshiki-${difficulty}-${puzzles.length}puzzles.pdf`);
+  savePdf(doc, `futoshiki-${difficulty}-${puzzles.length}puzzles.pdf`);
 }
 
 // ─── Preview Grid Component ──────────────────────────────────────────────────

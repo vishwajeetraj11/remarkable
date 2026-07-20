@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -220,7 +221,7 @@ function generatePDF(
     }
   }
 
-  doc.save(`kakuro-${difficulty}-${puzzles.length}puzzles.pdf`);
+  savePdf(doc, `kakuro-${difficulty}-${puzzles.length}puzzles.pdf`);
 }
 
 // ─── Preview Grid Component ──────────────────────────────────────────────────

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -144,7 +145,7 @@ async function downloadPDF(
   doc.addPage();
   drawPage(doc, puzzle, title, margin, usableW, usableH, true);
 
-  doc.save(`word-search-custom.pdf`);
+  savePdf(doc, `word-search-custom.pdf`);
 }
 
 function drawPage(

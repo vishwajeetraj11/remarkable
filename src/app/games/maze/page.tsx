@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -45,7 +46,7 @@ async function downloadPDF(puzzle: MazePuzzle, difficulty: Difficulty, pageSize:
   doc.addPage();
   drawMazePage(doc, puzzle, difficulty, margin, usableW, usableH, true);
 
-  doc.save(`maze-${difficulty}.pdf`);
+  savePdf(doc, `maze-${difficulty}.pdf`);
 }
 
 function drawMazePage(

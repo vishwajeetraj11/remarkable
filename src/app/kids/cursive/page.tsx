@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -164,7 +165,7 @@ export default function CursivePage() {
       }
     }
 
-    doc.save(`cursive-${contentType}-${linesPerPage}l-${pageCount}p.pdf`);
+    savePdf(doc, `cursive-${contentType}-${linesPerPage}l-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

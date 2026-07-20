@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -231,7 +232,7 @@ export default function ConnectDotsPage() {
       }
     }
 
-    doc.save(`connect-dots-${shapeCategory}-${complexity}-${pageCount}p.pdf`);
+    savePdf(doc, `connect-dots-${shapeCategory}-${complexity}-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -141,7 +142,7 @@ async function downloadPDF(
   doc.addPage();
   drawPage(true);
 
-  doc.save("word-scramble.pdf");
+  savePdf(doc, "word-scramble.pdf");
 }
 
 const COUNT_OPTIONS = [10, 15, 20, 25, 30];

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -324,7 +325,7 @@ export default function MoneyCountingPage() {
       ay += 8;
     });
 
-    doc.save(`money-counting-${difficulty}-${pageCount}p.pdf`);
+    savePdf(doc, `money-counting-${difficulty}-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

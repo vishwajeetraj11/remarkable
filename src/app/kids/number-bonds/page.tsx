@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
@@ -107,7 +108,7 @@ export default function NumberBondsPage() {
       mode === "bonds"
         ? `number-bonds-${whole}-${pageCount}p.pdf`
         : `skip-counting-by-${step}-${pageCount}p.pdf`;
-    doc.save(name);
+    savePdf(doc, name);
     setGenerating(false);
   }
 

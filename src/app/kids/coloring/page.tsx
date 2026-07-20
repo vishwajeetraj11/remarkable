@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -311,7 +312,7 @@ export default function ColoringPage() {
       drawer({ doc, cx, cy, seed: (page + 1) * 7919 + previewSeed });
     }
 
-    doc.save(`coloring-${theme}-${pageCount}p.pdf`);
+    savePdf(doc, `coloring-${theme}-${pageCount}p.pdf`);
     setGenerating(false);
   }, [theme, pageCount, pageSize, previewSeed]);
 

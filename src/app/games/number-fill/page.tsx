@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -230,7 +231,7 @@ function generatePDF(puzzles: NumberFillPuzzle[], pageSize: PageSizeKey) {
     }
   }
 
-  doc.save(`number-fill-in-${puzzles.length}puzzles.pdf`);
+  savePdf(doc, `number-fill-in-${puzzles.length}puzzles.pdf`);
 }
 
 // ─── SVG Preview ──────────────────────────────────────────────────────────────

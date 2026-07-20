@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -195,7 +196,7 @@ export default function SpellingPage() {
       });
     });
 
-    doc.save(`spelling-${difficulty}-${wordsPerPage}w-${pageCount}p.pdf`);
+    savePdf(doc, `spelling-${difficulty}-${wordsPerPage}w-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

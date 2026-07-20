@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -287,7 +288,7 @@ function generatePDF(
   const tableX = (pageW - tableW) / 2;
   drawSolutionTable(doc, puzzle, tableX, ay, tableW);
 
-  doc.save(`logic-puzzle-${difficulty}.pdf`);
+  savePdf(doc, `logic-puzzle-${difficulty}.pdf`);
 }
 
 // ─── Preview Grid Component ───────────────────────────────────────────────────

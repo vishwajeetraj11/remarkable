@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
@@ -228,7 +229,7 @@ async function downloadPDF(
   doc.setTextColor(80, 80, 80);
   doc.text("— Solution —", ps.w / 2, margin - 8, { align: "center" });
 
-  doc.save("nonogram.pdf");
+  savePdf(doc, "nonogram.pdf");
 }
 
 export default function NonogramPage() {

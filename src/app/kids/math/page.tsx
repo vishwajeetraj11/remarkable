@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
@@ -181,7 +182,7 @@ export default function MathPage() {
       });
     });
 
-    doc.save(`math-${operation}-${difficulty}-${pageCount}p.pdf`);
+    savePdf(doc, `math-${operation}-${difficulty}-${pageCount}p.pdf`);
     setGenerating(false);
   }
 

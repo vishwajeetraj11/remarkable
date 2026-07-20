@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { VariantControls } from "./variant-controls";
+import { trackDownload } from "@/lib/download-tracker";
 import { thumbs } from "./thumbs";
 import {
   type TemplateVariants,
@@ -78,6 +79,7 @@ export function TemplateShell({
     setGenerating(true);
     try {
       await onGenerate(variants, pageCount);
+      trackDownload();
     } finally {
       setGenerating(false);
     }

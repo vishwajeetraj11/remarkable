@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
@@ -218,7 +219,7 @@ async function downloadPDF(puzzle: CrosswordPuzzle, pageSizeKey: PageSizeKey) {
   doc.setTextColor(80, 80, 80);
   doc.text("— Answer Key —", ps.w / 2, margin - 12, { align: "center" });
 
-  doc.save("crossword.pdf");
+  savePdf(doc, "crossword.pdf");
 }
 
 export default function CrosswordPage() {
