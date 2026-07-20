@@ -56,6 +56,11 @@ export default function PrivacyPage() {
             <li>your theme preference (light/dark)</li>
             <li>your cookie-consent choice</li>
           </ul>
+          <p>
+            If you submit your email in the sign-up banner or send feedback via
+            the feedback widget, that email address / feedback text is also
+            recorded in our PostHog analytics (see below) so we can follow up.
+          </p>
         </section>
 
         <section className="space-y-3">

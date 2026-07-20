@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { captureEvent } from "@/lib/analytics";
 
 const categories = [
   { value: "bug", label: "Something broken" },
@@ -49,6 +50,12 @@ export function FeedbackWidget() {
     );
 
     window.location.href = `mailto:vishwajeet.raj11@gmail.com?subject=${subject}&body=${body}`;
+
+    captureEvent("feedback_submitted", {
+      category,
+      message: message.trim(),
+      page,
+    });
 
     setSent(true);
     setTimeout(() => {

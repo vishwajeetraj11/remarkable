@@ -9,6 +9,7 @@ import {
   dismissEmailCapture,
   submitEmail,
 } from "@/lib/download-tracker";
+import { captureEmailSubmitted } from "@/lib/analytics";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,6 +27,7 @@ export function EmailCaptureInline() {
       e.preventDefault();
       if (!isValidEmail(email)) return;
       submitEmail(email);
+      captureEmailSubmitted(email);
       setStatus("success");
       setTimeout(() => setVisible(false), 2500);
     },
@@ -101,6 +103,7 @@ export function EmailCaptureBanner() {
       e.preventDefault();
       if (!isValidEmail(email)) return;
       submitEmail(email);
+      captureEmailSubmitted(email);
       setStatus("success");
       setTimeout(() => setVisible(false), 2500);
     },

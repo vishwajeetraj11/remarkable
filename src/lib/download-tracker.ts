@@ -5,11 +5,11 @@ const EMAIL_ADDRESS_KEY = "rs_email_address";
 
 const DISMISS_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
-export function trackDownload() {
+export function trackDownload(props?: Record<string, unknown>) {
   if (typeof window === "undefined") return;
   const count = getDownloadCount();
   localStorage.setItem(DOWNLOAD_COUNT_KEY, String(count + 1));
-  window.dispatchEvent(new Event("rs_download"));
+  window.dispatchEvent(new CustomEvent("rs_download", { detail: props }));
 }
 
 /**
@@ -21,7 +21,7 @@ export function savePdf(
   filename: string
 ) {
   doc.save(filename);
-  trackDownload();
+  trackDownload({ filename });
 }
 
 export function getDownloadCount(): number {

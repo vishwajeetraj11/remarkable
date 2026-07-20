@@ -79,7 +79,12 @@ export function TemplateShell({
     setGenerating(true);
     try {
       await onGenerate(variants, pageCount);
-      trackDownload();
+      trackDownload({
+        template: title,
+        device: variants.device,
+        orientation: variants.orientation,
+        pageCount,
+      });
     } finally {
       setGenerating(false);
     }
