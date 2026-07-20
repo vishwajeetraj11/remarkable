@@ -272,7 +272,14 @@ export const sections: Section[] = [
   {
     id: "home",
     index: HOME_ROUTE,
-    routes: [],
+    routes: [
+      {
+        path: "/privacy",
+        changeFrequency: "yearly",
+        priority: 0.3,
+        label: "Privacy Policy",
+      },
+    ],
   },
   {
     id: "games",
