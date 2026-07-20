@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+
+import { toolOpenGraph } from "@/lib/seo";
 import SudokuPage from "../page";
 
 const difficulties = {
@@ -43,6 +45,11 @@ export async function generateMetadata({
     title: meta.title,
     description: meta.description,
     alternates: { canonical: `/games/sudoku/${difficulty}` },
+    ...toolOpenGraph({
+      title: meta.title,
+      description: meta.description,
+      path: `/games/sudoku/${difficulty}`,
+    }),
   };
 }
 

@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Password Log Template",
   description:
     "Organized password and login tracker with columns for service, username, and notes.",
   alternates: { canonical: "/templates/password-log" },
+  ...toolOpenGraph({
+    title: "Password Log Template",
+    description:
+      "Organized password and login tracker with columns for service, username, and notes.",
+    path: "/templates/password-log",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

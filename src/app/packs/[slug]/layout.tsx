@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 const PACK_META: Record<string, { name: string; description: string }> = {
   "road-trip": {
     name: "Road Trip Activity Pack",
@@ -50,6 +52,11 @@ export async function generateMetadata({
     title: pack.name,
     description: pack.description,
     alternates: { canonical: `/packs/${slug}` },
+    ...toolOpenGraph({
+      title: pack.name,
+      description: pack.description,
+      path: `/packs/${slug}`,
+    }),
   };
 }
 

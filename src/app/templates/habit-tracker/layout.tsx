@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Habit Tracker Template",
   description:
@@ -13,6 +15,12 @@ export const metadata: Metadata = {
     "free habit tracker printable",
   ],
   alternates: { canonical: "/templates/habit-tracker" },
+  ...toolOpenGraph({
+    title: "Habit Tracker Template",
+    description:
+      "Monthly grid with 31 day columns and habit rows for consistent streak tracking. Download as a free printable PDF.",
+    path: "/templates/habit-tracker",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

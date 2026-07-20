@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+
+import { toolOpenGraph } from "@/lib/seo";
 import MathPage from "../page";
 
 const operations = {
@@ -43,6 +45,11 @@ export async function generateMetadata({
     title: meta.title,
     description: meta.description,
     alternates: { canonical: `/kids/math/${operation}` },
+    ...toolOpenGraph({
+      title: meta.title,
+      description: meta.description,
+      path: `/kids/math/${operation}`,
+    }),
   };
 }
 

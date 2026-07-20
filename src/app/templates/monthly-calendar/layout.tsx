@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Monthly Calendar Template",
   description:
@@ -13,6 +15,12 @@ export const metadata: Metadata = {
     "calendar grid printable",
   ],
   alternates: { canonical: "/templates/monthly-calendar" },
+  ...toolOpenGraph({
+    title: "Monthly Calendar Template",
+    description:
+      "Traditional monthly grid calendar with large day cells for notes and events. Download as a free printable PDF.",
+    path: "/templates/monthly-calendar",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

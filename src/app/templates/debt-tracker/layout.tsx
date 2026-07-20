@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Debt Payoff Tracker — Snowball & Avalanche PDF for reMarkable",
   description:
@@ -13,6 +15,12 @@ export const metadata: Metadata = {
     "remarkable debt tracker",
   ],
   alternates: { canonical: "/templates/debt-tracker" },
+  ...toolOpenGraph({
+    title: "Debt Payoff Tracker — Snowball & Avalanche PDF for reMarkable",
+    description:
+      "Free printable debt payoff tracker PDF. List creditors, balances, APR, and minimum payments, choose the snowball or avalanche method, and track progress with a payoff thermometer. Built for reMarkable and other e-ink tablets.",
+    path: "/templates/debt-tracker",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

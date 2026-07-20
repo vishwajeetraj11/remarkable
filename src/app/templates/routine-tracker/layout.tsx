@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Routine Tracker Template",
   description:
     "Weekly habit and routine tracker grid with checkboxes for morning and evening routines. Download as a free printable PDF.",
   alternates: { canonical: "/templates/routine-tracker" },
+  ...toolOpenGraph({
+    title: "Routine Tracker Template",
+    description:
+      "Weekly habit and routine tracker grid with checkboxes for morning and evening routines. Download as a free printable PDF.",
+    path: "/templates/routine-tracker",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

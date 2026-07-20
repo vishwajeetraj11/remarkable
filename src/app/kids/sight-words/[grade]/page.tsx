@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+
+import { toolOpenGraph } from "@/lib/seo";
 import SightWordsPage from "../page";
 
 const grades = {
@@ -43,6 +45,11 @@ export async function generateMetadata({
     title: meta.title,
     description: meta.description,
     alternates: { canonical: `/kids/sight-words/${grade}` },
+    ...toolOpenGraph({
+      title: meta.title,
+      description: meta.description,
+      path: `/kids/sight-words/${grade}`,
+    }),
   };
 }
 

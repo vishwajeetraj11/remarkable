@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title:
     "Number Bonds & Skip Counting — Free Printable Math Worksheets for reMarkable",
@@ -17,6 +19,13 @@ export const metadata: Metadata = {
     "remarkable worksheets",
   ],
   alternates: { canonical: "/kids/number-bonds" },
+  ...toolOpenGraph({
+    title:
+      "Number Bonds & Skip Counting — Free Printable Math Worksheets for reMarkable",
+    description:
+      "Generate printable number bond (part-part-whole) and skip counting worksheets with answer keys. Free PDFs for early math practice on reMarkable, e-ink tablets, A4, or US Letter.",
+    path: "/kids/number-bonds",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

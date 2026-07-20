@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { toolOpenGraph } from "@/lib/seo";
+
 export const metadata: Metadata = {
   title: "Bullet Journal Kit — Printable BuJo Collections for reMarkable",
   description:
@@ -17,6 +19,12 @@ export const metadata: Metadata = {
     "remarkable bullet journal",
   ],
   alternates: { canonical: "/templates/bullet-journal" },
+  ...toolOpenGraph({
+    title: "Bullet Journal Kit — Printable BuJo Collections for reMarkable",
+    description:
+      "A printable, hyperlinked bullet-journal kit PDF — tap the index to jump to any collection and tap back from any page. Includes a key/legend, future log, monthly log, weekly/daily log, and a trackers & collections page, all on a dot-grid. Free download for reMarkable and other e-ink tablets.",
+    path: "/templates/bullet-journal",
+  }),
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
