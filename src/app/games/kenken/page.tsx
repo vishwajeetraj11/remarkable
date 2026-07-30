@@ -406,9 +406,11 @@ export default function KenKenPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="A4">{PAGE_SIZES.A4.label}</SelectItem>
-                  <SelectItem value="Letter">{PAGE_SIZES.Letter.label}</SelectItem>
-                  <SelectItem value="eInk">{PAGE_SIZES.eInk.label}</SelectItem>
+                  {Object.entries(PAGE_SIZES).map(([k, v]) => (
+                    <SelectItem key={k} value={k}>
+                      {v.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

@@ -103,7 +103,16 @@ export function getSimpleMargins() {
 }
 
 export function variantSuffix(v: TemplateVariants) {
-  const d = v.device === "remarkable2" ? "rm2" : v.device === "paperPro" ? "pp" : v.device;
+  const d =
+    v.device === "remarkable2"
+      ? "rm2"
+      : v.device === "paperPro"
+        ? "pp"
+        : v.device === "paperProMove"
+          ? "ppmove"
+          : v.device === "paperPure"
+            ? "pure"
+            : v.device;
   const o = v.orientation === "portrait" ? "p" : "l";
   const h = v.handedness === "right" ? "rh" : "lh";
   const i = v.inkIntensity === "regular" ? "" : `-${v.inkIntensity}`;

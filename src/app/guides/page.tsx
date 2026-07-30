@@ -24,6 +24,12 @@ export const metadata: Metadata = {
 
 const guides = [
   {
+    title: "Best Free reMarkable Templates in 2026",
+    href: "/guides/best-free-remarkable-templates-2026",
+    description:
+      "Where free templates actually come from — generators, reMarkable's own library, community repos, and shop samples — plus what to check before downloading (device sizing, grey lines, PDF vs PNG).",
+  },
+  {
     title: "How to Transfer PDFs to Your E-Ink Tablet",
     href: "/guides/transfer-pdfs-to-tablet",
     description:

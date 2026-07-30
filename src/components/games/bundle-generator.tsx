@@ -79,9 +79,11 @@ const PUZZLE_TYPES = [
 type PuzzleId = (typeof PUZZLE_TYPES)[number]["id"];
 
 const PAGE_SIZES: Record<string, [number, number]> = {
-  A4: [595.28, 841.89],
-  Letter: [612, 792],
-  "E-ink Tablet": [495.72, 661.68],
+  "A4 (595 × 842)": [595.28, 841.89],
+  "Letter (612 × 792)": [612, 792],
+  "reMarkable 2 / Paper Pure / Supernote / BOOX (1404 × 1872)": [495.72, 661.68],
+  "reMarkable Paper Pro (1620 × 2160)": [571.68, 762.48],
+  "Kindle Scribe (1860 × 2480)": [656.16, 874.88],
 };
 
 // ---------------------------------------------------------------------------
@@ -1090,7 +1092,7 @@ export default function BundleGenerator() {
     () => new Set(PUZZLE_TYPES.map((p) => p.id)),
   );
   const [perType, setPerType] = useState(2);
-  const [pageSize, setPageSize] = useState("A4");
+  const [pageSize, setPageSize] = useState("A4 (595 × 842)");
   const [generating, setGenerating] = useState(false);
 
   const toggle = useCallback((id: PuzzleId) => {
@@ -1289,11 +1291,11 @@ export default function BundleGenerator() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="A4">A4 (595 × 842)</SelectItem>
-              <SelectItem value="Letter">Letter (612 × 792)</SelectItem>
-              <SelectItem value="E-ink Tablet">
-                E-ink Tablet (496 × 662)
-              </SelectItem>
+              {Object.keys(PAGE_SIZES).map((k) => (
+                <SelectItem key={k} value={k}>
+                  {k}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

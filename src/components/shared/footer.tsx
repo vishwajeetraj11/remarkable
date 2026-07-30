@@ -51,9 +51,14 @@ export function Footer() {
         </div>
         <div className="mt-8 pt-6 border-t border-border flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">
           <span>Remarkable Skills &mdash; Free tools for your paper tablet</span>
-          <Link href="/privacy" className="hover:text-foreground transition-colors underline">
-            Privacy Policy
-          </Link>
+          <span className="flex gap-4">
+            <Link href="/privacy" className="hover:text-foreground transition-colors underline">
+              Privacy Policy
+            </Link>
+            <Link href="/for-creators" className="hover:text-foreground transition-colors underline">
+              For Creators &amp; Press
+            </Link>
+          </span>
         </div>
       </div>
     </footer>

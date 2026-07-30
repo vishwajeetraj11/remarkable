@@ -16,7 +16,7 @@ const faqs = [
   {
     question: "Which devices are supported?",
     answer:
-      "The PDFs are optimized for the reMarkable 2 and Paper Pro, and also work well on Supernote, BOOX, and Kindle Scribe. You can choose A4 or US Letter page sizes to fit your device or printer.",
+      "Every template can be generated at the native aspect ratio of your device: reMarkable 2 and Paper Pure (1404×1872), reMarkable Paper Pro (1620×2160), Paper Pro Move (954×1696), Supernote A5X (1404×1872), Supernote Manta (1920×2560), BOOX Note Air and Tab Ultra (1404×1872), Kindle Scribe (1860×2480) — plus A4 and US Letter for printing.",
   },
   {
     question: "Are the puzzles unique each time?",

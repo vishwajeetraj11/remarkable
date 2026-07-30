@@ -103,6 +103,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/kids/sight-words/2nd-grade": "2nd Grade",
   "/kids/sight-words/3rd-grade": "3rd Grade",
   // Guides
+  "/guides/best-free-remarkable-templates-2026": "Best Free reMarkable Templates 2026",
   "/guides/transfer-pdfs-to-tablet": "Transfer PDFs to Tablet",
   "/guides/printable-worksheets-for-homeschool": "Printable Worksheets for Homeschool",
   "/guides/adhd-productivity-templates": "ADHD Productivity Templates",
@@ -241,6 +242,7 @@ const KIDS_PATHS = [
 ];
 
 const GUIDE_PATHS = [
+  "/guides/best-free-remarkable-templates-2026",
   "/guides/transfer-pdfs-to-tablet",
   "/guides/printable-worksheets-for-homeschool",
   "/guides/adhd-productivity-templates",
@@ -278,6 +280,12 @@ export const sections: Section[] = [
         changeFrequency: "yearly",
         priority: 0.3,
         label: "Privacy Policy",
+      },
+      {
+        path: "/for-creators",
+        changeFrequency: "monthly",
+        priority: 0.5,
+        label: "For Creators & Press",
       },
     ],
   },
