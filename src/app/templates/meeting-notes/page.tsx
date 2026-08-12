@@ -1,82 +1,54 @@
 "use client";
 
-import {
-  createDoc,
-  drawHeader,
-  drawPageNumber,
-  drawSectionTitle,
-  drawHorizontalLines,
-  drawCheckbox,
-  drawLabeledLine,
-} from "@/lib/templates/pdf-utils";
-import { COLORS } from "@/lib/templates/constants";
 import { TemplateShell } from "@/components/templates/template-shell";
-import {
-  type TemplateVariants,
-  getPageDimensions,
-  getMargins,
-  variantSuffix,
-} from "@/lib/templates/variants";
+import type { TemplateVariants } from "@/lib/templates/variants";
+
+function downloadPdf(buffer: ArrayBuffer, filename: string) {
+  const url = URL.createObjectURL(
+    new Blob([buffer], { type: "application/pdf" }),
+  );
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
+}
+
+function generateMeetingNotesPdf(
+  variants: TemplateVariants,
+  pageCount: number,
+) {
+  return new Promise<void>((resolve, reject) => {
+    const worker = new Worker(
+      new URL("./meeting-notes.worker.ts", import.meta.url),
+      { type: "module" },
+    );
+
+    worker.addEventListener("message", (event) => {
+      const data = event.data as
+        | { buffer: ArrayBuffer; filename: string }
+        | { error: string };
+      worker.terminate();
+      if ("error" in data) {
+        reject(new Error(data.error));
+        return;
+      }
+      downloadPdf(data.buffer, data.filename);
+      resolve();
+    });
+    worker.addEventListener("error", (event) => {
+      worker.terminate();
+      reject(new Error(event.message || "Meeting Notes PDF generation failed"));
+    });
+    worker.postMessage({ variants, pageCount });
+  });
+}
 
 export default function MeetingNotesPage() {
   async function generate(variants: TemplateVariants, pageCount: number) {
-    const doc = createDoc(variants);
-    const { w, h } = getPageDimensions(variants);
-    const m = getMargins(variants);
-
-    for (let page = 0; page < pageCount; page++) {
-      if (page > 0) doc.addPage();
-
-      drawHeader(doc, variants, { title: "Meeting Notes", dark: true });
-
-      let y = m.top + 44;
-      drawLabeledLine(doc, "Date:", m.left + 4, y, m.left + 120);
-      drawLabeledLine(doc, "Time:", m.left + 130, y, m.left + 240);
-      y += 16;
-      drawLabeledLine(doc, "Meeting:", m.left + 4, y, w - m.right - 4);
-      y += 16;
-      drawLabeledLine(doc, "Attendees:", m.left + 4, y, w - m.right - 4);
-      y += 16;
-      drawLabeledLine(doc, "Objective:", m.left + 4, y, w - m.right - 4);
-
-      y += 22;
-      drawSectionTitle(doc, "Agenda", m.left + 4, y);
-      y += 10;
-      for (let i = 0; i < 4; i++) {
-        const [lr, lg, lb] = COLORS.lineLight;
-        doc.setDrawColor(lr, lg, lb);
-        doc.setLineWidth(0.3);
-        doc.line(m.left + 4, y + i * 18 + 8, w - m.right - 4, y + i * 18 + 8);
-      }
-
-      y += 82;
-      drawSectionTitle(doc, "Discussion Notes", m.left + 4, y);
-      const notesEnd = h - m.bottom - 120;
-      drawHorizontalLines(doc, variants, {
-        startY: y + 2,
-        endY: notesEnd,
-        spacing: 18,
-      });
-
-      y = notesEnd + 10;
-      drawSectionTitle(doc, "Action Items", m.left + 4, y);
-      y += 10;
-      const actionsEnd = h - m.bottom - 10;
-      const actionLines = Math.floor((actionsEnd - y) / 20);
-      for (let i = 0; i < actionLines; i++) {
-        drawCheckbox(doc, m.left + 6, y + i * 20, 7);
-        const [lr, lg, lb] = COLORS.lineLight;
-        doc.setDrawColor(lr, lg, lb);
-        doc.setLineWidth(0.3);
-        doc.line(m.left + 18, y + i * 20 + 7, w - m.right - 4, y + i * 20 + 7);
-      }
-
-      const [br, bg, bb] = COLORS.black;
-      doc.setTextColor(br, bg, bb);
-      drawPageNumber(doc, page + 1, pageCount, variants);
-    }
-
-    doc.save(`meeting-notes-${variantSuffix(variants)}-${pageCount}p.pdf`);
+    await generateMeetingNotesPdf(variants, pageCount);
   }
 
   return (

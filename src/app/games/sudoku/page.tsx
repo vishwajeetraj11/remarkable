@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -14,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { generateSudoku, SudokuDifficulty, SudokuPuzzle } from "@/lib/generators/sudoku";
+import type { SudokuDifficulty, SudokuPuzzle } from "@/lib/generators/sudoku";
 import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 const DIFFICULTY_LABELS: Record<SudokuDifficulty, string> = {
@@ -27,7 +26,7 @@ const DIFFICULTY_LABELS: Record<SudokuDifficulty, string> = {
 // ─── PDF Generation ───────────────────────────────────────────────────────────
 
 function drawSudokuGrid(
-  doc: jsPDF,
+  doc: InstanceType<typeof import("jspdf").jsPDF>,
   puzzle: number[][],
   solution: number[][] | null,
   originX: number,
@@ -90,11 +89,12 @@ function drawSudokuGrid(
   }
 }
 
-function generatePDF(
+async function generatePDF(
   puzzles: SudokuPuzzle[],
   difficulty: SudokuDifficulty,
   pageSize: PageSizeKey
 ) {
+  const { jsPDF } = await import("jspdf");
   const { w: pageW, h: pageH } = PAGE_SIZES[pageSize];
   const margin = pageW * 0.1;
   const usableW = pageW - margin * 2;
@@ -194,6 +194,33 @@ function generatePDF(
   savePdf(doc, `sudoku-${difficulty}-${puzzles.length}puzzles.pdf`);
 }
 
+function requestSudokus(difficulty: SudokuDifficulty, count: number) {
+  const worker = new Worker(new URL("./sudoku.worker.ts", import.meta.url), {
+    type: "module",
+  });
+
+  const promise = new Promise<SudokuPuzzle[]>((resolve, reject) => {
+    worker.addEventListener("message", (event) => {
+      const data = event.data as
+        | { puzzles: SudokuPuzzle[] }
+        | { error: string };
+      worker.terminate();
+      if ("error" in data) {
+        reject(new Error(data.error));
+        return;
+      }
+      resolve(data.puzzles);
+    });
+    worker.addEventListener("error", (event) => {
+      worker.terminate();
+      reject(new Error(event.message || "Sudoku generation failed"));
+    });
+    worker.postMessage({ difficulty, count });
+  });
+
+  return { promise, cancel: () => worker.terminate() };
+}
+
 // ─── Preview Grid Component ───────────────────────────────────────────────────
 
 function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
@@ -263,32 +290,29 @@ export default function SudokuPage() {
   const [previewPuzzle, setPreviewPuzzle] = useState<SudokuPuzzle | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const regeneratePreview = useCallback(() => {
-    const puzzle = generateSudoku(difficulty);
-    setPreviewPuzzle(puzzle);
+  // Generate previews away from the main thread so changing difficulty does
+  // not hold up the next mobile paint.
+  useEffect(() => {
+    const task = requestSudokus(difficulty, 1);
+    void task.promise.then(([puzzle]) => setPreviewPuzzle(puzzle));
+    return task.cancel;
   }, [difficulty]);
 
-  // Generate preview on first load and whenever difficulty changes
-  useEffect(() => {
-    regeneratePreview();
-  }, [regeneratePreview]);
+  const regeneratePreview = () => {
+    const task = requestSudokus(difficulty, 1);
+    void task.promise.then(([puzzle]) => setPreviewPuzzle(puzzle));
+  };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     setIsGenerating(true);
-    // Use setTimeout to let React re-render the "generating" state before the
-    // synchronous PDF work blocks the thread.
-    setTimeout(() => {
-      try {
-        const puzzles: SudokuPuzzle[] = Array.from({ length: numPuzzles }, () =>
-          generateSudoku(difficulty)
-        );
-        generatePDF(puzzles, difficulty, pageSize);
-        // Update preview with the first generated puzzle
-        setPreviewPuzzle(puzzles[0]);
-      } finally {
-        setIsGenerating(false);
-      }
-    }, 50);
+    try {
+      const { promise } = requestSudokus(difficulty, numPuzzles);
+      const puzzles = await promise;
+      await generatePDF(puzzles, difficulty, pageSize);
+      setPreviewPuzzle(puzzles[0]);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
