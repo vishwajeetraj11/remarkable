@@ -33,6 +33,7 @@ export function DownloadStatus() {
   const [filename, setFilename] = useState<string>();
   const triggerRef = useRef<HTMLElement | null>(null);
   const pendingRef = useRef(false);
+  const engagementCapturedRef = useRef(false);
   const failureTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -58,6 +59,18 @@ export function DownloadStatus() {
     const onClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
+      const interactiveTarget = target.closest<HTMLElement>(
+        "a, button, input, select, textarea, [role='button']",
+      );
+      if (interactiveTarget && !engagementCapturedRef.current) {
+        engagementCapturedRef.current = true;
+        captureEvent("meaningful_session", {
+          path: window.location.pathname,
+          first_interaction_type:
+            interactiveTarget.getAttribute("role") ||
+            interactiveTarget.tagName.toLowerCase(),
+        });
+      }
       const action = target.closest<HTMLElement>(
         "button, [data-slot='button'], [role='button']",
       );
