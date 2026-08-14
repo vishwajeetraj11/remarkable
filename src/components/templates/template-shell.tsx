@@ -21,12 +21,15 @@ import {
 } from "@/lib/analytics";
 import { thumbs } from "./thumbs";
 import { PostDownloadSuggestion } from "./post-download-suggestion";
+import { TemplateGuide } from "./template-guide";
+import { TEMPLATE_PAGE_GUIDES } from "@/lib/templates/page-guides";
 import {
   type TemplateVariants,
   type LineSpacing,
   DEFAULT_VARIANTS,
 } from "@/lib/templates/variants";
 import { TEMPLATES_WITH_HEADER } from "@/lib/templates/custom-title";
+import { DEVICES } from "@/lib/templates/constants";
 import {
   TEMPLATES_WITH_LINE_SPACING,
   TEMPLATES_WITH_PAGE_NAV,
@@ -45,6 +48,7 @@ export interface TemplateShellProps {
     pageCount: number
   ) => ReactNode;
   onGenerate: (variants: TemplateVariants, pageCount: number) => Promise<void>;
+  onSampleGenerate?: (variants: TemplateVariants) => Promise<void>;
   downloadLabel?: (pageCount: number) => string;
 }
 
@@ -58,10 +62,12 @@ export function TemplateShell({
   children,
   extraControls,
   onGenerate,
+  onSampleGenerate,
   downloadLabel,
 }: TemplateShellProps) {
   const pathname = usePathname();
   const thumb = thumbs[pathname];
+  const guide = TEMPLATE_PAGE_GUIDES[pathname];
   // Only templates whose PDF header routes through drawHeader can honor a
   // custom title or print a dated header, so both header-only controls gate on
   // the same shared registry.
@@ -79,6 +85,7 @@ export function TemplateShell({
   const [variants, setVariants] = useState<TemplateVariants>(DEFAULT_VARIANTS);
   const [pageCount, setPageCount] = useState(defaultPageCount);
   const [generating, setGenerating] = useState(false);
+  const [generatingSample, setGeneratingSample] = useState(false);
   const [showSuggestion, setShowSuggestion] = useState(false);
 
   async function handleGenerate() {
@@ -108,6 +115,37 @@ export function TemplateShell({
     }
   }
 
+  async function handleSampleGenerate() {
+    setGeneratingSample(true);
+    const funnelProps = {
+      templateSlug: pathname,
+      templateName: title,
+      device: variants.device,
+      orientation: variants.orientation,
+      pageCount: 1,
+    };
+    captureTemplateFunnelEvent("template_generator_started", funnelProps);
+    try {
+      if (onSampleGenerate) {
+        await onSampleGenerate(variants);
+      } else {
+        await onGenerate(variants, 1);
+      }
+      captureTemplateFunnelEvent("template_generated", funnelProps);
+      trackDownload({
+        template: title,
+        template_slug: pathname,
+        content_type: "template_sample",
+        device: normalizeTemplateDevice(variants.device),
+        orientation: variants.orientation,
+        page_count: 1,
+      });
+      setShowSuggestion(true);
+    } finally {
+      setGeneratingSample(false);
+    }
+  }
+
   const label = downloadLabel
     ? downloadLabel(pageCount)
     : `Generate & Download PDF (${pageCount} page${pageCount > 1 ? "s" : ""})`;
@@ -128,13 +166,24 @@ export function TemplateShell({
             {thumb && (
               <div className="flex justify-start mb-4">
                 <div className="w-48 aspect-5/7 rounded-lg border border-border bg-white p-3">
-                  <svg viewBox="0 0 120 168" fill="none" className="w-full h-full text-foreground">
+                  <svg
+                    viewBox="0 0 120 168"
+                    fill="none"
+                    className="w-full h-full text-foreground"
+                    role="img"
+                    aria-label={`${title} page preview`}
+                  >
                     {thumb}
                   </svg>
                 </div>
               </div>
             )}
             {children?.(variants, pageCount)}
+            <p className="mt-4 text-xs text-muted-foreground" aria-live="polite">
+              Preview settings: {DEVICES[variants.device].label} · {variants.orientation} ·{" "}
+              {variants.handedness}-hand binding · {variants.inkIntensity} ink
+              {showPageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
+            </p>
           </div>
         </div>
       )}
@@ -238,9 +287,28 @@ export function TemplateShell({
         {extraControls?.(variants, pageCount)}
       </div>
 
-      <Button onClick={handleGenerate} disabled={generating} size="lg">
-        {generating ? "Generating…" : label}
-      </Button>
+      <div className="flex flex-wrap items-center gap-3">
+        <Button
+          onClick={handleGenerate}
+          disabled={generating || generatingSample}
+          size="lg"
+        >
+          {generating ? "Generating…" : label}
+        </Button>
+        {(showPageCount || onSampleGenerate) && (
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            onClick={handleSampleGenerate}
+            disabled={generating || generatingSample}
+          >
+            {generatingSample ? "Preparing sample…" : "Download 1-page sample"}
+          </Button>
+        )}
+      </div>
+
+      {guide && <TemplateGuide guide={guide} />}
 
       {showSuggestion && (
         <PostDownloadSuggestion

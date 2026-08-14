@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { toolOpenGraph } from "@/lib/seo";
-import MathPage from "../page";
+import MathPage, { type Operation as MathOperation } from "../page";
 
 const operations = {
   addition: {
@@ -60,5 +60,5 @@ export default async function Page({
 }) {
   const { operation } = await params;
   if (!(operation in operations)) notFound();
-  return <MathPage />;
+  return <MathPage initialOperation={operation as MathOperation} />;
 }

@@ -9,6 +9,7 @@ import {
   drawPageNumber,
   drawSectionTitle,
   MM_TO_PT,
+  keepOnlyPage,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
@@ -535,13 +536,31 @@ function renderTrackersPage(
 
 // ── Main generator ────────────────────────────────────────────────────────────
 
-async function generateBulletJournal(variants: TemplateVariants) {
+async function generateBulletJournal(variants: TemplateVariants, sampleOnly = false) {
   const { w, h } = getPageDimensions(variants);
   const m = getMargins(variants);
   const doc = createDoc(variants);
 
   // Page 1: INDEX / KEY
   renderIndexPage(doc, variants, w, h, m);
+
+  if (sampleOnly) {
+    const futureLog = COLLECTIONS.find((collection) => collection.id === "future")!;
+    addPage(doc, variants);
+    renderFutureLogPage(
+      doc,
+      variants,
+      w,
+      h,
+      m,
+      futureLog,
+      futureLog.startPage,
+      0,
+    );
+    keepOnlyPage(doc, 2);
+    doc.save(`bullet-journal-${variantSuffix(variants)}-sample.pdf`);
+    return;
+  }
 
   COLLECTIONS.forEach((col) => {
     switch (col.id) {
@@ -578,6 +597,7 @@ export default function BulletJournalPage() {
       description="A printable, hyperlinked bullet-journal kit — tap the index to jump to any collection, and tap ‹ Index on any page to return. Includes a key/legend, future log, monthly log, weekly/daily log, and a trackers & collections page, all on a dot-grid."
       showPageCount={false}
       onGenerate={(v) => generateBulletJournal(v)}
+      onSampleGenerate={(v) => generateBulletJournal(v, true)}
       downloadLabel={() => `Generate & Download PDF (${TOTAL_PAGES} pages)`}
     >
       {() => (

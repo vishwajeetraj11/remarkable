@@ -4,6 +4,7 @@ import { toolOpenGraph } from "@/lib/seo";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
 import { Breadcrumbs } from "@/components/shared/breadcrumbs";
 import { RelatedLinks } from "@/components/shared/related-links";
+import { ToolPageGuide } from "@/components/shared/tool-page-guide";
 
 export const metadata: Metadata = {
   title: "Games & Puzzles — Free Printable Puzzles for reMarkable",
@@ -35,6 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         BOOX, and standard printers.
       </p>
       {children}
+      <ToolPageGuide />
       <RelatedLinks />
     </ErrorBoundary>
   );

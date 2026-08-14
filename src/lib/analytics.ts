@@ -190,6 +190,47 @@ export function captureTemplateRequest(props: {
   });
 }
 
+export function captureTemplateRoadmapVote(props: {
+  requestId: string;
+  requestTitle: string;
+  status: "planned" | "building" | "published";
+}) {
+  captureEvent("template_request_voted", {
+    request_id: props.requestId,
+    requested_template: props.requestTitle,
+    request_status: props.status,
+    source_page: "/requests",
+  });
+}
+
+export function capturePublicTemplateRequest(props: {
+  requestedTemplate: string;
+  useCase?: string;
+  device: TemplateDevice;
+  email?: string;
+}) {
+  if (!KEY || typeof window === "undefined") return;
+  import("posthog-js").then(({ default: posthog }) => {
+    if (!posthog.__loaded) return;
+
+    const normalizedEmail = props.email?.trim().toLowerCase();
+    if (normalizedEmail) {
+      posthog.identify(normalizedEmail, {
+        email: normalizedEmail,
+        template_publication_updates: true,
+      });
+    }
+
+    posthog.capture("template_request_submitted", {
+      requested_template: props.requestedTemplate.trim(),
+      use_case: props.useCase?.trim() || undefined,
+      device: normalizeTemplateDevice(props.device),
+      email_opt_in: Boolean(normalizedEmail),
+      source_page: "/requests",
+    });
+  });
+}
+
 export function captureTemplateSuggestion(props: {
   suggestion: string;
   templateSlug: string;

@@ -6,7 +6,7 @@ import { Toggle } from "@/components/templates/variant-controls";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { createDoc, drawPageNumber } from "@/lib/templates/pdf-utils";
+import { createDoc, drawPageNumber, keepOnlyPage } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
   type TemplateVariants,
@@ -48,7 +48,7 @@ export default function PlannerPage() {
   const [weeks, setWeeks] = useState(4);
   const [timeSlots, setTimeSlots] = useState(false);
 
-  async function generate(variants: TemplateVariants) {
+  async function generate(variants: TemplateVariants, sampleOnly = false) {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const margin = 24;
@@ -184,9 +184,11 @@ export default function PlannerPage() {
       }
 
       drawPageNumber(doc, week + 2, totalPages, variants);
+      if (sampleOnly) break;
     }
 
-    doc.save(`weekly-planner-${variantSuffix(variants)}-${weeks}w.pdf`);
+    if (sampleOnly) keepOnlyPage(doc, 2);
+    doc.save(`weekly-planner-${variantSuffix(variants)}-${sampleOnly ? "sample" : `${weeks}w`}.pdf`);
   }
 
   const previewStart = toWeekStart(
@@ -201,7 +203,8 @@ export default function PlannerPage() {
       description="Seven-column weekly layout with optional hourly time slots."
       showWeekStart
       showPageCount={false}
-      onGenerate={generate}
+      onGenerate={(v) => generate(v)}
+      onSampleGenerate={(v) => generate(v, true)}
       downloadLabel={() =>
         `Generate & Download PDF (${weeks} week${weeks > 1 ? "s" : ""})`
       }

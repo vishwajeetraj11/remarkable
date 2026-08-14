@@ -60,6 +60,16 @@ export function addPage(doc: jsPDF, variants: TemplateVariants) {
   doc.addPage([w, h]);
 }
 
+/** Keep one already-rendered page as an accurate sample of a full document. */
+export function keepOnlyPage(doc: jsPDF, pageNumber: number) {
+  const total = doc.getNumberOfPages();
+  if (pageNumber < 1 || pageNumber > total) {
+    throw new RangeError(`Sample page ${pageNumber} is outside 1-${total}`);
+  }
+  for (let page = total; page > pageNumber; page -= 1) doc.deletePage(page);
+  for (let page = pageNumber - 1; page >= 1; page -= 1) doc.deletePage(page);
+}
+
 export interface DrawHeaderOptions {
   title: string;
   subtitle?: string;

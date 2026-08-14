@@ -60,5 +60,5 @@ export default async function Page({
 }) {
   const { difficulty } = await params;
   if (!(difficulty in difficulties)) notFound();
-  return <SudokuPage />;
+  return <SudokuPage initialDifficulty={difficulty as Difficulty} />;
 }

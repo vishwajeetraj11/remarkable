@@ -14,6 +14,7 @@ import {
   drawHorizontalLines,
   drawLabeledLine,
   drawCheckbox,
+  keepOnlyPage,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
@@ -456,6 +457,7 @@ function renderNotesPage(
 async function generatePlanner(
   variants: TemplateVariants,
   projectName: string,
+  sampleOnly = false,
 ) {
   const { w, h } = getPageDimensions(variants);
   const m = getMargins(variants);
@@ -463,6 +465,15 @@ async function generatePlanner(
 
   // Page 1: INDEX
   renderIndexPage(doc, variants, w, h, m, projectName.trim());
+
+  if (sampleOnly) {
+    const overview = SECTIONS.find((section) => section.id === "overview")!;
+    addPage(doc, variants);
+    renderOverviewPage(doc, variants, w, h, m, overview);
+    keepOnlyPage(doc, 2);
+    doc.save(`project-planner-${variantSuffix(variants)}-sample.pdf`);
+    return;
+  }
 
   // Section pages (each section begins at sec.startPage)
   SECTIONS.forEach((sec) => {
@@ -514,6 +525,7 @@ export default function ProjectPlannerPage() {
       description="A printable, hyperlinked project planner — tap the index to jump to any section, and tap ‹ Index on any page to return. Includes overview, goals, milestones, tasks, risks, and notes."
       showPageCount={false}
       onGenerate={(v) => generate(v)}
+      onSampleGenerate={(v) => generatePlanner(v, projectName, true)}
       downloadLabel={() => `Generate & Download PDF (${TOTAL_PAGES} pages)`}
       extraControls={() => (
         <div className="space-y-1.5">

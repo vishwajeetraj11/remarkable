@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { jsPDF } from "jspdf";
 import { VariantControls } from "@/components/templates/variant-controls";
+import { TemplateGuide } from "@/components/templates/template-guide";
 import { Button } from "@/components/ui/button";
 import {
   type TemplateVariants,
@@ -12,6 +13,8 @@ import {
   variantSuffix,
 } from "@/lib/templates/variants";
 import { COLORS } from "@/lib/templates/constants";
+import { keepOnlyPage } from "@/lib/templates/pdf-utils";
+import { TEMPLATE_PAGE_GUIDES } from "@/lib/templates/page-guides";
 
 // ─── Doc catalog ─────────────────────────────────────────────────────────────
 
@@ -561,8 +564,11 @@ export default function McpDocsPage() {
     });
   }
 
-  async function generate() {
-    const toFetch = SECTIONS.flatMap((g) => g.items.filter((item) => selected.has(item.id)));
+  async function generate(sampleOnly = false) {
+    const selectedItems = SECTIONS.flatMap((g) =>
+      g.items.filter((item) => selected.has(item.id)),
+    );
+    const toFetch = sampleOnly ? selectedItems.slice(0, 1) : selectedItems;
     if (toFetch.length === 0) {
       setStatus("Select at least one section.");
       return;
@@ -586,8 +592,17 @@ export default function McpDocsPage() {
       setStatus("Rendering PDF…");
       await new Promise((r) => setTimeout(r, 10)); // let UI update
       const doc = buildPDF(variants, fetched);
-      doc.save(`mcp-docs-${variantSuffix(variants)}.pdf`);
-      setStatus(`Done — ${toFetch.length} chapters downloaded.`);
+      if (sampleOnly) keepOnlyPage(doc, 3);
+      doc.save(
+        sampleOnly
+          ? `mcp-docs-sample-${variantSuffix(variants)}.pdf`
+          : `mcp-docs-${variantSuffix(variants)}.pdf`,
+      );
+      setStatus(
+        sampleOnly
+          ? `Done — sample from ${toFetch[0].title} downloaded.`
+          : `Done — ${toFetch.length} chapters downloaded.`,
+      );
     } catch (err) {
       setStatus(`Error: ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
@@ -654,11 +669,22 @@ export default function McpDocsPage() {
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
-        <Button onClick={generate} disabled={generating || selectedCount === 0} size="lg">
+        <Button onClick={() => generate()} disabled={generating || selectedCount === 0} size="lg">
           {generating ? "Generating…" : `Download PDF  (${selectedCount} chapter${selectedCount !== 1 ? "s" : ""})`}
         </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="lg"
+          onClick={() => generate(true)}
+          disabled={generating || selectedCount === 0}
+        >
+          {generating ? "Preparing…" : "Download 1-page sample"}
+        </Button>
         {status && (
-          <span className="text-sm text-muted-foreground">{status}</span>
+          <span className="text-sm text-muted-foreground" role="status" aria-live="polite">
+            {status}
+          </span>
         )}
       </div>
 
@@ -666,6 +692,8 @@ export default function McpDocsPage() {
         Includes a cover page, table of contents, and all selected chapters. Code blocks,
         headings, and bullet points are rendered. Diagrams and images are omitted.
       </p>
+
+      <TemplateGuide guide={TEMPLATE_PAGE_GUIDES["/templates/mcp-docs"]} />
     </div>
   );
 }

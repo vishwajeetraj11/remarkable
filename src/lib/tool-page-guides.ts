@@ -1,0 +1,249 @@
+export interface ToolPageGuide {
+  bestFor: string;
+  workflow: readonly [string, string, string];
+  rationale: string;
+  sample: string;
+}
+
+export const TOOL_PAGE_GUIDES: Record<string, ToolPageGuide> = {
+  "/games/sudoku": {
+    bestFor: "Logic-puzzle solvers who want fresh printable grids from approachable to very sparse.",
+    workflow: ["Choose a difficulty that matches the intended solver.", "Generate one puzzle first and inspect the preview.", "Download a larger set only after the clue density feels right."],
+    rationale: "Every grid is generated with an answer key, so the printable set remains usable without an online checker.",
+    sample: "Set the puzzle count to one to export the current preview as a sample PDF.",
+  },
+  "/games/word-search": {
+    bestFor: "Families, teachers, and casual solvers who want themed word searches sized for paper or e-ink.",
+    workflow: ["Choose a language, theme, and readable grid size.", "Check the generated word list and preview.", "Export the puzzle and answer page together."],
+    rationale: "Theme and language affect the actual word bank, while grid size controls both challenge and handwriting comfort.",
+    sample: "The download action exports the puzzle shown in the preview plus its answer key.",
+  },
+  "/games/crossword": {
+    bestFor: "Word-puzzle solvers who want a fresh clue set without needing an account or puzzle app.",
+    workflow: ["Generate a grid and scan the clue vocabulary.", "Regenerate if the mix does not suit the solver.", "Download the displayed crossword with its solution."],
+    rationale: "The on-page preview exposes both grid and clues before export, avoiding blind downloads.",
+    sample: "Use “Download this preview PDF” to export exactly the crossword currently on screen.",
+  },
+  "/games/maze": {
+    bestFor: "Children and adults who want printable mazes with adjustable size and difficulty.",
+    workflow: ["Choose the maze dimensions and difficulty.", "Inspect path density at the target page size.", "Download the maze with its solution page."],
+    rationale: "Grid dimensions change solving time and line spacing more directly than a vague easy-or-hard label alone.",
+    sample: "The generated PDF contains the current maze and a matching solution.",
+  },
+  "/games/nonogram": {
+    bestFor: "Picture-logic solvers who want a compact monochrome puzzle well suited to e-ink displays.",
+    workflow: ["Choose a grid size that is comfortable to mark.", "Inspect the row and column clues.", "Export the current puzzle and solution when the preview is suitable."],
+    rationale: "Nonograms rely on clear cell boundaries and clue alignment, both of which are visible before download.",
+    sample: "Use “Download this preview PDF” to export the visible nonogram.",
+  },
+  "/games/word-scramble": {
+    bestFor: "Vocabulary practice, classrooms, and casual word play with themed scrambled words.",
+    workflow: ["Choose a theme and appropriate word count.", "Review the visible word difficulty.", "Download the worksheet with its answer list."],
+    rationale: "A preview prevents unexpectedly obscure or unsuitable words from reaching the worksheet.",
+    sample: "Use “Download this preview PDF” for the exact scramble currently displayed.",
+  },
+  "/games/cryptogram": {
+    bestFor: "Solvers who enjoy substitution ciphers built from quotations and want printable answer keys.",
+    workflow: ["Choose language or quotation options where available.", "Check quote length and page density in the preview.", "Generate one or several puzzles with the answer pages."],
+    rationale: "Quote length materially changes both difficulty and writing space, so it is shown before export.",
+    sample: "Set the puzzle count to one to create a single-puzzle sample with its solution.",
+  },
+  "/games/kakuro": {
+    bestFor: "Number-puzzle solvers who want crossword-like sum grids at a chosen difficulty.",
+    workflow: ["Choose a difficulty and puzzle count.", "Check that cell and clue sizes fit the intended device.", "Download the puzzles and answer keys as one PDF."],
+    rationale: "The generator keeps clue sums tied to a valid solution while exposing the printable geometry before export.",
+    sample: "Choose one puzzle to produce a representative sample PDF.",
+  },
+  "/games/kenken": {
+    bestFor: "Arithmetic-logic practice for students and adults who enjoy cage-based number puzzles.",
+    workflow: ["Select grid size and arithmetic difficulty.", "Inspect cage labels and cell size.", "Export a single sample or a larger set with solutions."],
+    rationale: "Grid size affects arithmetic complexity and physical writing room, so both need to be chosen together.",
+    sample: "Set the count to one for a sample puzzle and answer key.",
+  },
+  "/games/futoshiki": {
+    bestFor: "Logic solvers practicing ordering constraints through greater-than and less-than clues.",
+    workflow: ["Choose difficulty and number of puzzles.", "Inspect symbol spacing in the preview.", "Download the set with answer keys."],
+    rationale: "Clear inequality placement is essential on e-ink; the preview makes that legibility check possible.",
+    sample: "Generate one puzzle for a representative sample PDF.",
+  },
+  "/games/word-ladder": {
+    bestFor: "Vocabulary and spelling practice based on changing one letter at a time between two words.",
+    workflow: ["Choose the ladder difficulty and count.", "Check the number of transformation steps.", "Download the worksheet with completed ladders for review."],
+    rationale: "Step count provides a concrete difficulty signal and leaves one writing position for each transformation.",
+    sample: "Set the puzzle count to one to export a single ladder and solution.",
+  },
+  "/games/number-fill": {
+    bestFor: "Solvers who enjoy fill-in grids but prefer numbers to vocabulary clues.",
+    workflow: ["Select puzzle difficulty and count.", "Inspect grid and number-list density.", "Download the puzzles with answer grids."],
+    rationale: "The number bank and grid are generated together, so every listed entry has a valid position.",
+    sample: "Choose one puzzle to export a compact sample PDF.",
+  },
+  "/games/logic-puzzle": {
+    bestFor: "Deduction-puzzle solvers who want clue lists and a printable logic grid.",
+    workflow: ["Choose a difficulty appropriate to the solver.", "Read the generated clues before exporting.", "Use the grid to mark exclusions and confirm the answer page afterward."],
+    rationale: "Clues and grid are presented together because the usefulness of either depends on the other.",
+    sample: "The download action exports the current clue set, grid, and solution.",
+  },
+  "/kids/tracing": {
+    bestFor: "Early writers practicing letter formation with visible models and repeated guided strokes.",
+    workflow: ["Choose letters and a comfortable practice density.", "Have the learner trace slowly before copying independently.", "Stop when letter shape deteriorates rather than filling pages for volume."],
+    rationale: "Model, trace, and independent practice progress from more support to less support on the same sheet.",
+    sample: "Generate one page to check line height and letter size for the learner.",
+  },
+  "/kids/math": {
+    bestFor: "Primary learners practicing a focused set of arithmetic facts with a separate answer key.",
+    workflow: ["Choose one operation and an achievable difficulty.", "Use a short worksheet to check understanding.", "Increase problem count only when accuracy remains stable."],
+    rationale: "Operation, range, and problem count are explicit so practice can match the learner instead of a broad grade label.",
+    sample: "Set page count to one to export a worksheet and its answer key.",
+  },
+  "/kids/number-bonds": {
+    bestFor: "Learners building part-part-whole understanding or fluency with skip-counting sequences.",
+    workflow: ["Choose the number range or skip-counting step.", "Model one example before independent work.", "Use the answer page to discuss strategies, not only correctness."],
+    rationale: "Visual bonds make the relationship between parts and whole explicit instead of presenting isolated equations.",
+    sample: "Generate one page to inspect number size and problem density.",
+  },
+  "/kids/coloring": {
+    bestFor: "Children who need simple, high-contrast line art that remains clear on monochrome e-ink screens.",
+    workflow: ["Choose an age-appropriate theme and complexity.", "Inspect line density in the preview.", "Export only the number of pages likely to be used."],
+    rationale: "Bold outlines and restrained detail survive e-ink rendering better than shaded or color-dependent artwork.",
+    sample: "Set page count to one to download the visible style as a sample.",
+  },
+  "/kids/connect-dots": {
+    bestFor: "Children practicing number order, pencil control, and shape recognition through dot-to-dot activities.",
+    workflow: ["Choose a number range the learner can sequence.", "Follow dots in order without rushing the line.", "Name or decorate the completed shape afterward."],
+    rationale: "Complexity controls both the cognitive sequence and the physical precision required.",
+    sample: "Generate one page to verify dot spacing and number readability.",
+  },
+  "/kids/sight-words": {
+    bestFor: "Early readers practicing recognition, reading, and handwriting of high-frequency words.",
+    workflow: ["Choose the learner’s current word set.", "Read each word aloud before writing it.", "Mix familiar and newer words without introducing too many at once."],
+    rationale: "Repeated reading and writing place visual recognition beside motor practice without requiring decorative activities.",
+    sample: "Use one page to check word size and the amount of repetition.",
+  },
+  "/kids/spelling": {
+    bestFor: "Learners practicing word segmentation, letter order, and written recall at a chosen difficulty.",
+    workflow: ["Choose a theme and manageable word difficulty.", "Say and segment each word before writing.", "Review errors by sound or letter pattern rather than copying the answer repeatedly."],
+    rationale: "Letter boxes and writing lines support both segmentation and whole-word practice.",
+    sample: "Set page count to one to export the current word style as a sample.",
+  },
+  "/kids/cursive": {
+    bestFor: "Writers learning cursive joins and consistent letter height on a four-line handwriting guide.",
+    workflow: ["Choose letters, words, or sentences at the learner’s level.", "Practice the movement slowly before increasing repetition.", "Use the guide lines to compare height, baseline, and joins."],
+    rationale: "Four-line ruling makes ascenders, body height, baseline, and descenders visible during practice.",
+    sample: "Generate one page to check ruling size and content density.",
+  },
+  "/kids/telling-time": {
+    bestFor: "Learners connecting analog clock hands with written times at increasing interval difficulty.",
+    workflow: ["Begin with hour or half-hour intervals.", "Name the hour hand before reading minutes.", "Move to smaller intervals only after the clock-face strategy is reliable."],
+    rationale: "Difficulty changes the minute intervals while preserving a consistent clock layout for comparison.",
+    sample: "Set page count to one for a clock worksheet and answer page.",
+  },
+  "/kids/patterns": {
+    bestFor: "Children practicing visual and numeric sequence recognition by identifying what comes next.",
+    workflow: ["Choose pattern type and difficulty.", "Ask the learner to describe the rule aloud.", "Complete the sequence and then create a similar pattern."],
+    rationale: "Explaining the rule separates genuine pattern recognition from guessing the next symbol.",
+    sample: "Generate one page to inspect symbol size and sequence length.",
+  },
+  "/kids/money-counting": {
+    bestFor: "Learners practicing coin recognition, totals, and making change with configurable difficulty.",
+    workflow: ["Choose the currency and skill level.", "Name each coin before combining values.", "Use making-change questions only after totals are secure."],
+    rationale: "The progression from recognition to totals to change follows the dependencies of the skill.",
+    sample: "Set page count to one to export a representative worksheet and answer key.",
+  },
+  "/kids/vocabulary": {
+    bestFor: "Learners building themed vocabulary through words, short definitions, and writing practice.",
+    workflow: ["Choose a familiar theme with a few new words.", "Read and explain each word in context.", "Use the writing area to create a phrase or example, not only copy the word."],
+    rationale: "Theme, definition, and written use connect recognition with meaning more effectively than an isolated word list.",
+    sample: "Generate one page to inspect card density and definition length.",
+  },
+  "/games/sudoku/easy": {
+    bestFor: "New Sudoku solvers and younger players who benefit from a generous starting set of 35 clues.",
+    workflow: ["Start with the preselected easy level.", "Solve obvious rows, columns, and boxes before making notes.", "Export one puzzle first, then increase the count when the clue density feels comfortable."],
+    rationale: "This route opens the generator at easy rather than asking the solver to correct a generic default.",
+    sample: "Leave the count at one to download the displayed easy puzzle and its answer key.",
+  },
+  "/games/sudoku/medium": {
+    bestFor: "Regular Sudoku solvers who want a balanced 28-clue grid for a short, focused session.",
+    workflow: ["Use the preselected medium level.", "Inspect the newly generated grid before exporting.", "Download one puzzle or build a small set for later."],
+    rationale: "Medium removes more givens than easy while retaining enough entry points for common scanning techniques.",
+    sample: "A count of one exports the current medium puzzle with its solution.",
+  },
+  "/games/sudoku/hard": {
+    bestFor: "Experienced solvers comfortable tracking candidates in a sparse, 22-clue grid.",
+    workflow: ["Keep the preselected hard level.", "Check that the page size leaves enough room for pencil marks.", "Export a single trial before creating a larger set."],
+    rationale: "The hard preset changes the actual clue count, while page size controls the physical room available for notation.",
+    sample: "Keep one puzzle selected to create a hard sample and answer key.",
+  },
+  "/games/sudoku/evil": {
+    bestFor: "Expert solvers deliberately looking for a minimal 17-clue starting grid.",
+    workflow: ["Use the preselected evil level only when advanced candidate work is familiar.", "Choose a large page size for notes.", "Test one puzzle before downloading a set."],
+    rationale: "Seventeen givens make this the sparsest preset; the label reflects clue count, not a guaranteed solving-time estimate.",
+    sample: "A one-puzzle export is the safest way to assess this preset before making a set.",
+  },
+  "/games/word-search/custom": {
+    bestFor: "Teachers, families, and groups who need a puzzle built from their own vocabulary rather than a preset theme.",
+    workflow: ["Enter a concise list of distinct words.", "Adjust grid size until every entry fits legibly.", "Review the generated placement before exporting the puzzle and solution."],
+    rationale: "The custom word list is the source of the puzzle, so the preview verifies spelling, fit, and difficulty before download.",
+    sample: "Download the current custom preview to get a synchronized puzzle and answer page.",
+  },
+  "/games/crossword/custom": {
+    bestFor: "People creating a small crossword from their own answer-and-clue pairs for a lesson, event, or family activity.",
+    workflow: ["Write unambiguous clues beside each answer.", "Generate and inspect how many entries interlock.", "Revise weak crossings before downloading the final grid."],
+    rationale: "Custom crosswords depend on shared letters; previewing the layout reveals isolated or poorly connected entries.",
+    sample: "The download uses the exact clue set and grid visible after generation.",
+  },
+  "/kids/math/addition": {
+    bestFor: "Learners building addition fluency with a worksheet that opens on addition by default.",
+    workflow: ["Choose single-digit practice before moving to larger sums.", "Use one short page to check strategy and accuracy.", "Review the separate answer key together."],
+    rationale: "This route preselects addition, while digit range and problem count remain adjustable for the learner.",
+    sample: "Set worksheet pages to one for a focused addition sample and answer key.",
+  },
+  "/kids/math/subtraction": {
+    bestFor: "Learners practicing subtraction without negative answers, from single-digit facts to larger values.",
+    workflow: ["Begin with the preselected subtraction operation.", "Choose a number range the learner can model confidently.", "Discuss regrouping errors using the answer key."],
+    rationale: "Generated problems keep the subtrahend at or below the starting number, avoiding unintended negative results.",
+    sample: "One worksheet page provides a representative subtraction set plus answers.",
+  },
+  "/kids/math/multiplication": {
+    bestFor: "Learners consolidating times-table facts through uncluttered vertical multiplication practice.",
+    workflow: ["Use the preselected multiplication operation.", "Choose a manageable range and problem count.", "Prioritize accurate recall before increasing volume."],
+    rationale: "The multiplication preset changes the generated operands, not just the heading printed on the worksheet.",
+    sample: "Select one worksheet page to inspect the multiplication range and spacing.",
+  },
+  "/kids/math/division": {
+    bestFor: "Learners practicing exact division facts without remainders on a configurable worksheet.",
+    workflow: ["Keep division selected and choose the intended range.", "Relate each problem to its multiplication fact.", "Check the answer key after completing the page."],
+    rationale: "Dividends are generated from a divisor and whole-number answer, so every problem divides evenly.",
+    sample: "Set the page count to one for a compact division sample with answers.",
+  },
+  "/kids/math/custom": {
+    bestFor: "Adults preparing mixed or tightly constrained arithmetic practice beyond the standard operation pages.",
+    workflow: ["Choose the exact operation and numeric limits.", "Set a problem density that leaves working room.", "Inspect the preview before exporting the worksheet and key."],
+    rationale: "Explicit ranges make the worksheet match a current learning objective instead of relying on a broad grade assumption.",
+    sample: "Use a single page to validate the selected ranges and layout before creating more practice.",
+  },
+  "/kids/sight-words/kindergarten": {
+    bestFor: "Beginning readers practicing a small kindergarten word bank through reading, tracing, and independent writing.",
+    workflow: ["Keep the kindergarten set selected.", "Read each word aloud before tracing it.", "Use fewer words per page when handwriting is still effortful."],
+    rationale: "This route opens the kindergarten bank directly and keeps recognition beside guided writing practice.",
+    sample: "Generate one page to check word size and repetition for the learner.",
+  },
+  "/kids/sight-words/1st-grade": {
+    bestFor: "First-grade readers expanding automatic recognition of common words beyond the beginner list.",
+    workflow: ["Use the preselected first-grade bank.", "Read, trace, and then write each word without copying.", "Ask for a short spoken sentence before moving on."],
+    rationale: "The first-grade route selects its own word bank while preserving adjustable writing density.",
+    sample: "One page is enough to assess whether the first-grade words and line spacing fit.",
+  },
+  "/kids/sight-words/2nd-grade": {
+    bestFor: "Second-grade readers strengthening fluency with less predictable high-frequency words.",
+    workflow: ["Keep the second-grade bank selected.", "Have the learner read the word before seeing it in a sentence.", "Reduce page density if letter formation becomes rushed."],
+    rationale: "The selected bank changes the actual worksheet vocabulary rather than only changing page metadata.",
+    sample: "Set one worksheet page to review the second-grade vocabulary and writing space.",
+  },
+  "/kids/sight-words/3rd-grade": {
+    bestFor: "Third-grade readers reviewing high-frequency vocabulary while practicing spelling and written use.",
+    workflow: ["Use the preselected third-grade list.", "Read and spell each word before writing it.", "Use the sentence line to demonstrate meaning, not only repetition."],
+    rationale: "At this level, combining recognition with meaningful written use is more useful than tracing alone.",
+    sample: "Generate a single page to check vocabulary difficulty and writing density.",
+  },
+};

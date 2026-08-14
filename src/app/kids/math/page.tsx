@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
-type Operation = "addition" | "subtraction" | "multiplication" | "division";
+export type Operation = "addition" | "subtraction" | "multiplication" | "division";
 type Difficulty = "single" | "double" | "mixed";
 
 function rng(min: number, max: number) {
@@ -56,8 +56,12 @@ function generateProblem(op: Operation, diff: Difficulty): { a: number; b: numbe
   return { a, b, ans, symbol };
 }
 
-export default function MathPage() {
-  const [operation, setOperation] = useState<Operation>("addition");
+export default function MathPage({
+  initialOperation = "addition",
+}: {
+  initialOperation?: Operation;
+} = {}) {
+  const [operation, setOperation] = useState<Operation>(initialOperation);
   const [difficulty, setDifficulty] = useState<Difficulty>("single");
   const [problemsPerPage, setProblemsPerPage] = useState(20);
   const [pageCount, setPageCount] = useState(2);

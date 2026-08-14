@@ -283,8 +283,12 @@ function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function SudokuPage() {
-  const [difficulty, setDifficulty] = useState<SudokuDifficulty>("medium");
+export default function SudokuPage({
+  initialDifficulty = "medium",
+}: {
+  initialDifficulty?: SudokuDifficulty;
+} = {}) {
+  const [difficulty, setDifficulty] = useState<SudokuDifficulty>(initialDifficulty);
   const [numPuzzles, setNumPuzzles] = useState(1);
   const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [previewPuzzle, setPreviewPuzzle] = useState<SudokuPuzzle | null>(null);

@@ -10,6 +10,7 @@ import {
   addPage,
   drawHeader,
   drawPageNumber,
+  keepOnlyPage,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
@@ -51,7 +52,7 @@ export default function MonthlyCalendarPage() {
   );
   const [months, setMonths] = useState(3);
 
-  async function generate(variants: TemplateVariants) {
+  async function generate(variants: TemplateVariants, sampleOnly = false) {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const m = getMargins(variants);
@@ -154,9 +155,11 @@ export default function MonthlyCalendarPage() {
       });
 
       drawPageNumber(doc, mi + 2, totalPages, variants);
+      if (sampleOnly) break;
     }
 
-    doc.save(`monthly-calendar-${startMonth}-${months}m-${variantSuffix(variants)}.pdf`);
+    if (sampleOnly) keepOnlyPage(doc, 2);
+    doc.save(`monthly-calendar-${startMonth}-${sampleOnly ? "sample" : `${months}m`}-${variantSuffix(variants)}.pdf`);
   }
 
   return (
@@ -165,7 +168,8 @@ export default function MonthlyCalendarPage() {
       description="Traditional monthly grid calendar with large day cells for notes and events."
       showWeekStart
       showPageCount={false}
-      onGenerate={generate}
+      onGenerate={(v) => generate(v)}
+      onSampleGenerate={(v) => generate(v, true)}
       downloadLabel={() =>
         `Generate & Download PDF (${months} month${months > 1 ? "s" : ""})`
       }

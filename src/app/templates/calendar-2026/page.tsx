@@ -15,6 +15,7 @@ import {
   addPage,
   drawHeader,
   drawPageNumber,
+  keepOnlyPage,
 } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
@@ -66,7 +67,7 @@ function getCalendarGrid(year: number, month: number, weekStart: "monday" | "sun
 export default function Calendar2026Page() {
   const [year, setYear] = useState<Year>(2026);
 
-  async function generate(variants: TemplateVariants) {
+  async function generate(variants: TemplateVariants, sampleOnly = false) {
     const doc = createDoc(variants);
     const { w, h } = getPageDimensions(variants);
     const m = getMargins(variants);
@@ -165,9 +166,11 @@ export default function Calendar2026Page() {
       });
 
       drawPageNumber(doc, mi + 2, totalPages, variants);
+      if (sampleOnly) break;
     }
 
-    doc.save(`calendar-${year}-${variantSuffix(variants)}.pdf`);
+    if (sampleOnly) keepOnlyPage(doc, 2);
+    doc.save(`calendar-${year}-${variantSuffix(variants)}${sampleOnly ? "-sample" : ""}.pdf`);
   }
 
   return (
@@ -176,7 +179,8 @@ export default function Calendar2026Page() {
       description="Dated monthly calendar with real day numbers in the correct weekday columns — one page per month for the whole year."
       showWeekStart
       showPageCount={false}
-      onGenerate={generate}
+      onGenerate={(v) => generate(v)}
+      onSampleGenerate={(v) => generate(v, true)}
       downloadLabel={() => `Generate & Download ${year} PDF (12 months)`}
       extraControls={() => (
         <div className="space-y-1.5">

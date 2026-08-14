@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
-type GradeLevel = "k" | "1st" | "2nd" | "3rd";
+export type GradeLevel = "k" | "1st" | "2nd" | "3rd";
 
 const WORD_BANKS: Record<GradeLevel, string[]> = {
   k: [
@@ -47,8 +47,12 @@ const GRADE_LABELS: Record<GradeLevel, string> = {
   "3rd": "3rd Grade",
 };
 
-export default function SightWordsPage() {
-  const [grade, setGrade] = useState<GradeLevel>("k");
+export default function SightWordsPage({
+  initialGrade = "k",
+}: {
+  initialGrade?: GradeLevel;
+} = {}) {
+  const [grade, setGrade] = useState<GradeLevel>(initialGrade);
   const [wordsPerPage, setWordsPerPage] = useState(5);
   const [pageCount, setPageCount] = useState(2);
   const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");

@@ -57,9 +57,10 @@ export default function PrivacyPage() {
             <li>your cookie-consent choice</li>
           </ul>
           <p>
-            If you submit your email in the sign-up banner or send feedback via
-            the feedback widget, that email address / feedback text is also
-            recorded in our PostHog analytics (see below) so we can follow up.
+            If you submit your email in the sign-up banner, request a template,
+            or send feedback via the feedback widget, that email address and the
+            submitted request / feedback text are also recorded in our PostHog
+            analytics (see below) so we can provide the follow-up you requested.
           </p>
         </section>
 

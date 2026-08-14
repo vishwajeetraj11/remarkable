@@ -47,6 +47,18 @@ export function Footer() {
               International (BOOX). All trademarks belong to their respective
               owners.
             </p>
+            <Link
+              href="/solutions"
+              className="mt-4 inline-block text-sm font-medium underline underline-offset-4 hover:text-foreground"
+            >
+              Workflow solutions
+            </Link>
+            <Link
+              href="/requests"
+              className="mt-2 block text-sm font-medium underline underline-offset-4 hover:text-foreground"
+            >
+              Request a template
+            </Link>
           </div>
         </div>
         <div className="mt-8 pt-6 border-t border-border flex flex-col items-center gap-2 text-center text-xs text-muted-foreground">

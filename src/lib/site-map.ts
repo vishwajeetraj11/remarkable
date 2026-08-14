@@ -74,11 +74,13 @@ function titleCaseSlug(path: string): string {
  */
 const LABEL_OVERRIDES: Record<string, string> = {
   "/": "Home",
+  "/requests": "Request a Template",
   "/games": "Games",
   "/templates": "Templates",
   "/kids": "Kids",
   "/guides": "Guides",
   "/packs": "Packs",
+  "/solutions": "Workflow Solutions",
   "/packs/logic-masters": "Logic Masters Pack",
   "/packs/word-games": "Word Games Pack",
   // Games
@@ -111,6 +113,13 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/guides/best-remarkable-planner-setup": "Best reMarkable Planner Setup",
   "/guides/free-dated-2026-calendar-eink": "Free Dated 2026 Calendar",
   "/guides/bullet-journaling-on-remarkable": "Bullet Journaling on reMarkable",
+  // Workflow solutions
+  "/solutions/customer-visit-log": "Customer Visit Log",
+  "/solutions/multi-client-meeting-notebook": "Multi-Client Meeting Notebook",
+  "/solutions/book-writing-planner": "Book-Writing Planner",
+  "/solutions/client-project-task-manager": "Client & Project Task Manager",
+  "/solutions/flexible-hyperlinked-planner": "Flexible Hyperlinked Planner",
+  "/solutions/custom-planner-request": "Custom Planner Request",
 };
 
 /** Resolve a label for a path: explicit override, else title-cased slug. */
@@ -275,6 +284,54 @@ export const sections: Section[] = [
     id: "home",
     index: HOME_ROUTE,
     routes: [
+      {
+        path: "/requests",
+        changeFrequency: "weekly",
+        priority: 0.8,
+        label: "Request a Template",
+      },
+      {
+        path: "/solutions",
+        changeFrequency: "weekly",
+        priority: 0.8,
+        label: "Workflow Solutions",
+      },
+      {
+        path: "/solutions/customer-visit-log",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Customer Visit Log",
+      },
+      {
+        path: "/solutions/multi-client-meeting-notebook",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Multi-Client Meeting Notebook",
+      },
+      {
+        path: "/solutions/book-writing-planner",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Book-Writing Planner",
+      },
+      {
+        path: "/solutions/client-project-task-manager",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Client & Project Task Manager",
+      },
+      {
+        path: "/solutions/flexible-hyperlinked-planner",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Flexible Hyperlinked Planner",
+      },
+      {
+        path: "/solutions/custom-planner-request",
+        changeFrequency: "monthly",
+        priority: 0.7,
+        label: "Custom Planner Request",
+      },
       {
         path: "/privacy",
         changeFrequency: "yearly",

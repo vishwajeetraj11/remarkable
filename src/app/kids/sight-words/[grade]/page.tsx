@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { toolOpenGraph } from "@/lib/seo";
-import SightWordsPage from "../page";
+import SightWordsPage, { type GradeLevel } from "../page";
 
 const grades = {
   kindergarten: {
@@ -28,6 +28,13 @@ const grades = {
 } as const;
 
 type Grade = keyof typeof grades;
+
+const gradeLevels: Record<Grade, GradeLevel> = {
+  kindergarten: "k",
+  "1st-grade": "1st",
+  "2nd-grade": "2nd",
+  "3rd-grade": "3rd",
+};
 
 export function generateStaticParams() {
   return Object.keys(grades).map((g) => ({ grade: g }));
@@ -60,5 +67,5 @@ export default async function Page({
 }) {
   const { grade } = await params;
   if (!(grade in grades)) notFound();
-  return <SightWordsPage />;
+  return <SightWordsPage initialGrade={gradeLevels[grade as Grade]} />;
 }

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { jsPDF } from "jspdf";
-import { createDoc } from "@/lib/templates/pdf-utils";
+import { createDoc, keepOnlyPage } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
   type TemplateVariants,
@@ -714,6 +714,7 @@ async function generatePlanner(
   weeks: number,
   includeHabit: boolean,
   notesPages: number,
+  sampleOnly = false,
 ) {
   const { w, h } = getPageDimensions(variants);
   const m = getMargins(variants);
@@ -737,6 +738,12 @@ async function generatePlanner(
   // Page 2: Yearly Overview
   doc.addPage();
   renderYearlyPage(doc, w, h, m, sections, startYear, 2, total);
+
+  if (sampleOnly) {
+    keepOnlyPage(doc, 2);
+    doc.save(`all-in-one-planner-${startYear}-${variantSuffix(variants)}-sample.pdf`);
+    return;
+  }
 
   // Pages 3-6: Quarterly Goals
   for (let q = 1; q <= 4; q++) {
@@ -803,6 +810,9 @@ export default function AllInOnePlannerPage() {
       description="A fully hyperlinked PDF planner — tap any section tab or TOC entry to jump straight there. Includes year overview, quarterly goals, monthly calendars with week deep-links, weekly pages, habit tracker, and notes."
       showPageCount={false}
       onGenerate={(v) => generate(v)}
+      onSampleGenerate={(v) =>
+        generatePlanner(v, startDate, weeks, includeHabit, notesPages, true)
+      }
       downloadLabel={() => `Generate & Download PDF (${total} pages)`}
       extraControls={() => (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

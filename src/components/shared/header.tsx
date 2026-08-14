@@ -34,6 +34,19 @@ const navItems = [
     ],
   },
   {
+    label: "Solutions",
+    href: "/solutions",
+    children: [
+      { label: "Customer Visit Log", href: "/solutions/customer-visit-log" },
+      { label: "Multi-Client Notebook", href: "/solutions/multi-client-meeting-notebook" },
+      { label: "Book-Writing Planner", href: "/solutions/book-writing-planner" },
+      { label: "Client Project Manager", href: "/solutions/client-project-task-manager" },
+      { label: "Hyperlinked Planner", href: "/solutions/flexible-hyperlinked-planner" },
+      { label: "Custom Planner Request", href: "/solutions/custom-planner-request" },
+      { label: "Request a Template →", href: "/requests" },
+    ],
+  },
+  {
     label: "Kids",
     href: "/kids",
     children: [
