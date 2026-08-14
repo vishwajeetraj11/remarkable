@@ -10,6 +10,7 @@ import { GoogleAdsTag } from "@/components/shared/google-ads-tag";
 import { ConsentBanner } from "@/components/shared/consent-banner";
 import { FeedbackWidget } from "@/components/shared/feedback-widget";
 import { EmailCaptureBanner } from "@/components/shared/email-capture";
+import { DownloadStatus } from "@/components/shared/download-status";
 import {
   ThemeProvider,
   themeInitScript,
@@ -150,6 +151,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <FeedbackWidget />
+          <DownloadStatus />
           <EmailCaptureBanner />
           <ClarityInit />
           <PostHogInit />

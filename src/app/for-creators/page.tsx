@@ -99,6 +99,38 @@ export default function ForCreatorsPage() {
         </p>
       </header>
 
+      <section className="mb-12 border-y border-border py-7">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          Test the product first
+        </p>
+        <div className="mt-2 grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight">
+              See exactly what readers will download
+            </h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Generate a real PDF in your browser—free, without an account,
+              email gate, or watermark. Each generator includes device sizing
+              and shows the output before you leave the page.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 md:justify-end">
+            <Link
+              href="/templates/planner"
+              className="inline-flex min-h-9 items-center justify-center rounded-lg bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85"
+            >
+              Generate a planner PDF
+            </Link>
+            <Link
+              href="/games/sudoku"
+              className="inline-flex min-h-9 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium transition-colors hover:bg-muted"
+            >
+              Generate a Sudoku PDF
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="space-y-10">
         <div>
           <h2 className="text-xl font-semibold tracking-tight">

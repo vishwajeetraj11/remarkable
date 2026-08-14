@@ -543,26 +543,39 @@ export default function Home() {
                 className="hero-stagger mt-5 text-base md:text-lg text-muted-foreground/80 leading-relaxed max-w-lg"
                 style={{ animationDelay: "160ms" }}
               >
-                Generate unique PDFs optimized for e-ink — sudoku, crosswords,
-                mazes, planners, and more.
+                Pick one tool, adjust a few options, and download a free PDF.
+                No account or payment required.
               </p>
               <div
-                className="hero-stagger mt-9 flex flex-wrap gap-3"
+                className="hero-stagger mt-9 flex flex-wrap items-center gap-3"
                 style={{ animationDelay: "240ms" }}
               >
                 <Link
-                  href="/games"
+                  href="/games/sudoku"
                   className="inline-flex items-center justify-center rounded-lg bg-foreground px-7 py-3 text-sm font-medium text-background transition-all hover:opacity-85 active:scale-[0.98]"
                 >
-                  Browse Puzzles
+                  Start with Sudoku
                 </Link>
                 <Link
-                  href="/templates"
+                  href="/templates/planner"
                   className="inline-flex items-center justify-center rounded-lg px-7 py-3 text-sm font-medium border border-foreground/12 transition-all hover:bg-foreground/4 active:scale-[0.98]"
                 >
-                  View Templates
+                  Make a Weekly Planner
+                </Link>
+                <Link
+                  href="/kids/math"
+                  className="inline-flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Print Kids Worksheets →
                 </Link>
               </div>
+              <p
+                className="hero-stagger mt-3 text-xs text-muted-foreground"
+                style={{ animationDelay: "280ms" }}
+              >
+                Not sure where to begin? Sudoku creates a ready-to-print PDF in
+                under a minute.
+              </p>
             </div>
 
             <div

@@ -30,6 +30,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary>
       <Breadcrumbs />
+      <p className="mx-auto max-w-6xl px-4 pt-4 text-sm text-muted-foreground">
+        Free printable PDFs · No account required · Includes answer keys where
+        applicable.
+      </p>
       {children}
       <RelatedLinks />
     </ErrorBoundary>
