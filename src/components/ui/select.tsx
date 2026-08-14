@@ -3,25 +3,46 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 
+import { captureUiInputChanged, getAnalyticsControlName } from "@/lib/analytics"
 import { cn } from "@/lib/utils"
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
 
 interface SelectProps extends Omit<React.ComponentProps<typeof SelectPrimitive.Root>, 'onValueChange'> {
   onValueChange?: (value: string) => void;
+  analyticsName?: string;
 }
 
-function Select({ onValueChange, ...props }: SelectProps) {
+const SelectAnalyticsContext = React.createContext<{
+  setTrigger: (node: HTMLButtonElement | null) => void;
+} | null>(null)
+
+function Select({ onValueChange, analyticsName, ...props }: SelectProps) {
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null)
+
   return (
-    <SelectPrimitive.Root
-      {...props}
-      onValueChange={
-        onValueChange
-          ? (value) => {
-              if (typeof value === "string") onValueChange(value);
-            }
-          : undefined
-      }
-    />
+    <SelectAnalyticsContext.Provider
+      value={{ setTrigger: (node) => { triggerRef.current = node } }}
+    >
+      <SelectPrimitive.Root
+        {...props}
+        onValueChange={(value, eventDetails) => {
+          if (typeof value !== "string") return
+
+          captureUiInputChanged({
+            controlName: getAnalyticsControlName(
+              triggerRef.current,
+              analyticsName || props.name || props.id || "select",
+            ),
+            controlType: "select",
+            value,
+            previousValue:
+              typeof props.value === "string" ? props.value : undefined,
+            changeReason: eventDetails.reason,
+          })
+          onValueChange?.(value)
+        }}
+      />
+    </SelectAnalyticsContext.Provider>
   );
 }
 
@@ -49,12 +70,20 @@ function SelectTrigger({
   className,
   size = "default",
   children,
+  ref,
   ...props
 }: SelectPrimitive.Trigger.Props & {
   size?: "sm" | "default"
 }) {
+  const analytics = React.useContext(SelectAnalyticsContext)
+
   return (
     <SelectPrimitive.Trigger
+      ref={(node) => {
+        analytics?.setTrigger(node)
+        if (typeof ref === "function") ref(node)
+        else if (ref) ref.current = node
+      }}
       data-slot="select-trigger"
       data-size={size}
       className={cn(

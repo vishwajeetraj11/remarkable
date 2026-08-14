@@ -1,5 +1,6 @@
 "use client"
 
+import { captureUiInputChanged, getAnalyticsControlName } from "@/lib/analytics"
 import { cn } from "@/lib/utils"
 
 interface SliderProps {
@@ -11,6 +12,7 @@ interface SliderProps {
   step?: number
   disabled?: boolean
   onValueChange?: (value: number) => void
+  analyticsName?: string
 }
 
 function Slider({
@@ -22,8 +24,18 @@ function Slider({
   step = 1,
   disabled,
   onValueChange,
+  analyticsName,
 }: SliderProps) {
   const current = value?.[0] ?? defaultValue?.[0] ?? min
+
+  function captureValue(element: HTMLInputElement, changeReason: string) {
+    captureUiInputChanged({
+      controlName: getAnalyticsControlName(element, analyticsName || "slider"),
+      controlType: "range",
+      value: Number(element.value),
+      changeReason,
+    })
+  }
 
   return (
     <input
@@ -35,6 +47,12 @@ function Slider({
       value={current}
       disabled={disabled}
       onChange={(e) => onValueChange?.(Number(e.target.value))}
+      onPointerUp={(event) => captureValue(event.currentTarget, "pointer")}
+      onKeyUp={(event) => {
+        if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) {
+          captureValue(event.currentTarget, "keyboard")
+        }
+      }}
       className={cn(
         "w-full appearance-none bg-transparent cursor-pointer disabled:opacity-50 disabled:pointer-events-none",
         "[&::-webkit-slider-runnable-track]:h-1 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-muted",

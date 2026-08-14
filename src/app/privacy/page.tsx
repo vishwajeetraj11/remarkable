@@ -85,8 +85,10 @@ export default function PrivacyPage() {
           <h2>Analytics — PostHog</h2>
           <p>
             We use PostHog for product analytics (pages visited, which
-            generators are used, when a PDF is created) to understand which
-            tools are worth improving. Data is processed as described in the{" "}
+            generators are used, control and setting choices, and when a PDF is
+            created) to understand which tools are worth improving. We do not
+            send the text you type into general form fields as part of control
+            interaction events. Data is processed as described in the{" "}
             <a
               href="https://posthog.com/privacy"
               className="underline hover:text-foreground"

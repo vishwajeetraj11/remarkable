@@ -15,7 +15,12 @@ import {
 } from "@/components/ui/select";
 import { VariantControls } from "./variant-controls";
 import { trackDownload } from "@/lib/download-tracker";
+import {
+  captureTemplateFunnelEvent,
+  normalizeTemplateDevice,
+} from "@/lib/analytics";
 import { thumbs } from "./thumbs";
+import { PostDownloadSuggestion } from "./post-download-suggestion";
 import {
   type TemplateVariants,
   type LineSpacing,
@@ -74,17 +79,30 @@ export function TemplateShell({
   const [variants, setVariants] = useState<TemplateVariants>(DEFAULT_VARIANTS);
   const [pageCount, setPageCount] = useState(defaultPageCount);
   const [generating, setGenerating] = useState(false);
+  const [showSuggestion, setShowSuggestion] = useState(false);
 
   async function handleGenerate() {
     setGenerating(true);
+    const funnelProps = {
+      templateSlug: pathname,
+      templateName: title,
+      device: variants.device,
+      orientation: variants.orientation,
+      pageCount,
+    };
+    captureTemplateFunnelEvent("template_generator_started", funnelProps);
     try {
       await onGenerate(variants, pageCount);
+      captureTemplateFunnelEvent("template_generated", funnelProps);
       trackDownload({
         template: title,
-        device: variants.device,
+        template_slug: pathname,
+        content_type: "template",
+        device: normalizeTemplateDevice(variants.device),
         orientation: variants.orientation,
-        pageCount,
+        page_count: pageCount,
       });
+      setShowSuggestion(true);
     } finally {
       setGenerating(false);
     }
@@ -223,6 +241,14 @@ export function TemplateShell({
       <Button onClick={handleGenerate} disabled={generating} size="lg">
         {generating ? "Generating…" : label}
       </Button>
+
+      {showSuggestion && (
+        <PostDownloadSuggestion
+          templateSlug={pathname}
+          templateName={title}
+          device={variants.device}
+        />
+      )}
     </div>
   );
 }

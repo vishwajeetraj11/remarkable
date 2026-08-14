@@ -298,6 +298,7 @@ export default function CustomMathPage() {
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
+                      data-analytics-name="first operand minimum"
                       min={0}
                       max={999}
                       value={range.min1}
@@ -309,6 +310,7 @@ export default function CustomMathPage() {
                     <span className="text-muted-foreground text-sm">to</span>
                     <input
                       type="number"
+                      data-analytics-name="first operand maximum"
                       min={0}
                       max={999}
                       value={range.max1}
@@ -324,6 +326,7 @@ export default function CustomMathPage() {
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
+                      data-analytics-name="second operand minimum"
                       min={0}
                       max={999}
                       value={range.min2}
@@ -335,6 +338,7 @@ export default function CustomMathPage() {
                     <span className="text-muted-foreground text-sm">to</span>
                     <input
                       type="number"
+                      data-analytics-name="second operand maximum"
                       min={0}
                       max={999}
                       value={range.max2}
