@@ -412,7 +412,7 @@ export default function NumberFillPage() {
                 className="shrink-0"
                 onClick={regeneratePreview}
               >
-                Regenerate
+                Create new preview
               </Button>
             </div>
             <CardDescription>

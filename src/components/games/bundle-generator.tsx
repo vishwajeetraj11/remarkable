@@ -1315,7 +1315,7 @@ export default function BundleGenerator() {
           ) : (
             <>
               <FileDown />
-              Generate Bundle PDF
+              Generate & Download Puzzle Bundle PDF
             </>
           )}
         </Button>

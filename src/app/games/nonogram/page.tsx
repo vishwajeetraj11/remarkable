@@ -238,15 +238,32 @@ export default function NonogramPage() {
   const [puzzle, setPuzzle] = useState<NonogramPuzzle | null>(null);
   const [generating, setGenerating] = useState(false);
 
-  const handleGenerate = useCallback(() => {
+  const createPuzzle = useCallback(
+    () => generateNonogram(Number(gridSize)),
+    [gridSize]
+  );
+
+  const handleGeneratePreview = useCallback(() => {
     setGenerating(true);
     setTimeout(() => {
-      setPuzzle(generateNonogram(Number(gridSize)));
+      setPuzzle(createPuzzle());
       setGenerating(false);
     }, 0);
-  }, [gridSize]);
+  }, [createPuzzle]);
 
-  const handleDownload = useCallback(async () => {
+  const handleGenerateAndDownload = useCallback(async () => {
+    setGenerating(true);
+    try {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      const nextPuzzle = createPuzzle();
+      setPuzzle(nextPuzzle);
+      await downloadPDF(nextPuzzle, pageSize);
+    } finally {
+      setGenerating(false);
+    }
+  }, [createPuzzle, pageSize]);
+
+  const handleDownloadCurrent = useCallback(async () => {
     if (!puzzle) return;
     await downloadPDF(puzzle, pageSize);
   }, [puzzle, pageSize]);
@@ -296,15 +313,24 @@ export default function NonogramPage() {
           </Select>
         </div>
 
-        <Button onClick={handleGenerate} disabled={generating}>
-          {generating ? "Generating…" : "Generate"}
-        </Button>
-
-        {puzzle && (
-          <Button variant="outline" onClick={handleDownload}>
-            Download PDF
-          </Button>
-        )}
+        <div className="flex w-full flex-col gap-2 sm:w-auto">
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              onClick={handleGeneratePreview}
+              disabled={generating}
+            >
+              {puzzle ? "Create new preview" : "Create preview"}
+            </Button>
+            <Button onClick={handleGenerateAndDownload} disabled={generating}>
+              {generating ? "Generating PDF…" : "Generate & Download PDF"}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Free PDF · No signup · Works with reMarkable, Supernote, BOOX,
+            and standard printers.
+          </p>
+        </div>
       </div>
 
       {puzzle && (
@@ -316,9 +342,18 @@ export default function NonogramPage() {
         </div>
       )}
 
+      {puzzle && (
+        <div className="sticky bottom-4 z-20 flex justify-end">
+          <div className="flex flex-wrap items-center justify-end gap-3 border border-border bg-background p-2 shadow-md">
+            <span className="pl-2 text-sm text-muted-foreground">Preview ready</span>
+            <Button onClick={handleDownloadCurrent}>Download this preview PDF</Button>
+          </div>
+        </div>
+      )}
+
       {!puzzle && (
         <div className="border border-dashed border-border rounded-lg p-12 text-center text-muted-foreground text-sm">
-          Click Generate to create a nonogram puzzle.
+          Create a preview, or generate and download the finished PDF immediately.
         </div>
       )}
     </div>

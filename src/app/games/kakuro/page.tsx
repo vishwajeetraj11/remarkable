@@ -490,7 +490,7 @@ export default function KakuroPage() {
                 className="shrink-0"
                 onClick={regeneratePreview}
               >
-                Regenerate
+                Create new preview
               </Button>
             </div>
             <CardDescription>

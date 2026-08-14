@@ -342,7 +342,7 @@ export default function MazePage() {
         {/* Buttons */}
         <div className="flex gap-2 flex-wrap">
           <Button variant="outline" onClick={generate}>
-            Regenerate
+            Create new preview
           </Button>
           <Button
             variant="outline"

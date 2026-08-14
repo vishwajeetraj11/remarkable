@@ -354,7 +354,7 @@ export default function CustomWordSearchPage() {
               Generate Puzzle
             </Button>
             <Button onClick={handleDownload} disabled={!puzzle || isGenerating} className="w-full">
-              {isGenerating ? "Generating…" : "Download PDF"}
+              {isGenerating ? "Generating PDF…" : "Generate & Download PDF"}
             </Button>
           </div>
         </div>

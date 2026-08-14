@@ -283,7 +283,7 @@ export default function WordSearchPage() {
         {/* Buttons */}
         <div className="flex gap-2">
           <Button variant="outline" onClick={generate}>
-            Regenerate
+            Create new preview
           </Button>
           <Button onClick={handleDownload} disabled={!puzzle || isGenerating}>
             {isGenerating ? "Generating…" : "Generate & Download PDF"}

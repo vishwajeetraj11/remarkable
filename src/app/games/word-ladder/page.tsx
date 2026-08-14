@@ -495,7 +495,7 @@ export default function WordLadderPage() {
                 className="shrink-0"
                 onClick={regeneratePreview}
               >
-                Regenerate
+                Create new preview
               </Button>
             </div>
             <CardDescription>

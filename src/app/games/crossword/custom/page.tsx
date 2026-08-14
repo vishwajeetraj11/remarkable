@@ -387,7 +387,7 @@ export default function CustomCrosswordPage() {
               Generate Crossword
             </Button>
             <Button onClick={handleDownload} disabled={!puzzle || generating} className="w-full">
-              {generating ? "Generating…" : "Download PDF"}
+              {generating ? "Generating PDF…" : "Generate & Download PDF"}
             </Button>
           </div>
 

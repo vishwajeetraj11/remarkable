@@ -440,7 +440,7 @@ export default function FutoshikiPage() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <CardTitle>Preview</CardTitle>
               <Button variant="ghost" size="sm" className="shrink-0" onClick={regeneratePreview}>
-                Regenerate
+                Create new preview
               </Button>
             </div>
             <CardDescription>
