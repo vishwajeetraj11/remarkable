@@ -77,7 +77,7 @@ const features = [
   "100% free — no account, no email wall, no watermark, no page limits",
   "PDFs are generated client-side in the browser; nothing is uploaded anywhere",
   "13 procedurally generated puzzle types with answer keys — sudoku, crossword, word search, maze, nonogram, cryptogram, kakuro, kenken, futoshiki, word ladder, word scramble, number fill-in, logic puzzles",
-  "51+ planner and note templates — Cornell notes, dot grid, weekly/daily planners, dated 2026 calendar, habit tracker, meal planner, ADHD daily plan, budget and finance trackers, and more",
+  "65+ planner and note templates — Cornell notes, dot grid, weekly/daily planners, dated 2026 calendar, habit tracker, meal planner, ADHD daily plan, budget and finance trackers, and more",
   "12 kids activities — letter tracing, math worksheets, coloring, connect-the-dots, sight words, cursive, telling time, money counting",
   "Per-device page sizing at native aspect ratios (see matrix below)",
   "Template options: portrait/landscape, left/right-handed binding margins, ink intensity (light/regular/bold lines for e-ink contrast), line spacing, week start, custom titles, dated headers, tappable page navigation",
@@ -218,7 +218,7 @@ export default function ForCreatorsPage() {
             <blockquote className="border-l-2 border-border pl-4 text-sm text-muted-foreground leading-relaxed">
               <span className="font-medium text-foreground">Short:</span>{" "}
               Remarkable Skills generates unlimited free PDFs for paper tablets:
-              13 puzzle types with answer keys, 51+ planner and note templates
+              13 puzzle types with answer keys, 65+ planner and note templates
               (Cornell, dot grid, habit trackers, a dated 2026 calendar), and 12
               kids activities. Everything is generated in the browser at your
               device&apos;s native page size — including the reMarkable Paper

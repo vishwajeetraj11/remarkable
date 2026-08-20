@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getRelatedTemplateItems } from "@/lib/templates/catalog";
+import { TemplateDiscovery } from "./template-discovery";
 import {
   captureTemplateRequest,
   captureTemplateSuggestion,
@@ -29,6 +31,7 @@ export function PostDownloadSuggestion({
   const [selected, setSelected] = useState<string | null>(null);
   const [customRequest, setCustomRequest] = useState("");
   const [customSubmitted, setCustomSubmitted] = useState(false);
+  const relatedTemplates = getRelatedTemplateItems(templateSlug);
 
   function selectSuggestion(value: string) {
     captureTemplateSuggestion({
@@ -63,6 +66,24 @@ export function PostDownloadSuggestion({
       className="mt-8 border-y border-border py-6"
       aria-labelledby="next-template-heading"
     >
+      {relatedTemplates.length > 0 && (
+        <div className="mb-6" aria-labelledby="related-template-heading">
+          <h2 id="related-template-heading" className="text-sm font-semibold">
+            Keep going with a related template
+          </h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            A few other device-sized pages you may find useful.
+          </p>
+          <div className="mt-4">
+            <TemplateDiscovery
+              templates={relatedTemplates}
+              sourcePage={templateSlug}
+              placement="post_download_related"
+              className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+            />
+          </div>
+        </div>
+      )}
       <div className="flex items-start gap-3">
         <Sparkles className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
         <div className="min-w-0 flex-1">

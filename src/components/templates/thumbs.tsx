@@ -1249,6 +1249,64 @@ export const thumbs: Record<string, React.ReactNode> = {
       ))}
     </>
   ),
+
+  "/templates/semester-planner": (
+    <>
+      <rect x="8" y="10" width="104" height="10" rx="1" fill="currentColor" fillOpacity="0.7" />
+      <rect x="8" y="28" width="48" height="42" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      <rect x="64" y="28" width="48" height="42" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.12" />
+      {Array.from({ length: 4 }, (_, i) => (
+        <line key={`sem-${i}`} x1="12" y1={78 + i * 15} x2="108" y2={78 + i * 15} stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.09" />
+      ))}
+      {Array.from({ length: 6 }, (_, i) => (
+        <rect key={`course-${i}`} x="12" y={34 + i * 7} width={22 + (i % 3) * 8} height="2.5" rx="0.5" fill="currentColor" fillOpacity="0.08" />
+      ))}
+    </>
+  ),
+
+  "/templates/literature-review-matrix": (
+    <>
+      <rect x="8" y="10" width="62" height="5" rx="1" fill="currentColor" fillOpacity="0.14" />
+      {Array.from({ length: 6 }, (_, col) => (
+        <rect key={`matrix-head-${col}`} x={8 + col * 15} y="24" width="13" height="7" rx="0.5" fill="currentColor" fillOpacity="0.1" />
+      ))}
+      {Array.from({ length: 8 }, (_, row) => (
+        <g key={`matrix-row-${row}`}>
+          {Array.from({ length: 6 }, (_, col) => (
+            <rect key={col} x={8 + col * 15} y={35 + row * 14} width="13" height="10" rx="0.5" stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.08" />
+          ))}
+        </g>
+      ))}
+      <line x1="8" y1="153" x2="112" y2="153" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.12" />
+    </>
+  ),
+
+  "/templates/quarterly-review": (
+    <>
+      <rect x="8" y="10" width="62" height="5" rx="1" fill="currentColor" fillOpacity="0.14" />
+      {Array.from({ length: 4 }, (_, i) => (
+        <rect key={`review-box-${i}`} x={8 + (i % 2) * 54} y={26 + Math.floor(i / 2) * 44} width="48" height="34" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      ))}
+      <rect x="8" y="116" width="104" height="18" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      <rect x="8" y="140" width="104" height="18" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      <line x1="12" y1="148" x2="108" y2="148" stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.08" />
+    </>
+  ),
+
+  "/templates/monthly-reset": (
+    <>
+      <rect x="8" y="10" width="64" height="5" rx="1" fill="currentColor" fillOpacity="0.14" />
+      <rect x="8" y="26" width="48" height="28" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      <rect x="64" y="26" width="48" height="28" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      <rect x="8" y="62" width="104" height="28" rx="1.5" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
+      {Array.from({ length: 5 }, (_, i) => (
+        <g key={`reset-row-${i}`}>
+          <line x1="8" y1={102 + i * 10} x2="112" y2={102 + i * 10} stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.08" />
+          <rect x="10" y={105 + i * 10} width="4" height="4" rx="0.5" stroke="currentColor" strokeWidth="0.35" strokeOpacity="0.1" />
+        </g>
+      ))}
+    </>
+  ),
 };
 
 /* ---------- Fallback thumb (lined paper) ---------- */

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { savePdf } from "@/lib/download-tracker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -293,27 +294,40 @@ export default function SudokuPage({
   const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [previewPuzzle, setPreviewPuzzle] = useState<SudokuPuzzle | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState<string | null>(null);
 
   // Generate previews away from the main thread so changing difficulty does
   // not hold up the next mobile paint.
   useEffect(() => {
     const task = requestSudokus(difficulty, 1);
-    void task.promise.then(([puzzle]) => setPreviewPuzzle(puzzle));
+    void task.promise
+      .then(([puzzle]) => setPreviewPuzzle(puzzle))
+      .catch(() => setGenerationError("Could not generate a preview."));
     return task.cancel;
   }, [difficulty]);
 
   const regeneratePreview = () => {
     const task = requestSudokus(difficulty, 1);
-    void task.promise.then(([puzzle]) => setPreviewPuzzle(puzzle));
+    setGenerationError(null);
+    void task.promise
+      .then(([puzzle]) => setPreviewPuzzle(puzzle))
+      .catch(() => setGenerationError("Could not generate a preview."));
   };
 
   const handleDownload = async () => {
     setIsGenerating(true);
+    setGenerationError(null);
     try {
       const { promise } = requestSudokus(difficulty, numPuzzles);
       const puzzles = await promise;
       await generatePDF(puzzles, difficulty, pageSize);
       setPreviewPuzzle(puzzles[0]);
+    } catch (error) {
+      setGenerationError(
+        error instanceof Error
+          ? error.message
+          : "Could not generate the Sudoku PDF. Please try again.",
+      );
     } finally {
       setIsGenerating(false);
     }
@@ -405,8 +419,18 @@ export default function SudokuPage({
               onClick={handleDownload}
               disabled={isGenerating}
             >
-              {isGenerating ? "Generating…" : "Generate & Download PDF"}
+              {isGenerating
+                ? "Generating…"
+                : `Generate & Download ${numPuzzles} Sudoku PDF${numPuzzles === 1 ? "" : "s"}`}
             </Button>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Answer keys are included. Your PDF downloads automatically after generation.
+            </p>
+            {generationError && (
+              <p className="mt-2 text-sm text-destructive" role="alert" aria-live="assertive">
+                {generationError}
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -434,6 +458,31 @@ export default function SudokuPage({
           </CardContent>
         </Card>
       </div>
+
+      <section className="mt-12 border-t border-border pt-8" aria-labelledby="related-games-heading">
+        <h2 id="related-games-heading" className="text-xl font-semibold tracking-tight">
+          Try another puzzle
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Keep the logic practice going with another generator.
+        </p>
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            ["Crossword", "/games/crossword"],
+            ["Nonogram", "/games/nonogram"],
+            ["KenKen", "/games/kenken"],
+            ["All games", "/games"],
+          ].map(([name, href]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-lg border border-border px-3 py-3 text-sm font-medium transition-colors hover:border-foreground/30 hover:bg-muted/40"
+            >
+              {name}
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

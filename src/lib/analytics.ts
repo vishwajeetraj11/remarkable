@@ -174,6 +174,21 @@ export function captureTemplateSearch(
   if (resultCount === 0) captureEvent("template_search_no_results", props);
 }
 
+/** Record a template link opened from a discovery or recommendation surface. */
+export function captureTemplateDiscovery(props: {
+  templateSlug: string;
+  templateName: string;
+  sourcePage: string;
+  placement: string;
+}) {
+  captureEvent("template_discovery_clicked", {
+    template_slug: props.templateSlug,
+    template_name: props.templateName,
+    source_page: props.sourcePage,
+    placement: props.placement,
+  });
+}
+
 export function captureTemplateRequest(props: {
   requestedTemplate: string;
   useCase?: string;

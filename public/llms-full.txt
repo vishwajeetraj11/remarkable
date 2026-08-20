@@ -8,7 +8,7 @@ Remarkable Skills is a free web app for generating printable PDFs optimized for 
 
 The site has three main content areas:
 1. **Puzzle Games** — Procedurally generated printable puzzles (sudoku, crossword, maze, word search, nonogram, cryptogram, kakuro, kenken, word ladder, number fill, logic puzzle, word scramble).
-2. **Templates** — 51+ printable page templates for planning, note-taking, study, finance, wellness, and home life.
+2. **Templates** — 65+ printable page templates for planning, note-taking, study, finance, wellness, and home life.
 3. **Kids Activities** — Printable worksheets for children (math, tracing, coloring, sight words, spelling, cursive, vocabulary, patterns, telling time, money counting, connect the dots).
 
 ---
@@ -22,7 +22,7 @@ Landing page for Remarkable Skills, linking to the main puzzle generators, print
 Index page for printable puzzle generators, including Sudoku, word search, crossword, maze, nonogram, word scramble, cryptogram, Kakuro, KenKen, word ladder, number fill, and logic puzzles.
 
 ### Printable Templates (https://remarkable.vishwajeet.co/templates)
-Index page for 51+ printable templates across planning, calendars, note-taking, meetings, projects, ADHD support, study, finance, wellness, home, and life administration.
+Index page for 65+ printable templates across planning, calendars, note-taking, meetings, projects, ADHD support, study, finance, wellness, home, and life administration.
 
 ### Kids Activities (https://remarkable.vishwajeet.co/kids)
 Index page for educational printables and worksheet generators for children, including tracing, math, coloring, connect-the-dots, sight words, spelling, cursive, vocabulary, patterns, telling time, and money counting.

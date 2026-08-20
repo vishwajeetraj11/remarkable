@@ -1,62 +1,34 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { captureEvent, captureTemplateSearch } from "@/lib/analytics";
+import { captureTemplateSearch } from "@/lib/analytics";
+import {
+  getTemplatesByHref,
+  type TemplateCatalogPack,
+} from "@/lib/templates/catalog";
 import { TemplateRequestForm } from "./template-request-form";
-import { thumbs, fallbackThumb } from "./thumbs";
+import { TemplateDiscovery } from "./template-discovery";
 
-type Template = { name: string; href: string; desc: string };
-type Pack = {
-  name: string;
-  badge: string;
-  description: string;
-  templates: Template[];
-};
+const POPULAR_THIS_WEEK = getTemplatesByHref([
+  "/templates/calendar-2026",
+  "/templates/planner",
+  "/templates/lecture-notes",
+  "/templates/vision-board",
+  "/templates/meeting-notes",
+]);
 
-function TemplateCard({
-  template,
-  packBadge,
-  searchQuery,
-}: {
-  template: Template;
-  packBadge: string;
-  searchQuery?: string;
-}) {
-  const content = thumbs[template.href] ?? fallbackThumb;
-  return (
-    <Link
-      href={template.href}
-      className="group block"
-      onClick={() => {
-        if (!searchQuery) return;
-        captureEvent("template_search_result_opened", {
-          search_query: searchQuery.trim().toLowerCase(),
-          template_slug: template.href,
-          template_name: template.name,
-          source_page: "/templates",
-        });
-      }}
-    >
-      <div className="aspect-5/7 rounded-lg border border-border/80 bg-background p-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:border-foreground/15 group-hover:shadow-sm">
-        <svg viewBox="0 0 120 168" fill="none" className="w-full h-full text-foreground">
-          {content}
-        </svg>
-      </div>
-      <div className="mt-2.5 flex items-center gap-2">
-        <p className="text-sm font-medium">{template.name}</p>
-        <span className="text-[10px] text-muted-foreground/40 font-medium">{packBadge}</span>
-      </div>
-      <p className="text-xs text-muted-foreground/70">{template.desc}</p>
-    </Link>
-  );
-}
+const PLANNING_AND_NOTES = getTemplatesByHref([
+  "/templates/semester-planner",
+  "/templates/monthly-reset",
+  "/templates/quarterly-review",
+  "/templates/literature-review-matrix",
+]);
 
-export function TemplatesView({ packs }: { packs: Pack[] }) {
+export function TemplatesView({ packs }: { packs: TemplateCatalogPack[] }) {
   const totalCount = packs.reduce((a, p) => a + p.templates.length, 0);
   const [query, setQuery] = useState("");
   const lastTrackedSearch = useRef("");
@@ -137,6 +109,38 @@ export function TemplatesView({ packs }: { packs: Pack[] }) {
         </p>
       )}
 
+      {!normalizedQuery && (
+        <div className="mb-16 space-y-12">
+          <section aria-labelledby="popular-this-week-heading">
+            <h2
+              id="popular-this-week-heading"
+              className="mb-6 text-xl font-semibold tracking-tight"
+            >
+              Popular this week
+            </h2>
+            <TemplateDiscovery
+              templates={POPULAR_THIS_WEEK}
+              sourcePage="/templates"
+              placement="popular_this_week"
+              className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5 lg:gap-6"
+            />
+          </section>
+          <section aria-labelledby="planning-and-notes-heading">
+            <h2
+              id="planning-and-notes-heading"
+              className="mb-6 text-xl font-semibold tracking-tight"
+            >
+              Planning &amp; Notes
+            </h2>
+            <TemplateDiscovery
+              templates={PLANNING_AND_NOTES}
+              sourcePage="/templates"
+              placement="planning_and_notes"
+            />
+          </section>
+        </div>
+      )}
+
       {filteredPacks.map((pack) => (
         <section key={pack.name} className="mb-16">
           <div className="flex items-center gap-3 mb-2">
@@ -144,16 +148,13 @@ export function TemplatesView({ packs }: { packs: Pack[] }) {
             <Badge variant="secondary">{pack.badge}</Badge>
           </div>
           <p className="text-sm text-muted-foreground mb-6">{pack.description}</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-6">
-            {pack.templates.map((t) => (
-              <TemplateCard
-                key={t.href}
-                template={t}
-                packBadge={pack.badge}
-                searchQuery={normalizedQuery || undefined}
-              />
-            ))}
-          </div>
+          <TemplateDiscovery
+            templates={pack.templates}
+            sourcePage="/templates"
+            placement={normalizedQuery ? "search_results" : "pack_grid"}
+            packBadge={pack.badge}
+            searchQuery={normalizedQuery || undefined}
+          />
         </section>
       ))}
 

@@ -52,7 +52,7 @@ export default function Image() {
             lineHeight: 1.4,
           }}
         >
-          51+ customizable templates organized into 8 packs
+          65+ customizable templates organized into 9 packs
         </p>
         <div
           style={{

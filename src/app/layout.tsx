@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 51+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 65+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
     url: siteUrl,
     siteName: "Remarkable Skills",
     locale: "en_US",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Remarkable Skills — Free reMarkable Templates",
     description:
-      "Free puzzles, planners, and 51+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
+      "Free puzzles, planners, and 65+ printable templates optimized for the reMarkable paper tablet. Generate PDFs and transfer to your device.",
   },
   alternates: {
     canonical: "/",
@@ -113,10 +113,10 @@ const jsonLd = [
       priceCurrency: "USD",
     },
     description:
-      "Free, procedurally generated puzzles, games, and 51+ printable templates optimized for the reMarkable paper tablet and other e-ink devices.",
+      "Free, procedurally generated puzzles, games, and 65+ printable templates optimized for the reMarkable paper tablet and other e-ink devices.",
     featureList: [
       "Sudoku, crossword, maze, word search, nonogram puzzle generators",
-      "51+ planning, productivity, and wellness templates",
+      "65+ planning, productivity, and wellness templates",
       "Kids worksheets (math, tracing, spelling, sight words)",
       "Optimized for reMarkable 2, Paper Pro, Supernote, BOOX, Kindle Scribe",
       "Client-side PDF generation — no account required",

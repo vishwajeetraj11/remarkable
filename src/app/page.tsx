@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Reveal } from "@/components/shared/reveal";
 import { Faq } from "@/components/shared/faq";
+import { TemplateDiscovery } from "@/components/templates/template-discovery";
+import { getTemplatesByHref } from "@/lib/templates/catalog";
 
 const faqs = [
   {
@@ -86,28 +88,12 @@ const games = [
   },
 ];
 
-const showcaseTemplates = [
-  {
-    name: "Weekly Planner",
-    href: "/templates/planner",
-    desc: "Seven-column weekly layout",
-  },
-  {
-    name: "Monthly Calendar",
-    href: "/templates/monthly-calendar",
-    desc: "Traditional grid calendar",
-  },
-  {
-    name: "Habit Tracker",
-    href: "/templates/habit-tracker",
-    desc: "31-day habit grid",
-  },
-  {
-    name: "Cornell Notes",
-    href: "/templates/cornell",
-    desc: "Study & review system",
-  },
-];
+const HOME_SHOWCASE_TEMPLATES = getTemplatesByHref([
+  "/templates/calendar-2026",
+  "/templates/planner",
+  "/templates/lecture-notes",
+  "/templates/vision-board",
+]);
 
 const moreTemplates = [
   { name: "Daily Focus", href: "/templates/daily-focus" },
@@ -182,270 +168,6 @@ const kids = [
   },
 ];
 
-/* ---------- SVG template thumbnails ---------- */
-
-function PlannerThumb() {
-  return (
-    <svg viewBox="0 0 120 168" fill="none" className="w-full h-full">
-      {/* Header bar */}
-      <rect
-        x="8"
-        y="14"
-        width="104"
-        height="8"
-        rx="1"
-        fill="currentColor"
-        fillOpacity="0.06"
-      />
-      {/* 7 columns */}
-      {Array.from({ length: 6 }, (_, i) => (
-        <line
-          key={i}
-          x1={8 + ((i + 1) * 104) / 7}
-          y1="14"
-          x2={8 + ((i + 1) * 104) / 7}
-          y2="156"
-          stroke="currentColor"
-          strokeWidth="0.5"
-          strokeOpacity="0.12"
-        />
-      ))}
-      {/* Time rows */}
-      {Array.from({ length: 11 }, (_, i) => (
-        <line
-          key={i}
-          x1="8"
-          y1={30 + i * 11.5}
-          x2="112"
-          y2={30 + i * 11.5}
-          stroke="currentColor"
-          strokeWidth="0.4"
-          strokeOpacity="0.08"
-        />
-      ))}
-      {/* Filled event blocks */}
-      <rect
-        x="10"
-        y="30"
-        width="12"
-        height="18"
-        rx="1.5"
-        fill="currentColor"
-        fillOpacity="0.08"
-      />
-      <rect
-        x="40"
-        y="53"
-        width="12"
-        height="24"
-        rx="1.5"
-        fill="currentColor"
-        fillOpacity="0.06"
-      />
-      <rect
-        x="70"
-        y="41"
-        width="12"
-        height="14"
-        rx="1.5"
-        fill="currentColor"
-        fillOpacity="0.07"
-      />
-      <rect
-        x="25"
-        y="76"
-        width="12"
-        height="20"
-        rx="1.5"
-        fill="currentColor"
-        fillOpacity="0.05"
-      />
-    </svg>
-  );
-}
-
-function CalendarThumb() {
-  return (
-    <svg viewBox="0 0 120 168" fill="none" className="w-full h-full">
-      {/* Title line */}
-      <line
-        x1="8"
-        y1="16"
-        x2="52"
-        y2="16"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeOpacity="0.15"
-      />
-      {/* 5×7 day grid */}
-      {Array.from({ length: 5 }, (_, row) =>
-        Array.from({ length: 7 }, (_, col) => {
-          const x = 8 + col * 15;
-          const y = 28 + row * 24;
-          const dayNum = row * 7 + col + 1;
-          if (dayNum > 31) return null;
-          return (
-            <g key={`${row}-${col}`}>
-              <rect
-                x={x}
-                y={y}
-                width="13"
-                height="20"
-                rx="1.5"
-                stroke="currentColor"
-                strokeWidth="0.4"
-                strokeOpacity="0.1"
-              />
-              <text
-                x={x + 6.5}
-                y={y + 12}
-                fontSize="5.5"
-                fill="currentColor"
-                fillOpacity="0.2"
-                textAnchor="middle"
-                fontFamily="sans-serif"
-              >
-                {dayNum}
-              </text>
-            </g>
-          );
-        }),
-      )}
-    </svg>
-  );
-}
-
-function HabitThumb() {
-  return (
-    <svg viewBox="0 0 120 168" fill="none" className="w-full h-full">
-      {/* Title line */}
-      <line
-        x1="8"
-        y1="16"
-        x2="46"
-        y2="16"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeOpacity="0.15"
-      />
-      {/* Row labels */}
-      {Array.from({ length: 5 }, (_, row) => (
-        <line
-          key={`label-${row}`}
-          x1="8"
-          y1={34 + row * 26}
-          x2="28"
-          y2={34 + row * 26}
-          stroke="currentColor"
-          strokeWidth="1"
-          strokeOpacity="0.1"
-        />
-      ))}
-      {/* Circle grid — 5 rows × 7 cols */}
-      {Array.from({ length: 5 }, (_, row) =>
-        Array.from({ length: 7 }, (_, col) => {
-          const cx = 38 + col * 11;
-          const cy = 34 + row * 26;
-          const filled =
-            [0, 4, 9, 11, 15, 18, 22, 26, 28, 31, 34].indexOf(
-              row * 7 + col,
-            ) !== -1;
-          return (
-            <circle
-              key={`${row}-${col}`}
-              cx={cx}
-              cy={cy}
-              r="3.5"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              strokeOpacity={filled ? "0.25" : "0.12"}
-              fill={filled ? "currentColor" : "none"}
-              fillOpacity={filled ? "0.12" : "0"}
-            />
-          );
-        }),
-      )}
-    </svg>
-  );
-}
-
-function CornellThumb() {
-  return (
-    <svg viewBox="0 0 120 168" fill="none" className="w-full h-full">
-      {/* Title line */}
-      <line
-        x1="8"
-        y1="14"
-        x2="112"
-        y2="14"
-        stroke="currentColor"
-        strokeWidth="0.75"
-        strokeOpacity="0.15"
-      />
-      {/* Vertical split — cue column */}
-      <line
-        x1="38"
-        y1="14"
-        x2="38"
-        y2="124"
-        stroke="currentColor"
-        strokeWidth="0.75"
-        strokeOpacity="0.15"
-      />
-      {/* Horizontal split — summary area */}
-      <line
-        x1="8"
-        y1="124"
-        x2="112"
-        y2="124"
-        stroke="currentColor"
-        strokeWidth="0.75"
-        strokeOpacity="0.15"
-      />
-      {/* Cue column text lines */}
-      {Array.from({ length: 4 }, (_, i) => (
-        <line
-          key={`cue-${i}`}
-          x1="12"
-          y1={32 + i * 24}
-          x2="32"
-          y2={32 + i * 24}
-          stroke="currentColor"
-          strokeWidth="0.75"
-          strokeOpacity="0.08"
-        />
-      ))}
-      {/* Note lines */}
-      {Array.from({ length: 8 }, (_, i) => (
-        <line
-          key={`note-${i}`}
-          x1="44"
-          y1={28 + i * 12}
-          x2={90 + (i % 3) * 8 - 12}
-          y2={28 + i * 12}
-          stroke="currentColor"
-          strokeWidth="0.5"
-          strokeOpacity="0.08"
-        />
-      ))}
-      {/* Summary lines */}
-      {Array.from({ length: 3 }, (_, i) => (
-        <line
-          key={`sum-${i}`}
-          x1="12"
-          y1={134 + i * 10}
-          x2={80 + i * 10}
-          y2={134 + i * 10}
-          stroke="currentColor"
-          strokeWidth="0.5"
-          strokeOpacity="0.08"
-        />
-      ))}
-    </svg>
-  );
-}
-
-const thumbs = [PlannerThumb, CalendarThumb, HabitThumb, CornellThumb];
 
 function TabletSilhouette() {
   return (
@@ -594,8 +316,8 @@ export default function Home() {
             {(
               [
                 ["13", "puzzle types"],
-                ["51+", "page templates"],
-                ["8", "template packs"],
+                ["65+", "page templates"],
+                ["9", "template packs"],
                 ["12", "kids activities"],
               ] as const
             ).map(([num, label]) => (
@@ -686,7 +408,7 @@ export default function Home() {
                   </h2>
                 </Link>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  8 packs &mdash; planners, meetings, focus, study, life admin,
+                  9 collections &mdash; planners, meetings, focus, study, life admin,
                   wellness, fitness &amp; more
                 </p>
               </div>
@@ -694,30 +416,18 @@ export default function Home() {
                 href="/templates"
                 className="hidden sm:block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                All 51+ templates →
+                All 65+ templates →
               </Link>
             </div>
           </Reveal>
 
-          {/* Showcase grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-            {showcaseTemplates.map((item, i) => {
-              const Thumb = thumbs[i];
-              return (
-                <Reveal key={item.href} delay={i * 100}>
-                  <Link href={item.href} className="group block">
-                    <div className="aspect-5/7 rounded-lg border border-border/80 bg-background p-4 overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:border-foreground/15 group-hover:shadow-sm">
-                      <Thumb />
-                    </div>
-                    <p className="mt-2.5 text-sm font-medium">{item.name}</p>
-                    <p className="text-xs text-muted-foreground/70">
-                      {item.desc}
-                    </p>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
+          <Reveal>
+            <TemplateDiscovery
+              templates={HOME_SHOWCASE_TEMPLATES}
+              sourcePage="/"
+              placement="homepage_template_showcase"
+            />
+          </Reveal>
 
           {/* Remaining templates as text links */}
           <Reveal delay={450}>
@@ -741,7 +451,7 @@ export default function Home() {
                 href="/templates"
                 className="font-medium text-foreground hover:underline underline-offset-2"
               >
-                All 51+ →
+                All 65+ →
               </Link>
             </div>
           </Reveal>

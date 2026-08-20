@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { TemplateDiscovery } from "@/components/templates/template-discovery";
+import { getTemplatesByHref } from "@/lib/templates/catalog";
 
 export const metadata: Metadata = {
   title: "Best Free reMarkable Templates in 2026 — Remarkable Skills",
@@ -39,6 +41,13 @@ const checklist = [
   },
 ];
 
+const GUIDE_RECOMMENDATIONS = getTemplatesByHref([
+  "/templates/calendar-2026",
+  "/templates/planner",
+  "/templates/semester-planner",
+  "/templates/literature-review-matrix",
+]);
+
 export default function BestFreeRemarkableTemplatesGuide() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
@@ -75,7 +84,7 @@ export default function BestFreeRemarkableTemplatesGuide() {
               <span className="font-medium text-foreground">
                 This site (Remarkable Skills)
               </span>{" "}
-              — 51+{" "}
+              — 65+{" "}
               <Link
                 href="/templates"
                 className="underline underline-offset-2 decoration-foreground/20 hover:decoration-foreground/60 transition-colors"
@@ -111,6 +120,23 @@ export default function BestFreeRemarkableTemplatesGuide() {
               thing.
             </li>
           </ul>
+        </div>
+
+        <div className="border-t border-border pt-10">
+          <h2 className="text-xl font-semibold tracking-tight">
+            A curated starter set
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+            Start with these four device-sized generators, then add the one
+            that matches how you plan, study, or take notes.
+          </p>
+          <div className="mt-6">
+            <TemplateDiscovery
+              templates={GUIDE_RECOMMENDATIONS}
+              sourcePage="/guides/best-free-remarkable-templates-2026"
+              placement="guide_recommendations"
+            />
+          </div>
         </div>
 
         <div className="border-t border-border pt-10">
