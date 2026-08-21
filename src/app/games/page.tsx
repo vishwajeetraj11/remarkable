@@ -8,6 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import BundleGenerator from "@/components/games/bundle-generator";
 import { Faq } from "@/components/shared/faq";
+import { FaqJsonLd } from "@/components/shared/faq-jsonld";
 
 const faqs = [
   {
@@ -119,6 +120,7 @@ export default function GamesPage() {
 
       <div className="border-t border-border">
         <Faq items={faqs} />
+        <FaqJsonLd faqs={faqs} />
       </div>
     </>
   );

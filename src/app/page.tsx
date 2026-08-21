@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/shared/reveal";
 import { Faq } from "@/components/shared/faq";
+import { FaqJsonLd } from "@/components/shared/faq-jsonld";
 import { TemplateDiscovery } from "@/components/templates/template-discovery";
 import { getTemplatesByHref } from "@/lib/templates/catalog";
 
@@ -498,6 +499,7 @@ export default function Home() {
       {/* FAQ */}
       <div className="border-t border-border">
         <Faq items={faqs} />
+        <FaqJsonLd faqs={faqs} />
       </div>
 
       {/* How it works — streamlined */}

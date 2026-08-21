@@ -69,6 +69,18 @@ export const TEMPLATE_PACKS = [
     ],
   },
   {
+    name: "Meeting System",
+    badge: "Bundle",
+    description:
+      "Run every meeting the same way: prep, capture decisions, and track follow-ups across clients and 1:1s.",
+    templates: [
+      { name: "Meeting Notes", href: "/templates/meeting-notes", desc: "Agenda, notes, and action items" },
+      { name: "1:1 Notes", href: "/templates/one-on-one", desc: "Two-column 1:1 meeting layout" },
+      { name: "Client Call Sheet", href: "/templates/client-call", desc: "Prep, talking points, follow-ups" },
+      { name: "Action-Item Tracker", href: "/templates/action-tracker", desc: "Tabular action tracking" },
+    ],
+  },
+  {
     name: "Focus / ADHD-Friendly",
     badge: "Pack 3",
     description:
@@ -101,6 +113,18 @@ export const TEMPLATE_PACKS = [
     ],
   },
   {
+    name: "Semester Success",
+    badge: "Bundle",
+    description:
+      "One connected study system: semester dashboard, lecture capture, Cornell review pages, and exam revision planning.",
+    templates: [
+      { name: "Semester Planner", href: "/templates/semester-planner", desc: "Linked semester dashboard, timetable, assignments & exams" },
+      { name: "Lecture Notes", href: "/templates/lecture-notes", desc: "Structured lecture page" },
+      { name: "Cornell Notes", href: "/templates/cornell", desc: "Cue column + notes + summary" },
+      { name: "Revision Planner", href: "/templates/revision-planner", desc: "Subject schedule with checkboxes" },
+    ],
+  },
+  {
     name: "Life Admin",
     badge: "Pack 5",
     description:
@@ -116,6 +140,18 @@ export const TEMPLATE_PACKS = [
       { name: "Meal Planner", href: "/templates/meal-planner", desc: "Weekly meals grid" },
       { name: "Grocery List", href: "/templates/grocery-list", desc: "Categorized shopping list" },
       { name: "Recipe Page", href: "/templates/recipe-page", desc: "Ingredients + instructions" },
+    ],
+  },
+  {
+    name: "Budget Calendar",
+    badge: "Bundle",
+    description:
+      "A monthly money system: dated calendar for due dates, budget vs. actual, and a bill-payment checklist.",
+    templates: [
+      { name: "Monthly Calendar", href: "/templates/monthly-calendar", desc: "Traditional grid calendar" },
+      { name: "Monthly Budget", href: "/templates/monthly-budget", desc: "Budget vs. actual spending" },
+      { name: "Bill Tracker", href: "/templates/bill-tracker", desc: "Bills with paid checkbox" },
+      { name: "Expense Tracker", href: "/templates/expense-tracker", desc: "Daily expense log" },
     ],
   },
   {
@@ -151,6 +187,7 @@ export const TEMPLATE_PACKS = [
       "Goal setting, savings, travel, and event tracking for life outside work.",
     templates: [
       { name: "Vision Board", href: "/templates/vision-board", desc: "Structured goal-setting by life area" },
+      { name: "Goal Board", href: "/templates/goal-board", desc: "Quarterly goals with milestones & target dates" },
       { name: "Quarterly Review", href: "/templates/quarterly-review", desc: "Evidence-first quarter closeout and next priorities" },
       { name: "Monthly Reset", href: "/templates/monthly-reset", desc: "Reflection, priorities, routines, and first actions" },
       { name: "Savings Challenge", href: "/templates/savings-challenge", desc: "52-week savings tracker" },
@@ -230,7 +267,7 @@ function relatedTemplateGroup(slug: string): RelatedTemplateGroup {
     return "work";
   }
   if (
-    ["review", "reflection", "gratitude", "vision", "mood"].some((term) =>
+    ["review", "reflection", "gratitude", "vision", "goal", "mood"].some((term) =>
       normalizedSlug.includes(term),
     )
   ) {

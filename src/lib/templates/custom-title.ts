@@ -26,6 +26,7 @@ export const TEMPLATES_WITH_HEADER = new Set<string>([
   "/templates/eisenhower-matrix",
   "/templates/expense-tracker",
   "/templates/fitness-planner",
+  "/templates/goal-board",
   "/templates/inbox-capture",
   "/templates/kanban-board",
   "/templates/lecture-notes",

@@ -3,10 +3,12 @@
 import {
   generateSudoku,
   type SudokuDifficulty,
+  type SudokuGridSize,
 } from "@/lib/generators/sudoku";
 
 type SudokuWorkerRequest = {
   difficulty: SudokuDifficulty;
+  gridSize?: SudokuGridSize;
   count: number;
 };
 
@@ -16,9 +18,9 @@ workerScope.addEventListener(
   "message",
   (event: MessageEvent<SudokuWorkerRequest>) => {
     try {
-      const { difficulty, count } = event.data;
+      const { difficulty, gridSize, count } = event.data;
       const puzzles = Array.from({ length: count }, () =>
-        generateSudoku(difficulty),
+        generateSudoku(difficulty, gridSize ?? 9),
       );
       workerScope.postMessage({ puzzles });
     } catch (error) {

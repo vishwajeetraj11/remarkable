@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { savePdf } from "@/lib/download-tracker";
+import { captureEvent, normalizeTemplateDevice } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -14,7 +16,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { SudokuDifficulty, SudokuPuzzle } from "@/lib/generators/sudoku";
+import {
+  boxDimensions,
+  cluesForDifficulty,
+  type SudokuDifficulty,
+  type SudokuGridSize,
+  type SudokuPuzzle,
+} from "@/lib/generators/sudoku";
 import { PAGE_SIZES, type PageSizeKey } from "@/lib/pdf-constants";
 
 const DIFFICULTY_LABELS: Record<SudokuDifficulty, string> = {
@@ -24,46 +32,53 @@ const DIFFICULTY_LABELS: Record<SudokuDifficulty, string> = {
   evil: "Evil",
 };
 
+const GRID_SIZES: { value: SudokuGridSize; label: string; hint: string }[] = [
+  { value: 4, label: "4 × 4", hint: "Kids & warm-up" },
+  { value: 6, label: "6 × 6", hint: "Light" },
+  { value: 9, label: "9 × 9", hint: "Classic" },
+  { value: 12, label: "12 × 12", hint: "Expert" },
+];
+
+// Map page-size keys to the device vocabulary used by template funnel events.
+const PAGE_SIZE_DEVICE: Record<PageSizeKey, string> = {
+  A4: "a4",
+  Letter: "letter",
+  eInk: "remarkable2",
+  paperPro: "paperPro",
+  kindleScribe: "kindleScribe",
+};
+
 // ─── PDF Generation ───────────────────────────────────────────────────────────
 
 function drawSudokuGrid(
   doc: InstanceType<typeof import("jspdf").jsPDF>,
-  puzzle: number[][],
-  solution: number[][] | null,
+  puzzleData: SudokuPuzzle,
   originX: number,
   originY: number,
-  gridSize: number,
+  gridPx: number,
   isAnswerKey: boolean
 ) {
-  const cellSize = gridSize / 9;
+  const size = puzzleData.size;
+  const { boxW, boxH } = boxDimensions(size);
+  const cellSize = gridPx / size;
+  const grid = isAnswerKey ? puzzleData.solution : puzzleData.puzzle;
 
   // Fill background
   doc.setFillColor(255, 255, 255);
-  doc.rect(originX, originY, gridSize, gridSize, "F");
+  doc.rect(originX, originY, gridPx, gridPx, "F");
 
   // Draw cell values
-  const fontSize = isAnswerKey ? Math.round(cellSize * 0.45) : Math.round(cellSize * 0.55);
+  const fontSize = (isAnswerKey ? 0.45 : 0.55) * cellSize;
   doc.setFontSize(fontSize);
 
-  const grid = isAnswerKey && solution ? solution : puzzle;
-
-  for (let row = 0; row < 9; row++) {
-    for (let col = 0; col < 9; col++) {
+  for (let row = 0; row < size; row++) {
+    for (let col = 0; col < size; col++) {
       const val = grid[row][col];
       if (val !== 0) {
         const cx = originX + col * cellSize + cellSize / 2;
         const cy = originY + row * cellSize + cellSize * 0.65;
 
-        if (isAnswerKey) {
-          // All numbers in answer key shown in a muted color
-          doc.setTextColor(80, 80, 80);
-        } else if (puzzle[row][col] !== 0) {
-          // Given (clue) numbers: dark/bold
-          doc.setTextColor(20, 20, 20);
-        } else {
-          doc.setTextColor(20, 20, 20);
-        }
-
+        doc.setTextColor(isAnswerKey ? 80 : 20, isAnswerKey ? 80 : 20, isAnswerKey ? 80 : 20);
         doc.text(String(val), cx, cy, { align: "center" });
       }
     }
@@ -72,22 +87,39 @@ function drawSudokuGrid(
   // Draw thin cell lines
   doc.setDrawColor(180, 180, 180);
   doc.setLineWidth(0.4);
-  for (let i = 0; i <= 9; i++) {
+  for (let i = 0; i <= size; i++) {
     const x = originX + i * cellSize;
     const y = originY + i * cellSize;
-    doc.line(x, originY, x, originY + gridSize);
-    doc.line(originX, y, originX + gridSize, y);
+    doc.line(x, originY, x, originY + gridPx);
+    doc.line(originX, y, originX + gridPx, y);
   }
 
-  // Draw thick 3x3 box borders
+  // Draw thick box borders
   doc.setDrawColor(30, 30, 30);
   doc.setLineWidth(isAnswerKey ? 1.2 : 1.8);
-  for (let i = 0; i <= 3; i++) {
-    const x = originX + i * cellSize * 3;
-    const y = originY + i * cellSize * 3;
-    doc.line(x, originY, x, originY + gridSize);
-    doc.line(originX, y, originX + gridSize, y);
+  for (let x = 0; x <= size; x += boxW) {
+    const px = originX + x * cellSize;
+    doc.line(px, originY, px, originY + gridPx);
   }
+  for (let y = 0; y <= size; y += boxH) {
+    const py = originY + y * cellSize;
+    doc.line(originX, py, originX + gridPx, py);
+  }
+}
+
+/** Answer-key grids per page: small grids fit 3×3, large grids 2×2. */
+function answerLayout(size: SudokuGridSize) {
+  return size <= 6
+    ? { colsPerRow: 3, rowsPerPage: 3 }
+    : { colsPerRow: 2, rowsPerPage: 2 };
+}
+
+export function countPdfPages(puzzleCount: number, size: SudokuGridSize): number {
+  const perPage =
+    answerLayout(size).colsPerRow * answerLayout(size).rowsPerPage;
+  const answerPages = Math.ceil(puzzleCount / perPage);
+  const indexPages = puzzleCount > 1 ? 1 : 0;
+  return indexPages + puzzleCount + answerPages;
 }
 
 async function generatePDF(
@@ -102,8 +134,7 @@ async function generatePDF(
   const usableH = pageH - margin * 2;
 
   // Grid occupies 80% of the smaller usable dimension
-  const maxGridSize = Math.min(usableW, usableH * 0.82);
-  const gridSize = maxGridSize;
+  const gridSize = Math.min(usableW, usableH * 0.82);
 
   const doc = new jsPDF({
     orientation: "portrait",
@@ -112,10 +143,109 @@ async function generatePDF(
   });
 
   const difficultyLabel = DIFFICULTY_LABELS[difficulty];
+  const sample = puzzles[0];
+  const hasIndex = puzzles.length > 1;
+  const firstPuzzlePage = hasIndex ? 2 : 1;
+  const { colsPerRow, rowsPerPage } = answerLayout(sample.size);
+  const perPage = colsPerRow * rowsPerPage;
+  const totalAnswerPages = Math.ceil(puzzles.length / perPage);
+  const firstAnswerPage = firstPuzzlePage + puzzles.length;
+  const totalPages = firstAnswerPage + totalAnswerPages - 1;
+
+  const drawFooter = (pageNo: number) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7);
+    doc.setTextColor(140, 140, 140);
+    doc.text(`${pageNo} / ${totalPages}`, pageW / 2, pageH - margin * 0.35, {
+      align: "center",
+    });
+  };
+
+  let currentPage = 1;
+
+  // ── Index page (book mode) ────────────────────────────────────────────────
+  if (hasIndex) {
+    const headerY = margin * 0.6;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(30, 30, 30);
+    doc.text("Sudoku Book", pageW / 2, headerY, { align: "center" });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(
+      `${difficultyLabel} · ${puzzles.length} puzzles · ${sample.size} × ${sample.size}`,
+      pageW / 2,
+      headerY + 16,
+      { align: "center" }
+    );
+
+    let y = margin + 24;
+    const rowHeight = Math.min(22, (usableH - 40) / (puzzles.length + 1));
+
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    doc.text("CONTENTS", margin, y);
+    y += rowHeight * 0.8;
+
+    const entries: { label: string; page: number; y: number }[] = [];
+
+    puzzles.forEach((_, idx) => {
+      entries.push({
+        label: `Puzzle ${idx + 1}`,
+        page: firstPuzzlePage + idx,
+        y,
+      });
+      y += rowHeight;
+    });
+    entries.push({ label: "Answer Keys", page: firstAnswerPage, y });
+
+    for (const entry of entries) {
+      const isAnswers = entry.label === "Answer Keys";
+
+      doc.setFont("helvetica", isAnswers ? "bold" : "normal");
+      doc.setFontSize(10);
+      doc.setTextColor(30, 30, 30);
+      doc.text(entry.label, margin + 6, entry.y);
+      const nameW = doc.getTextWidth(entry.label);
+
+      const pageStr = `p. ${entry.page}`;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(110, 110, 110);
+      doc.text(pageStr, pageW - margin - 6, entry.y, { align: "right" });
+
+      // Dot leader
+      const pageWd = doc.getTextWidth(pageStr);
+      doc.setFontSize(7);
+      doc.setTextColor(190, 190, 190);
+      let dotX = margin + 6 + nameW + 6;
+      const dotEnd = pageW - margin - 6 - pageWd - 6;
+      while (dotX < dotEnd) {
+        doc.text(".", dotX, entry.y);
+        dotX += 5;
+      }
+
+      // Tappable link to the target page
+      doc.link(margin, entry.y - rowHeight * 0.55, usableW, rowHeight * 0.85, {
+        pageNumber: entry.page,
+      });
+    }
+
+    drawFooter(currentPage);
+    currentPage += 1;
+  }
 
   // ── Puzzle pages ──────────────────────────────────────────────────────────
   puzzles.forEach((puzzleData, idx) => {
-    if (idx > 0) doc.addPage([pageW, pageH]);
+    // Without book mode the very first puzzle reuses the document's initial page.
+    const reusesInitialPage = !hasIndex && idx === 0;
+    if (!reusesInitialPage) {
+      doc.addPage([pageW, pageH]);
+      currentPage += 1;
+    }
 
     const headerY = margin * 0.6;
 
@@ -136,20 +266,20 @@ async function generatePDF(
     const gridX = (pageW - gridSize) / 2;
     const gridY = margin;
 
-    drawSudokuGrid(doc, puzzleData.puzzle, puzzleData.solution, gridX, gridY, gridSize, false);
+    drawSudokuGrid(doc, puzzleData, gridX, gridY, gridSize, false);
+
+    drawFooter(currentPage);
   });
 
   // ── Answer key pages ──────────────────────────────────────────────────────
-  // Up to 4 answer-key grids per page, arranged in a 2×2 layout
-  const answerGridSize = Math.min(usableW / 2 - margin * 0.25, usableH / 2 - margin * 0.25);
-  const colsPerRow = 2;
-  const rowsPerPage = 2;
-  const perPage = colsPerRow * rowsPerPage;
-
-  const totalAnswerPages = Math.ceil(puzzles.length / perPage);
+  const answerGridSize = Math.min(
+    usableW / colsPerRow - margin * 0.25,
+    usableH / rowsPerPage - margin * 0.25
+  );
 
   for (let pageIdx = 0; pageIdx < totalAnswerPages; pageIdx++) {
     doc.addPage([pageW, pageH]);
+    currentPage += 1;
 
     const headerY = margin * 0.55;
     doc.setFont("helvetica", "bold");
@@ -180,22 +310,23 @@ async function generatePDF(
         align: "center",
       });
 
-      drawSudokuGrid(
-        doc,
-        puzzles[i].puzzle,
-        puzzles[i].solution,
-        gridX,
-        gridY,
-        answerGridSize,
-        true
-      );
+      drawSudokuGrid(doc, puzzles[i], gridX, gridY, answerGridSize, true);
     }
+
+    drawFooter(currentPage);
   }
 
-  savePdf(doc, `sudoku-${difficulty}-${puzzles.length}puzzles.pdf`);
+  savePdf(
+    doc,
+    `sudoku-${sample.size}x${sample.size}-${difficulty}-${puzzles.length}puzzles.pdf`
+  );
 }
 
-function requestSudokus(difficulty: SudokuDifficulty, count: number) {
+function requestSudokus(
+  difficulty: SudokuDifficulty,
+  gridSize: SudokuGridSize,
+  count: number
+) {
   const worker = new Worker(new URL("./sudoku.worker.ts", import.meta.url), {
     type: "module",
   });
@@ -216,7 +347,7 @@ function requestSudokus(difficulty: SudokuDifficulty, count: number) {
       worker.terminate();
       reject(new Error(event.message || "Sudoku generation failed"));
     });
-    worker.postMessage({ difficulty, count });
+    worker.postMessage({ difficulty, gridSize, count });
   });
 
   return { promise, cancel: () => worker.terminate() };
@@ -224,9 +355,11 @@ function requestSudokus(difficulty: SudokuDifficulty, count: number) {
 
 // ─── Preview Grid Component ───────────────────────────────────────────────────
 
-function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
+function SudokuPreviewGrid({ puzzleData }: { puzzleData: SudokuPuzzle }) {
   const previewSize = 360;
-  const cellSize = previewSize / 9;
+  const size = puzzleData.size;
+  const { boxW, boxH } = boxDimensions(size);
+  const cellSize = previewSize / size;
 
   return (
     <svg
@@ -238,28 +371,28 @@ function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
     >
       <rect x="0" y="0" width={previewSize} height={previewSize} fill="white" />
 
-      {Array.from({ length: 10 }).map((_, i) => (
+      {Array.from({ length: size + 1 }).map((_, i) => (
         <g key={`line-${i}`}>
           <line
             x1={i * cellSize}
             y1={0}
             x2={i * cellSize}
             y2={previewSize}
-            stroke={i % 3 === 0 ? "#111111" : "#d4d4d8"}
-            strokeWidth={i % 3 === 0 ? 2.5 : 1}
+            stroke={i % boxW === 0 ? "#111111" : "#d4d4d8"}
+            strokeWidth={i % boxW === 0 ? 2.5 : 1}
           />
           <line
             x1={0}
             y1={i * cellSize}
             x2={previewSize}
             y2={i * cellSize}
-            stroke={i % 3 === 0 ? "#111111" : "#d4d4d8"}
-            strokeWidth={i % 3 === 0 ? 2.5 : 1}
+            stroke={i % boxH === 0 ? "#111111" : "#d4d4d8"}
+            strokeWidth={i % boxH === 0 ? 2.5 : 1}
           />
         </g>
       ))}
 
-      {puzzle.map((row, rowIdx) =>
+      {puzzleData.puzzle.map((row, rowIdx) =>
         row.map((val, colIdx) => {
           if (val === 0) return null;
           return (
@@ -268,7 +401,7 @@ function SudokuPreviewGrid({ puzzle }: { puzzle: number[][] }) {
               x={colIdx * cellSize + cellSize / 2}
               y={rowIdx * cellSize + cellSize * 0.64}
               textAnchor="middle"
-              fontSize={21}
+              fontSize={Math.max(11, Math.round(21 * (9 / size)))}
               fontWeight={600}
               fill="#111111"
               fontFamily="ui-sans-serif, system-ui, sans-serif"
@@ -289,7 +422,9 @@ export default function SudokuPage({
 }: {
   initialDifficulty?: SudokuDifficulty;
 } = {}) {
+  const pathname = usePathname();
   const [difficulty, setDifficulty] = useState<SudokuDifficulty>(initialDifficulty);
+  const [gridSize, setGridSize] = useState<SudokuGridSize>(9);
   const [numPuzzles, setNumPuzzles] = useState(1);
   const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [previewPuzzle, setPreviewPuzzle] = useState<SudokuPuzzle | null>(null);
@@ -299,28 +434,43 @@ export default function SudokuPage({
   // Generate previews away from the main thread so changing difficulty does
   // not hold up the next mobile paint.
   useEffect(() => {
-    const task = requestSudokus(difficulty, 1);
+    const task = requestSudokus(difficulty, gridSize, 1);
     void task.promise
       .then(([puzzle]) => setPreviewPuzzle(puzzle))
       .catch(() => setGenerationError("Could not generate a preview."));
     return task.cancel;
-  }, [difficulty]);
+  }, [difficulty, gridSize]);
 
   const regeneratePreview = () => {
-    const task = requestSudokus(difficulty, 1);
+    const task = requestSudokus(difficulty, gridSize, 1);
     setGenerationError(null);
     void task.promise
       .then(([puzzle]) => setPreviewPuzzle(puzzle))
       .catch(() => setGenerationError("Could not generate a preview."));
   };
 
+  const funnelProps = () => ({
+    template_slug: pathname,
+    template_name: "Sudoku Generator",
+    device: normalizeTemplateDevice(PAGE_SIZE_DEVICE[pageSize]),
+    orientation: "portrait",
+    page_count: countPdfPages(numPuzzles, gridSize),
+    source_page: pathname,
+    game: "sudoku",
+    difficulty,
+    grid_size: gridSize,
+    puzzle_count: numPuzzles,
+  });
+
   const handleDownload = async () => {
     setIsGenerating(true);
     setGenerationError(null);
+    captureEvent("template_generator_started", funnelProps());
     try {
-      const { promise } = requestSudokus(difficulty, numPuzzles);
+      const { promise } = requestSudokus(difficulty, gridSize, numPuzzles);
       const puzzles = await promise;
       await generatePDF(puzzles, difficulty, pageSize);
+      captureEvent("template_generated", funnelProps());
       setPreviewPuzzle(puzzles[0]);
     } catch (error) {
       setGenerationError(
@@ -339,8 +489,8 @@ export default function SudokuPage({
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight">Sudoku Generator</h1>
         <p className="mt-2 text-muted-foreground">
-          Generate printable Sudoku puzzles at any difficulty. Each PDF includes
-          answer keys on the final pages.
+          Generate printable Sudoku puzzles at any difficulty and grid size.
+          Multi-puzzle books include a tappable index page and full answer keys.
         </p>
       </div>
 
@@ -363,10 +513,33 @@ export default function SudokuPage({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="easy">Easy (35 clues)</SelectItem>
-                  <SelectItem value="medium">Medium (28 clues)</SelectItem>
-                  <SelectItem value="hard">Hard (22 clues)</SelectItem>
-                  <SelectItem value="evil">Evil (17 clues)</SelectItem>
+                  {(
+                    ["easy", "medium", "hard", "evil"] as SudokuDifficulty[]
+                  ).map((d) => (
+                    <SelectItem key={d} value={d}>
+                      {DIFFICULTY_LABELS[d]} ({cluesForDifficulty(gridSize, d)} clues)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Grid size */}
+            <div className="space-y-2">
+              <Label>Grid Size</Label>
+              <Select
+                value={String(gridSize)}
+                onValueChange={(v) => setGridSize(Number(v) as SudokuGridSize)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {GRID_SIZES.map((g) => (
+                    <SelectItem key={g.value} value={String(g.value)}>
+                      {g.label} — {g.hint}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -379,7 +552,7 @@ export default function SudokuPage({
               </div>
               <Slider
                 min={1}
-                max={6}
+                max={12}
                 value={[numPuzzles]}
                 onValueChange={(v) => {
                   const val = Array.isArray(v) ? v[0] : v;
@@ -388,8 +561,13 @@ export default function SudokuPage({
               />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>1</span>
-                <span>6</span>
+                <span>12</span>
               </div>
+              {numPuzzles > 1 && (
+                <p className="text-xs text-muted-foreground">
+                  Book mode: adds a tappable index page linking every puzzle.
+                </p>
+              )}
             </div>
 
             {/* Page size */}
@@ -421,7 +599,7 @@ export default function SudokuPage({
             >
               {isGenerating
                 ? "Generating…"
-                : `Generate & Download ${numPuzzles} Sudoku PDF${numPuzzles === 1 ? "" : "s"}`}
+                : `Generate & Download ${numPuzzles === 1 ? "Sudoku PDF" : `${numPuzzles}-Puzzle Book`}`}
             </Button>
             <p className="mt-2 text-xs text-muted-foreground">
               Answer keys are included. Your PDF downloads automatically after generation.
@@ -444,12 +622,12 @@ export default function SudokuPage({
               </Button>
             </div>
             <CardDescription>
-              {DIFFICULTY_LABELS[difficulty]} · sample puzzle
+              {DIFFICULTY_LABELS[difficulty]} · {gridSize} × {gridSize} sample puzzle
             </CardDescription>
           </CardHeader>
           <CardContent className="flex w-full justify-center pt-0 pb-6">
             {previewPuzzle ? (
-              <SudokuPreviewGrid puzzle={previewPuzzle.puzzle} />
+              <SudokuPreviewGrid puzzleData={previewPuzzle} />
             ) : (
               <div className="flex aspect-square w-full max-w-[360px] items-center justify-center border-2 border-dashed border-border text-muted-foreground text-sm">
                 Generating…

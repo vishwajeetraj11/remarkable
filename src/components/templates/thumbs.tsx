@@ -1151,6 +1151,26 @@ export const thumbs: Record<string, React.ReactNode> = {
     </>
   ),
 
+  "/templates/goal-board": (
+    <>
+      <rect x="8" y="14" width="46" height="5" rx="1" fill="currentColor" fillOpacity="0.12" />
+      {Array.from({ length: 3 }, (_, row) =>
+        Array.from({ length: 2 }, (_, col) => (
+          <g key={`${row}-${col}`}>
+            <rect x={8 + col * 54} y={28 + row * 46} width="48" height="40" rx="3" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.08" fill="currentColor" fillOpacity="0.02" />
+            <rect x={12 + col * 54} y={32 + row * 46} width="14" height="3" rx="1" fill="currentColor" fillOpacity="0.08" />
+            {Array.from({ length: 3 }, (_, i) => (
+              <g key={i}>
+                <rect x={12 + col * 54} y={40 + row * 46 + i * 7} width="3" height="3" stroke="currentColor" strokeWidth="0.3" strokeOpacity="0.1" fill="none" />
+                <line x1={18 + col * 54} y1={41.5 + row * 46 + i * 7} x2={44 + col * 54} y2={41.5 + row * 46 + i * 7} stroke="currentColor" strokeWidth="0.4" strokeOpacity="0.06" />
+              </g>
+            ))}
+          </g>
+        )),
+      )}
+    </>
+  ),
+
   "/templates/savings-challenge": (
     <>
       <rect x="8" y="14" width="56" height="4" rx="1" fill="currentColor" fillOpacity="0.12" />

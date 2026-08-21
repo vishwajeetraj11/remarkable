@@ -15,11 +15,11 @@
 
 Procedurally generated printable puzzle PDFs. Each page generates a fresh, unique puzzle on demand.
 
-- [Sudoku](https://remarkable.vishwajeet.co/games/sudoku): Classic 9×9 sudoku in Easy / Medium / Hard / Evil difficulties. Includes solution page.
-- [Easy Sudoku](https://remarkable.vishwajeet.co/games/sudoku/easy): Beginner-friendly 9×9 sudoku PDFs.
-- [Medium Sudoku](https://remarkable.vishwajeet.co/games/sudoku/medium): Moderate 9×9 sudoku PDFs.
-- [Hard Sudoku](https://remarkable.vishwajeet.co/games/sudoku/hard): Challenging 9×9 sudoku PDFs.
-- [Evil Sudoku](https://remarkable.vishwajeet.co/games/sudoku/evil): Expert-level 9×9 sudoku PDFs.
+- [Sudoku](https://remarkable.vishwajeet.co/games/sudoku): Sudoku generator with four grid sizes (4×4 kids, 6×6 light, classic 9×9, 12×12 expert) and Easy / Medium / Hard / Evil difficulties. Multi-puzzle downloads become a book with a tappable index page and full answer keys.
+- [Easy Sudoku](https://remarkable.vishwajeet.co/games/sudoku/easy): Beginner-friendly sudoku PDFs.
+- [Medium Sudoku](https://remarkable.vishwajeet.co/games/sudoku/medium): Moderate difficulty sudoku PDFs.
+- [Hard Sudoku](https://remarkable.vishwajeet.co/games/sudoku/hard): Challenging sudoku PDFs.
+- [Evil Sudoku](https://remarkable.vishwajeet.co/games/sudoku/evil): Expert-level sudoku PDFs.
 - [Word Search](https://remarkable.vishwajeet.co/games/word-search): Themed word search grids with hidden word list.
 - [Custom Word Search Generator](https://remarkable.vishwajeet.co/games/word-search/custom): Create word search PDFs from your own word list.
 - [Crossword](https://remarkable.vishwajeet.co/games/crossword): Auto-generated crossword puzzles with clues.
@@ -36,12 +36,15 @@ Procedurally generated printable puzzle PDFs. Each page generates a fresh, uniqu
 
 ## Printable Templates
 
-PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, Kindle Scribe, A4, and Letter. Supports portrait/landscape and left/right-hand binding margins.
+PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, Kindle Scribe, A4, and Letter. Supports portrait/landscape and left/right-hand binding margins. Templates are also grouped into curated bundles on the [Templates index](https://remarkable.vishwajeet.co/templates): Meeting System, Semester Success, and Budget Calendar.
 
 ### Planning & Productivity
-- [All-in-One Planner](https://remarkable.vishwajeet.co/templates/all-in-one-planner): Combined daily/weekly planner with nav graph.
+- [All-in-One Planner](https://remarkable.vishwajeet.co/templates/all-in-one-planner): Fully hyperlinked mega-planner — year overview, quarterly goals, monthly calendars, weekly pages, habit tracker, notes; every page has tappable section tabs.
+- [2026 Calendar](https://remarkable.vishwajeet.co/templates/calendar-2026): Dated monthly calendar with real day numbers for 2026/2027.
+- [Weekly Dated Planner](https://remarkable.vishwajeet.co/templates/weekly-dated): Seven-column week with real dates, vertical rows or horizontal columns.
 - [Yearly Roadmap](https://remarkable.vishwajeet.co/templates/yearly-roadmap): Annual goal and milestone planning.
 - [Quarterly Goals](https://remarkable.vishwajeet.co/templates/quarterly-goals): 90-day goal tracker with OKR-style layout.
+- [Goal Board](https://remarkable.vishwajeet.co/templates/goal-board): Quarterly goal-setting board — one goal per life area with milestones and target dates.
 - [Monthly Calendar](https://remarkable.vishwajeet.co/templates/monthly-calendar): Monthly grid calendar with notes area.
 - [Daily Planner](https://remarkable.vishwajeet.co/templates/planner): Time-blocked daily schedule page.
 - [Daily Focus](https://remarkable.vishwajeet.co/templates/daily-focus): Single-day priority and focus template.
@@ -52,6 +55,8 @@ PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, 
 - [Inbox Capture](https://remarkable.vishwajeet.co/templates/inbox-capture): GTD-style inbox and capture log.
 - [Shutdown Checklist](https://remarkable.vishwajeet.co/templates/shutdown-checklist): End-of-day work shutdown routine.
 - [Weekly Review](https://remarkable.vishwajeet.co/templates/weekly-review): Structured weekly retrospective.
+- [Monthly Reset](https://remarkable.vishwajeet.co/templates/monthly-reset): Monthly reflection, priorities, routines, and first actions.
+- [Quarterly Review](https://remarkable.vishwajeet.co/templates/quarterly-review): Evidence-first quarter closeout and next-quarter priorities.
 
 ### ADHD & Neurodivergent
 - [ADHD Daily Plan](https://remarkable.vishwajeet.co/templates/daily-plan-adhd): Low-overwhelm daily plan layout for ADHD.
@@ -72,9 +77,12 @@ PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, 
 - [Action Tracker](https://remarkable.vishwajeet.co/templates/action-tracker): Task and follow-up action list.
 - [Kanban Board](https://remarkable.vishwajeet.co/templates/kanban-board): Visual task board with configurable workflow columns.
 - [Project Timeline](https://remarkable.vishwajeet.co/templates/project-timeline): Visual project milestone timeline.
+- [Project Planner](https://remarkable.vishwajeet.co/templates/project-planner): Hyperlinked project planner with a tappable contents page.
 
 ### Study & Learning
+- [Semester Planner](https://remarkable.vishwajeet.co/templates/semester-planner): Linked semester dashboard with timetable, assignments, and exams.
 - [Lecture Notes](https://remarkable.vishwajeet.co/templates/lecture-notes): Cornell-style lecture capture template.
+- [Literature Review Matrix](https://remarkable.vishwajeet.co/templates/literature-review-matrix): Compare sources, methods, findings, limitations, and themes.
 - [Paper Summary](https://remarkable.vishwajeet.co/templates/paper-summary): Academic paper reading summary.
 - [Reading Log](https://remarkable.vishwajeet.co/templates/reading-log): Book and article reading tracker.
 - [Book Notes](https://remarkable.vishwajeet.co/templates/book-notes): Deep book notes and key takeaways.
@@ -84,6 +92,9 @@ PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, 
 - [Monthly Budget](https://remarkable.vishwajeet.co/templates/monthly-budget): Income, expenses, and savings breakdown.
 - [Expense Tracker](https://remarkable.vishwajeet.co/templates/expense-tracker): Daily expense logging sheet.
 - [Bill Tracker](https://remarkable.vishwajeet.co/templates/bill-tracker): Monthly bill due-date tracker.
+- [Debt Payoff Tracker](https://remarkable.vishwajeet.co/templates/debt-tracker): Snowball/avalanche debt payoff tracker.
+- [Sinking Funds Tracker](https://remarkable.vishwajeet.co/templates/sinking-funds): Save toward future expenses by goal.
+- [Net Worth Tracker](https://remarkable.vishwajeet.co/templates/net-worth): Assets, liabilities, and net worth over time.
 - [Savings Challenge](https://remarkable.vishwajeet.co/templates/savings-challenge): 52-week or custom savings challenge tracker.
 
 ### Health & Wellness
@@ -96,15 +107,17 @@ PDF templates sized precisely for reMarkable 2, Paper Pro, Supernote A5X, BOOX, 
 - [Mood Tracker](https://remarkable.vishwajeet.co/templates/mood-tracker): Monthly mood and emotion log.
 - [Sleep Log](https://remarkable.vishwajeet.co/templates/sleep-log): Sleep time and quality tracker.
 - [Fitness Planner](https://remarkable.vishwajeet.co/templates/fitness-planner): Weekly workout planning sheet.
+- [Workout Log](https://remarkable.vishwajeet.co/templates/workout-log): Per-session gym log with sets/reps/weight grid.
 - [Weight Loss Tracker](https://remarkable.vishwajeet.co/templates/weight-loss-tracker): Progress chart and milestone tracker.
 - [Self-Care Checklist](https://remarkable.vishwajeet.co/templates/self-care-checklist): Daily and weekly self-care routine.
 
 ### Home & Life
+- [Bullet Journal Kit](https://remarkable.vishwajeet.co/templates/bullet-journal): Hyperlinked BuJo collections — key, future/monthly/weekly logs and trackers.
 - [Password Log](https://remarkable.vishwajeet.co/templates/password-log): Offline password and account record.
 - [Cleaning Schedule](https://remarkable.vishwajeet.co/templates/cleaning-schedule): Weekly and monthly chore tracker.
 - [Travel Planner](https://remarkable.vishwajeet.co/templates/travel-planner): Trip itinerary and packing checklist.
 - [Birthday Tracker](https://remarkable.vishwajeet.co/templates/birthday-tracker): Annual birthday and anniversary record.
-- [Vision Board](https://remarkable.vishwajeet.co/templates/vision-board): Goal visualization and inspiration layout.
+- [Vision Board](https://remarkable.vishwajeet.co/templates/vision-board): Goal visualization and inspiration layout by life area.
 
 ## Kids Activities
 

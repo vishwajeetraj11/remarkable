@@ -102,6 +102,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   "/templates/semester-planner": "Semester Planner",
   "/templates/literature-review-matrix": "Literature Review Matrix",
   "/templates/quarterly-review": "Quarterly Review",
+  "/templates/goal-board": "Goal Board",
   "/templates/monthly-reset": "Monthly Reset",
   // Kids
   "/kids/math/custom": "Custom",
@@ -223,6 +224,7 @@ const TEMPLATE_PATHS = [
   "/templates/travel-planner",
   "/templates/birthday-tracker",
   "/templates/vision-board",
+  "/templates/goal-board",
   "/templates/savings-challenge",
   // `/templates/mcp-docs` is a public, indexable template page (its layout sets
   // a canonical and no `robots: noindex`); it was previously missing from the

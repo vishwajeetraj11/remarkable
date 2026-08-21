@@ -1,5 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FaqJsonLd } from "@/components/shared/faq-jsonld";
+
+const transferFaqs = [
+  {
+    question: "How do I transfer a PDF to my reMarkable tablet?",
+    answer:
+      "Download the PDF to your computer or phone, then import it with the free reMarkable desktop or mobile app — it syncs over the cloud to your device. You can also use a USB cable with the desktop app.",
+  },
+  {
+    question: "Can I send files to a reMarkable without the cloud?",
+    answer:
+      "Yes. Connect the tablet over USB and use the reMarkable desktop app's local transfer, or third-party tools that upload via the USB connection. No cloud subscription required.",
+  },
+  {
+    question: "How do I get a PDF onto a Supernote, BOOX, or Kindle Scribe?",
+    answer:
+      "All three read standard PDFs: copy the file over USB, email it to your device (BOOX/Kindle), or upload through the vendor's companion app. The PDF opens like any notebook page and you can write on it.",
+  },
+  {
+    question: "Do hyperlinked PDFs work on e-ink tablets?",
+    answer:
+      "Yes. reMarkable, Supernote, BOOX, and Kindle Scribe all support internal PDF links, so tappable indexes and navigation tabs work as designed.",
+  },
+];
 
 export const metadata: Metadata = {
   title: "How to Transfer PDFs to Your E-Ink Tablet — Remarkable Skills",
@@ -212,6 +236,7 @@ export default function TransferPdfsGuide() {
           </div>
         </div>
       </section>
+      <FaqJsonLd faqs={transferFaqs} />
     </article>
   );
 }

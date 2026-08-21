@@ -1,5 +1,6 @@
 import { TemplatesView } from "@/components/templates/templates-view";
 import { Faq } from "@/components/shared/faq";
+import { FaqJsonLd } from "@/components/shared/faq-jsonld";
 import { TEMPLATE_PACKS } from "@/lib/templates/catalog";
 
 const faqs = [
@@ -39,6 +40,7 @@ export default function TemplatesPage() {
 
       <div className="border-t border-border">
         <Faq items={faqs} />
+        <FaqJsonLd faqs={faqs} />
       </div>
     </>
   );
