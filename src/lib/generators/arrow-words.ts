@@ -129,14 +129,17 @@ export function generateArrowWords(size = 11): ArrowWordPuzzle | null {
         if (s === -1) return false;
         if (s === 1) {
           if (letters[r][c] !== word[i]) return false;
-        } else if (
-          // Passage cells belong to exactly one direction: an across word
-          // may not claim cells on odd rows (reserved for down passages).
-          (dir === "across" && r % 2 === 1) ||
-          (dir === "down" && c % 2 === 1)
-        ) {
-          return false;
         }
+      }
+      // Crossing coordinates are (even, even). Across answers start on even
+      // columns and have odd length; down answers start on even rows with odd
+      // length. That keeps clue cells and terminators on odd coordinates so
+      // they never block a potential crossing.
+      if (dir === "across" && ((col % 2 !== 0) || word.length % 2 === 0)) {
+        return false;
+      }
+      if (dir === "down" && ((row % 2 !== 0) || word.length % 2 === 0)) {
+        return false;
       }
       return true;
     }
@@ -180,16 +183,20 @@ export function generateArrowWords(size = 11): ArrowWordPuzzle | null {
       });
     }
 
-    // Across words on even rows, down words on even columns. Interleave for
-    // denser crossings.
+    // Across words on even rows (even start col, odd length); down words on
+    // even columns (even start row, odd length). Interleave for crossings.
     for (let line = 0; line < n; line += 2) {
       for (const dir of ["across", "down"] as const) {
-        for (let attempt = 0; attempt < 40; attempt++) {
+        for (let attempt = 0; attempt < 60; attempt++) {
           if (pool.length === 0) break;
           const item = pool[0];
+          if (item.word.length % 2 === 0 || item.word.length + 2 > n) {
+            // Never placeable under parity rules — rotate to the back.
+            pool.push(pool.shift()!);
+            continue;
+          }
           const coord =
-            Math.floor(Math.random() * Math.ceil((n - 2) / 2)) * 2 + 1;
-          // +1 keeps the clue cell inside the grid for dir's start axis.
+            Math.floor(Math.random() * Math.ceil((n - 1) / 2)) * 2;
           const row = dir === "across" ? line : coord;
           const col = dir === "across" ? coord : line;
           if (!fits(row, col, item.word, dir)) continue;
