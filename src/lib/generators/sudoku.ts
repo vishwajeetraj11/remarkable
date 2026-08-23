@@ -80,18 +80,24 @@ function isValid(
   return true;
 }
 
-function fillGrid(grid: number[][], boxW: number, boxH: number): boolean {
+function fillGrid(
+  grid: number[][],
+  boxW: number,
+  boxH: number,
+  rng: () => number
+): boolean {
   const size = grid.length;
   for (let row = 0; row < size; row++) {
     for (let col = 0; col < size; col++) {
       if (grid[row][col] === 0) {
         const nums = shuffleArray(
-          Array.from({ length: size }, (_, i) => i + 1)
+          Array.from({ length: size }, (_, i) => i + 1),
+          rng
         );
         for (const num of nums) {
           if (isValid(grid, row, col, num, boxW, boxH)) {
             grid[row][col] = num;
-            if (fillGrid(grid, boxW, boxH)) return true;
+            if (fillGrid(grid, boxW, boxH, rng)) return true;
             grid[row][col] = 0;
           }
         }
@@ -157,11 +163,12 @@ function removeClues(
   targetClues: number,
   boxW: number,
   boxH: number,
-  checkUniqueness: boolean
+  checkUniqueness: boolean,
+  rng: () => number
 ): number[][] {
   const puzzle = copyGrid(solution);
   const size = solution.length;
-  const cells = shuffleArray(Array.from({ length: size * size }, (_, i) => i));
+  const cells = shuffleArray(Array.from({ length: size * size }, (_, i) => i), rng);
 
   let filledCells = size * size;
   const deadline = Date.now() + UNIQUENESS_BUDGET_MS;
@@ -196,18 +203,19 @@ function removeClues(
 
 export function generateSudoku(
   difficulty: SudokuDifficulty,
-  size: SudokuGridSize = 9
+  size: SudokuGridSize = 9,
+  rng: () => number = Math.random
 ): SudokuPuzzle {
   const { boxW, boxH } = BOX_DIMS[size];
   const solution = createEmptyGrid(size);
-  fillGrid(solution, boxW, boxH);
+  fillGrid(solution, boxW, boxH, rng);
 
   const targetClues = clueTarget(size, difficulty);
   // Evil puzzles already skip the uniqueness guarantee on 9×9 (same as before
   // this file supported multiple sizes). 12×12 grids skip it at every
   // difficulty: a full solution-count per removal is far too slow there.
   const checkUniqueness = difficulty !== "evil" && size < 12;
-  const puzzle = removeClues(solution, targetClues, boxW, boxH, checkUniqueness);
+  const puzzle = removeClues(solution, targetClues, boxW, boxH, checkUniqueness, rng);
 
   return { size, puzzle, solution };
 }

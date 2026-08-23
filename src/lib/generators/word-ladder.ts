@@ -445,15 +445,16 @@ const STEP_RANGES: Record<Difficulty, [number, number]> = {
 function findRandomPair(
   wordLength: WordLength,
   difficulty: Difficulty,
-  dict: Set<string>
+  dict: Set<string>,
+  rng: () => number
 ): WordLadderPuzzle | null {
   const words = Array.from(dict);
   const [minSteps, maxSteps] = STEP_RANGES[difficulty];
   const maxAttempts = 120;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const start = words[Math.floor(Math.random() * words.length)];
-    const end = words[Math.floor(Math.random() * words.length)];
+    const start = words[Math.floor(rng() * words.length)];
+    const end = words[Math.floor(rng() * words.length)];
     if (start === end) continue;
 
     const path = bfs(start, end, dict);
@@ -476,16 +477,17 @@ function findRandomPair(
 
 export function generateWordLadder(
   difficulty: Difficulty,
-  wordLength: WordLength = 4
+  wordLength: WordLength = 4,
+  rng: () => number = Math.random
 ): WordLadderPuzzle {
   const dict = DICTIONARIES[wordLength];
 
-  const randomResult = findRandomPair(wordLength, difficulty, dict);
+  const randomResult = findRandomPair(wordLength, difficulty, dict, rng);
   if (randomResult) return randomResult;
 
   const pairs = KNOWN_PAIRS[wordLength][difficulty];
   for (let i = pairs.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
   }
 
@@ -503,7 +505,7 @@ export function generateWordLadder(
   }
 
   const words = Array.from(dict);
-  const start = words[Math.floor(Math.random() * words.length)];
+  const start = words[Math.floor(rng() * words.length)];
   for (const end of words) {
     if (start === end) continue;
     const path = bfs(start, end, dict);

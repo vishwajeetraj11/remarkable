@@ -42,16 +42,16 @@ function canForm(word: string, pool: Map<string, number>, center: string): boole
  * Build a wheel from a random dictionary word of length 9 (distinct letters,
  * which keeps every wheel clean) and collect all shorter buildable words.
  */
-export function generateWordWheel(minSolutions = 10): WordWheelPuzzle {
+export function generateWordWheel(minSolutions = 10, rng: () => number = Math.random): WordWheelPuzzle {
   for (let attempt = 0; attempt < 400; attempt++) {
     const seeds = WORD_WHEEL_DICTIONARY.filter(
       (w) => w.length === 9 && new Set(w).size === 9
     );
-    const seed = seeds[Math.floor(Math.random() * seeds.length)];
+    const seed = seeds[Math.floor(rng() * seeds.length)];
     if (!seed) continue;
 
     const letters = seed.split("");
-    const centerIndex = Math.floor(Math.random() * 9);
+    const centerIndex = Math.floor(rng() * 9);
     const center = letters[centerIndex];
     const pool = letterCounts(seed);
 

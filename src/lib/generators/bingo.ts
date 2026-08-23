@@ -14,10 +14,10 @@ export interface BingoGame {
   size: number;
 }
 
-function shuffled(range: number[]): number[] {
+function shuffled(range: number[], rng: () => number): number[] {
   const a = [...range];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -26,7 +26,8 @@ function shuffled(range: number[]): number[] {
 export function generateBingo(
   cardCount = 4,
   size: 3 | 4 | 5 = 5,
-  maxNumber = 75
+  maxNumber = 75,
+  rng: () => number = Math.random
 ): BingoGame {
   const n = Math.max(1, Math.min(20, cardCount));
   const dim = size;
@@ -34,7 +35,7 @@ export function generateBingo(
 
   const cards: BingoCard[] = [];
   for (let c = 0; c < n; c++) {
-    const pool = shuffled(Array.from({ length: max }, (_, i) => i + 1));
+    const pool = shuffled(Array.from({ length: max }, (_, i) => i + 1), rng);
     let idx = 0;
     const cells: (number | null)[][] = [];
     for (let r = 0; r < dim; r++) {
@@ -51,5 +52,5 @@ export function generateBingo(
     cards.push({ cells });
   }
 
-  return { cards, calls: shuffled(Array.from({ length: max }, (_, i) => i + 1)), size: dim };
+  return { cards, calls: shuffled(Array.from({ length: max }, (_, i) => i + 1), rng), size: dim };
 }

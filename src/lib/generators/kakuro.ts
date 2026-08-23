@@ -108,7 +108,7 @@ function extractRuns(pattern: number[][]): Run[] {
   return runs;
 }
 
-function fillValues(pattern: number[][], runs: Run[]): number[][] | null {
+function fillValues(pattern: number[][], runs: Run[], rng: () => number): number[][] | null {
   const size = pattern.length;
   const grid: number[][] = Array.from({ length: size }, () => Array(size).fill(0));
 
@@ -143,7 +143,7 @@ function fillValues(pattern: number[][], runs: Run[]): number[][] | null {
   function solve(idx: number): boolean {
     if (idx >= whiteCells.length) return true;
     const [r, c] = whiteCells[idx];
-    const candidates = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    const candidates = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9], rng);
     for (const val of candidates) {
       if (isValidPlacement(r, c, val)) {
         grid[r][c] = val;
@@ -158,7 +158,7 @@ function fillValues(pattern: number[][], runs: Run[]): number[][] | null {
   return grid;
 }
 
-export function generateKakuro(difficulty: KakuroDifficulty): KakuroPuzzle {
+export function generateKakuro(difficulty: KakuroDifficulty, rng: () => number = Math.random): KakuroPuzzle {
   const pattern = PATTERNS[difficulty];
   const size = pattern.length;
   const runs = extractRuns(pattern);
@@ -166,7 +166,7 @@ export function generateKakuro(difficulty: KakuroDifficulty): KakuroPuzzle {
   let values: number[][] | null = null;
   // Retry with different random orderings if backtracking fails
   for (let attempt = 0; attempt < 20; attempt++) {
-    values = fillValues(pattern, runs);
+    values = fillValues(pattern, runs, rng);
     if (values) break;
   }
 

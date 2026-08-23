@@ -12,14 +12,15 @@ export interface NumberSearchPuzzle {
 
 const DIGITS = "0123456789";
 
-function randomDigit(): string {
-  return DIGITS[Math.floor(Math.random() * DIGITS.length)];
+function randomDigit(rng: () => number): string {
+  return DIGITS[Math.floor(rng() * DIGITS.length)];
 }
 
 export function generateNumberSearch(
   size: number,
   count: number,
-  lengthRange: [number, number] = [3, 5]
+  lengthRange: [number, number] = [3, 5],
+  rng: () => number = Math.random
 ): NumberSearchPuzzle {
   const n = Math.max(8, Math.min(20, size));
   const [minLen, maxLen] = [
@@ -36,15 +37,15 @@ export function generateNumberSearch(
 
   const maxAttempts = count * 60;
   for (let attempt = 0; attempt < maxAttempts && targets.length < count; attempt++) {
-    const len = minLen + Math.floor(Math.random() * (maxLen - minLen + 1));
+    const len = minLen + Math.floor(rng() * (maxLen - minLen + 1));
     let seq = "";
     for (let i = 0; i < len; i++) {
-      seq += i === 0 ? String(1 + Math.floor(Math.random() * 9)) : randomDigit();
+      seq += i === 0 ? String(1 + Math.floor(rng() * 9)) : randomDigit(rng);
     }
     if (targets.includes(seq)) continue;
 
-    const row = Math.floor(Math.random() * n);
-    const col = Math.floor(Math.random() * (n - len + 1));
+    const row = Math.floor(rng() * n);
+    const col = Math.floor(rng() * (n - len + 1));
 
     let free = true;
     for (let c = col; c < col + len; c++) {
@@ -64,7 +65,7 @@ export function generateNumberSearch(
 
   for (let r = 0; r < n; r++) {
     for (let c = 0; c < n; c++) {
-      if (grid[r][c] === "") grid[r][c] = randomDigit();
+      if (grid[r][c] === "") grid[r][c] = randomDigit(rng);
     }
   }
 

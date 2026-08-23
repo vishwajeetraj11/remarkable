@@ -47,14 +47,14 @@ function validPlacement(
       return false;
     }
   }
-  // Row balance: count of `val` must not exceed size/2
+  // Row balance: count of `val` must stay within size/2 AFTER placement.
   let rowCount = 0;
   for (let c = 0; c < size; c++) if (grid[row][c] === val) rowCount++;
-  if (rowCount > size / 2) return false;
+  if (rowCount >= size / 2) return false;
   // Column balance
   let colCount = 0;
   for (let r = 0; r < size; r++) if (grid[r][col] === val) colCount++;
-  if (colCount > size / 2) return false;
+  if (colCount >= size / 2) return false;
 
   return true;
 }
@@ -82,15 +82,15 @@ function rowsComplete(grid: number[][], size: number): boolean {
 }
 
 /** Fill a complete valid Binairo solution via randomized backtracking. */
-function fillGrid(grid: number[][], size: number): boolean {
+function fillGrid(grid: number[][], size: number, rng: () => number): boolean {
   for (let row = 0; row < size; row++) {
     for (let col = 0; col < size; col++) {
       if (grid[row][col] === -1) {
-        const values = Math.random() < 0.5 ? [0, 1] : [1, 0];
+        const values = rng() < 0.5 ? [0, 1] : [1, 0];
         for (const v of values) {
           if (validPlacement(grid, row, col, v, size)) {
             grid[row][col] = v;
-            if (rowsComplete(grid, size) && fillGrid(grid, size)) return true;
+            if (rowsComplete(grid, size) && fillGrid(grid, size, rng)) return true;
             grid[row][col] = -1;
           }
         }
@@ -132,11 +132,11 @@ export function countBinairoSolutions(
   return count;
 }
 
-export function generateBinairo(size: BinairoPuzzle["size"] = 8): BinairoPuzzle {
+export function generateBinairo(size: BinairoPuzzle["size"] = 8, rng: () => number = Math.random): BinairoPuzzle {
   const solution: number[][] = Array.from({ length: size }, () =>
     Array<number>(size).fill(-1)
   );
-  fillGrid(solution, size);
+  fillGrid(solution, size, rng);
 
   // Remove symmetric cell pairs while the solution stays unique.
   const puzzle = solution.map((r) => [...r]);
@@ -152,7 +152,7 @@ export function generateBinairo(size: BinairoPuzzle["size"] = 8): BinairoPuzzle 
     }
   }
   for (let i = pairs.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
   }
 

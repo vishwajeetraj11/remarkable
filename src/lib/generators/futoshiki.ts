@@ -46,7 +46,7 @@ const INEQUALITY_FRACTION: Record<FutoshikiDifficulty, number> = {
 
 // ─── Latin square ────────────────────────────────────────────────────────────
 
-function generateLatinSquare(n: number): number[][] {
+function generateLatinSquare(n: number, rng: () => number): number[][] {
   const grid: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
 
   function isValid(row: number, col: number, num: number): boolean {
@@ -59,7 +59,7 @@ function generateLatinSquare(n: number): number[][] {
     for (let row = 0; row < n; row++) {
       for (let col = 0; col < n; col++) {
         if (grid[row][col] === 0) {
-          for (const num of shuffleArray(Array.from({ length: n }, (_, i) => i + 1))) {
+          for (const num of shuffleArray(Array.from({ length: n }, (_, i) => i + 1), rng)) {
             if (isValid(row, col, num)) {
               grid[row][col] = num;
               if (fill()) return true;
@@ -91,7 +91,8 @@ function copyGrid(grid: number[][]): number[][] {
 function chooseInequalities(
   solution: number[][],
   n: number,
-  fraction: number
+  fraction: number,
+  rng: () => number
 ): Inequality[] {
   const edges: Inequality[] = [];
 
@@ -120,7 +121,7 @@ function chooseInequalities(
     }
   }
 
-  const shuffled = shuffleArray(edges);
+  const shuffled = shuffleArray(edges, rng);
   const count = Math.max(n, Math.round(edges.length * fraction));
   return shuffled.slice(0, count);
 }
@@ -209,11 +210,13 @@ function countSolutions(
 function reduceGivens(
   solution: number[][],
   inequalities: Inequality[],
-  n: number
+  n: number,
+  rng: () => number
 ): number[][] {
   const givens = copyGrid(solution);
   const cells = shuffleArray(
-    Array.from({ length: n * n }, (_, i) => i)
+    Array.from({ length: n * n }, (_, i) => i),
+    rng
   );
 
   for (const idx of cells) {
@@ -251,26 +254,27 @@ function reduceGivens(
  */
 export function generateFutoshiki(
   size: number,
-  difficulty: FutoshikiDifficulty = "medium"
+  difficulty: FutoshikiDifficulty = "medium",
+  rng: () => number = Math.random
 ): FutoshikiPuzzle {
   const n = Math.max(4, Math.min(7, size));
   const fraction = INEQUALITY_FRACTION[difficulty];
 
   for (let attempt = 0; attempt < 20; attempt++) {
-    const solution = generateLatinSquare(n);
-    const inequalities = chooseInequalities(solution, n, fraction);
-    const givens = reduceGivens(solution, inequalities, n);
+    const solution = generateLatinSquare(n, rng);
+    const inequalities = chooseInequalities(solution, n, fraction, rng);
+    const givens = reduceGivens(solution, inequalities, n, rng);
 
     // reduceGivens preserves uniqueness, so this is uniquely solvable.
     return { solution, givens, inequalities, size: n };
   }
 
   // Fallback (unreachable in practice): full givens are always unique.
-  const solution = generateLatinSquare(n);
+  const solution = generateLatinSquare(n, rng);
   return {
     solution,
     givens: copyGrid(solution),
-    inequalities: chooseInequalities(solution, n, fraction),
+    inequalities: chooseInequalities(solution, n, fraction, rng),
     size: n,
   };
 }

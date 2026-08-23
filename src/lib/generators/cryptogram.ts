@@ -44,12 +44,12 @@ const QUOTES: string[] = [
   "I have learned that people will forget what you said people will forget what you did but people will never forget how you made them feel",
 ];
 
-function generateCipherKey(): Record<string, string> {
+function generateCipherKey(rng: () => number): Record<string, string> {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   let shuffled: string[];
 
   do {
-    shuffled = shuffleArray(alphabet);
+    shuffled = shuffleArray(alphabet, rng);
   } while (alphabet.some((ch, i) => ch === shuffled[i]));
 
   const key: Record<string, string> = {};
@@ -67,7 +67,7 @@ function encrypt(plaintext: string, key: Record<string, string>): string {
     .join("");
 }
 
-function generateHint(key: Record<string, string>, plaintext: string): string {
+function generateHint(key: Record<string, string>, plaintext: string, rng: () => number): string {
   const usedLetters = new Set(
     plaintext
       .toUpperCase()
@@ -75,18 +75,18 @@ function generateHint(key: Record<string, string>, plaintext: string): string {
       .filter((ch) => /[A-Z]/.test(ch))
   );
 
-  const available = shuffleArray([...usedLetters]);
-  const count = 2 + (Math.random() < 0.5 ? 1 : 0);
+  const available = shuffleArray([...usedLetters], rng);
+  const count = 2 + (rng() < 0.5 ? 1 : 0);
   const hintLetters = available.slice(0, count);
 
   return hintLetters.map((ch) => `${key[ch]} = ${ch}`).join(", ");
 }
 
-export function generateCryptogram(customQuote?: string): CryptogramPuzzle {
-  const plaintext = customQuote ?? QUOTES[Math.floor(Math.random() * QUOTES.length)];
-  const key = generateCipherKey();
+export function generateCryptogram(customQuote?: string, rng: () => number = Math.random): CryptogramPuzzle {
+  const plaintext = customQuote ?? QUOTES[Math.floor(rng() * QUOTES.length)];
+  const key = generateCipherKey(rng);
   const ciphertext = encrypt(plaintext, key);
-  const hint = generateHint(key, plaintext);
+  const hint = generateHint(key, plaintext, rng);
 
   return { plaintext, ciphertext, key, hint };
 }

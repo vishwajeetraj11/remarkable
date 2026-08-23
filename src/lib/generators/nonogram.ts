@@ -20,12 +20,12 @@ function computeClues(line: boolean[]): number[] {
   return clues.length > 0 ? clues : [0];
 }
 
-export function generateNonogram(size: number): NonogramPuzzle {
+export function generateNonogram(size: number, rng: () => number = Math.random): NonogramPuzzle {
   // Fill density between 40-60% so puzzles are interesting and solvable
-  const density = 0.4 + Math.random() * 0.2;
+  const density = 0.4 + rng() * 0.2;
 
   const pattern: boolean[][] = Array.from({ length: size }, () =>
-    Array.from({ length: size }, () => Math.random() < density)
+    Array.from({ length: size }, () => rng() < density)
   );
 
   const rowClues: number[][] = pattern.map((row) => computeClues(row));

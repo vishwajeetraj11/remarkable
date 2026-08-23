@@ -44,16 +44,16 @@ const WORDS: Record<string, string[]> = {
 
 const CATEGORIES = Object.keys(WORDS);
 
-export function generateHangmanSheet(roundCount = 8): HangmanSheet {
+export function generateHangmanSheet(roundCount = 8, rng: () => number = Math.random): HangmanSheet {
   const count = Math.max(1, Math.min(20, roundCount));
   const used = new Set<string>();
   const rounds: HangmanRound[] = [];
 
   while (rounds.length < count) {
-    const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+    const category = CATEGORIES[Math.floor(rng() * CATEGORIES.length)];
     const pool = WORDS[category].filter((w) => !used.has(w));
     if (pool.length === 0) continue;
-    const word = pool[Math.floor(Math.random() * pool.length)];
+    const word = pool[Math.floor(rng() * pool.length)];
     used.add(word);
     rounds.push({ word, category });
   }

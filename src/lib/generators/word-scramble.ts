@@ -190,14 +190,14 @@ const WORD_BANK: Record<Category, Record<Difficulty, { word: string; hint: strin
   },
 };
 
-function scrambleWord(word: string): string {
+function scrambleWord(word: string, rng: () => number): string {
   const letters = word.split("");
   // Fisher-Yates shuffle, retry if result equals original
   let result = word;
   let attempts = 0;
   while (result === word && attempts < 20) {
     for (let i = letters.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(rng() * (i + 1));
       [letters[i], letters[j]] = [letters[j], letters[i]];
     }
     result = letters.join("");
@@ -210,7 +210,8 @@ export function generateWordScramble(
   difficulty: string,
   category: string,
   count: number,
-  customPool?: { word: string; hint: string }[]
+  customPool?: { word: string; hint: string }[],
+  rng: () => number = Math.random
 ): WordScramblePuzzle {
   let pool: { word: string; hint: string }[];
 
@@ -223,13 +224,22 @@ export function generateWordScramble(
   }
 
   const safeCount = Math.min(count, pool.length);
-  const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, safeCount);
+  const shuffledPool = shuffleWithRng([...pool], rng).slice(0, safeCount);
 
   const scrambles: ScrambleEntry[] = shuffledPool.map(({ word, hint }) => ({
-    scrambled: scrambleWord(word.toUpperCase()),
+    scrambled: scrambleWord(word.toUpperCase(), rng),
     answer: word.toUpperCase(),
     hint,
   }));
 
   return { scrambles };
+}
+
+function shuffleWithRng<T>(arr: T[], rng: () => number): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }

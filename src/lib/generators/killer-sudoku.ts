@@ -19,7 +19,7 @@ export interface KillerSudokuPuzzle {
 }
 
 /** Partition the 9×9 grid into contiguous cages via random growth. */
-function makeCages(targetSize: number): [number, number][][] {
+function makeCages(targetSize: number, rng: () => number): [number, number][][] {
   const assigned: boolean[][] = Array.from({ length: 9 }, () =>
     Array<boolean>(9).fill(false)
   );
@@ -54,7 +54,7 @@ function makeCages(targetSize: number): [number, number][][] {
           const [nr, nc] = key.split(",").map(Number);
           return [nr, nc] as [number, number];
         });
-        const pick = options[Math.floor(Math.random() * options.length)];
+        const pick = options[Math.floor(rng() * options.length)];
         assigned[pick[0]][pick[1]] = true;
         cage.push(pick);
       }
@@ -132,7 +132,8 @@ function solveKiller(
 }
 
 export function generateKillerSudoku(
-  difficulty: SudokuDifficulty = "medium"
+  difficulty: SudokuDifficulty = "medium",
+  rng: () => number = Math.random
 ): KillerSudokuPuzzle | null {
   // Larger cages on easier difficulties.
   const targetSizes: Record<SudokuDifficulty, number> = {
@@ -144,8 +145,8 @@ export function generateKillerSudoku(
   const target = targetSizes[difficulty];
 
   for (let attempt = 0; attempt < 12; attempt++) {
-    const { solution } = generateSudoku(difficulty, 9);
-    const cagesCells = makeCages(target);
+    const { solution } = generateSudoku(difficulty, 9, rng);
+    const cagesCells = makeCages(target, rng);
     const cages = cagesCells.map((cells) => ({
       cells,
       sum: cells.reduce((acc, [r, c]) => acc + solution[r][c], 0),

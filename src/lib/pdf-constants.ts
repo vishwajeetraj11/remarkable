@@ -20,10 +20,10 @@ export const PAGE_SIZES = {
 
 export type PageSizeKey = keyof typeof PAGE_SIZES;
 
-export function shuffleArray<T>(arr: T[]): T[] {
+export function shuffleArray<T>(arr: T[], rng: () => number = Math.random): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
