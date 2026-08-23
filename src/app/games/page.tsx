@@ -48,6 +48,11 @@ const categories = [
       { name: "KenKen", href: "/games/kenken", desc: "Arithmetic logic puzzles with cage operations on a Latin square", ready: true },
       { name: "Futoshiki", href: "/games/futoshiki", desc: "Latin-square grids solved with greater-than / less-than inequality clues", ready: true },
       { name: "Number Fill-In", href: "/games/number-fill", desc: "Fit numbers of various lengths into a crossword-style grid", ready: true },
+      { name: "Number Search", href: "/games/number-search", desc: "Find hidden number sequences in a grid of digits", ready: false },
+      { name: "Bingo Cards", href: "/games/bingo", desc: "Printable 5×5 bingo cards with call sheet for parties and classrooms", ready: false },
+      { name: "Codeword", href: "/games/codeword", desc: "Crack the letter-number code to fill the crossword grid", ready: false },
+      { name: "Killer Sudoku", href: "/games/killer-sudoku", desc: "Sudoku with sum cages instead of given digits", ready: false },
+      { name: "Binairo", href: "/games/binairo", desc: "Balance 0s and 1s in Takuzu binary logic grids", ready: false },
     ],
   },
   {
@@ -58,12 +63,18 @@ const categories = [
       { name: "Word Scramble", href: "/games/word-scramble", desc: "Unscramble jumbled letters to find the word", ready: true },
       { name: "Cryptogram", href: "/games/cryptogram", desc: "Decode encrypted quotes by cracking the letter substitution cipher", ready: true },
       { name: "Word Ladder", href: "/games/word-ladder", desc: "Change one letter at a time to transform one word into another", ready: true },
+      { name: "Word Wheel", href: "/games/word-wheel", desc: "Make as many words as you can from nine letters around a hub", ready: false },
+      { name: "Arrow Words", href: "/games/arrow-words", desc: "Mots fléchés — clues printed inside the grid with direction arrows", ready: false },
+      { name: "Hangman Sheets", href: "/games/hangman", desc: "Printable hangman rounds with themed secret words", ready: false },
     ],
   },
   {
     name: "Spatial & Visual",
     puzzles: [
       { name: "Maze", href: "/games/maze", desc: "Navigate from start to finish through winding paths", ready: true },
+      { name: "Slitherlink", href: "/games/slitherlink", desc: "Draw one closed loop around numbered dots", ready: false },
+      { name: "Hashi (Bridges)", href: "/games/hashi", desc: "Connect numbered islands with single and double bridges", ready: false },
+      { name: "Numberlink", href: "/games/numberlink", desc: "Pair matching numbers with paths that never cross", ready: false },
     ],
   },
   {
@@ -91,25 +102,39 @@ export default function GamesPage() {
             <div key={category.name}>
               <h2 className="text-xl font-semibold mb-4">{category.name}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {category.puzzles.map((puzzle) => (
-                  <Link key={puzzle.href} href={puzzle.href}>
-                    <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
+                {category.puzzles.map((puzzle) =>
+                  puzzle.ready ? (
+                    <Link key={puzzle.href} href={puzzle.href}>
+                      <Card className="h-full hover:bg-accent/50 transition-colors cursor-pointer">
+                        <CardHeader>
+                          <div className="flex items-center justify-between">
+                            <CardTitle className="text-base">
+                              {puzzle.name}
+                            </CardTitle>
+                            <Badge variant="secondary" className="text-xs">
+                              Ready
+                            </Badge>
+                          </div>
+                          <CardDescription>{puzzle.desc}</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    </Link>
+                  ) : (
+                    <Card key={puzzle.href} className="h-full opacity-60">
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <CardTitle className="text-base">
                             {puzzle.name}
                           </CardTitle>
-                          {puzzle.ready && (
-                            <Badge variant="secondary" className="text-xs">
-                              Ready
-                            </Badge>
-                          )}
+                          <Badge variant="outline" className="text-xs">
+                            Soon
+                          </Badge>
                         </div>
                         <CardDescription>{puzzle.desc}</CardDescription>
                       </CardHeader>
                     </Card>
-                  </Link>
-                ))}
+                  )
+                )}
               </div>
             </div>
           ))}
