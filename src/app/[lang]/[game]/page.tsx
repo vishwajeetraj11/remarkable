@@ -7,12 +7,18 @@ import CryptogramGenerator from "@/app/games/cryptogram/page";
 import SudokuGenerator from "@/app/games/sudoku/page";
 import KakuroGenerator from "@/app/games/kakuro/page";
 import NonogramGenerator from "@/app/games/nonogram/page";
+import CrosswordGenerator from "@/app/games/crossword/page";
 import SchwedenraetselGenerator from "@/components/games/schwedenraetsel-generator";
 import {
   DEFAULT_LOCALE,
   isSiteLocale,
+  type SiteLocale,
 } from "@/lib/i18n/config";
-import { LOCALIZED_ROUTES, type LogicalRouteId } from "@/lib/i18n/routes";
+import {
+  LOCALIZED_ROUTES,
+  localizedFor,
+  type LogicalRouteId,
+} from "@/lib/i18n/routes";
 import type { Metadata } from "next";
 
 /**
@@ -31,6 +37,8 @@ const GAME_COMPONENTS: Partial<
   "sudoku-de": SudokuGenerator,
   "kakuro-de": KakuroGenerator,
   nonogramm: NonogramGenerator,
+  "mots-croises": CrosswordGenerator,
+  crucigramas: CrosswordGenerator,
 };
 
 /** Static (locale,id) → component map; DE gets icon-based Schwedenrätsel. */
@@ -71,8 +79,7 @@ export async function generateMetadata({
   const { lang, game } = await params;
   const match = findRoute(lang, game);
   if (!match) return {};
-  const entry = LOCALIZED_ROUTES[match.id];
-  const locEntry = entry.localized?.[match.lang as "de"];
+  const locEntry = localizedFor(match.id, match.lang);
   if (!locEntry) return {};
   return {
     title: `${locEntry.title} — Remarkable Skills`,
@@ -83,13 +90,10 @@ export async function generateMetadata({
 function findRoute(
   lang: string,
   game: string,
-): { id: LogicalRouteId; lang: string } | null {
+): { id: LogicalRouteId; lang: SiteLocale } | null {
   if (!isSiteLocale(lang) || lang === DEFAULT_LOCALE) return null;
-  for (const [id, entry] of Object.entries(LOCALIZED_ROUTES) as [
-    LogicalRouteId,
-    (typeof LOCALIZED_ROUTES)[LogicalRouteId],
-  ][]) {
-    const locEntry = entry.localized?.[lang as "de"];
+  for (const id of Object.keys(LOCALIZED_ROUTES) as LogicalRouteId[]) {
+    const locEntry = localizedFor(id, lang);
     if (locEntry && locEntry.path.replace(/^\//, "") === game) {
       return { id, lang };
     }
