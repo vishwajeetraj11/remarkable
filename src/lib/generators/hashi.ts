@@ -21,7 +21,7 @@ interface Bridge {
   count: 1 | 2;
 }
 
-export function generateHashi(size = 8): HashiPuzzle | null {
+export function generateHashi(size = 8, rng: () => number = Math.random): HashiPuzzle | null {
   const n = Math.max(6, Math.min(14, size));
 
   for (let attempt = 0; attempt < 60; attempt++) {
@@ -31,8 +31,8 @@ export function generateHashi(size = 8): HashiPuzzle | null {
     const targetIslands = Math.max(5, Math.round((n * n) / 16));
     let guard = 0;
     while (cells.length < targetIslands && guard++ < 500) {
-      const r = Math.floor(Math.random() * n);
-      const c = Math.floor(Math.random() * n);
+      const r = Math.floor(rng() * n);
+      const c = Math.floor(rng() * n);
       if (used.has(`${r},${c}`)) continue;
       cells.push([r, c]);
       used.add(`${r},${c}`);
@@ -116,8 +116,8 @@ export function generateHashi(size = 8): HashiPuzzle | null {
 
     let tries = 0;
     while (tries++ < 800) {
-      const a = Math.floor(Math.random() * cells.length);
-      const b = Math.floor(Math.random() * cells.length);
+      const a = Math.floor(rng() * cells.length);
+      const b = Math.floor(rng() * cells.length);
       if (a === b || !cells[a] || !cells[b]) continue;
 
       const [ra, ca] = cells[a];

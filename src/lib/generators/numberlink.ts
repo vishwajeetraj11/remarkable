@@ -12,10 +12,10 @@ export interface NumberlinkPuzzle {
   solution: number[][];
 }
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -25,7 +25,7 @@ function shuffle<T>(arr: T[]): T[] {
  * Carve k disjoint self-avoiding random paths that tile part of an n×n grid,
  * then blank everything and keep only the endpoints as clues.
  */
-export function generateNumberlink(size = 7): NumberlinkPuzzle | null {
+export function generateNumberlink(size = 7, rng: () => number = Math.random): NumberlinkPuzzle | null {
   const n = Math.max(5, Math.min(12, size));
 
   for (let attempt = 0; attempt < 80; attempt++) {
@@ -50,14 +50,14 @@ export function generateNumberlink(size = 7): NumberlinkPuzzle | null {
       if (startCandidates.length === 0) break;
 
       const [sr, sc] =
-        startCandidates[Math.floor(Math.random() * startCandidates.length)];
+        startCandidates[Math.floor(rng() * startCandidates.length)];
       pairId++;
 
       const path: [number, number][] = [[sr, sc]];
       const pathSet = new Set<string>([`${sr},${sc}`]);
       let cr = sr;
       let cc = sc;
-      const targetLen = 4 + Math.floor(Math.random() * (n + 2));
+      const targetLen = 4 + Math.floor(rng() * (n + 2));
 
       while (path.length < targetLen) {
         const options = shuffle(
@@ -76,7 +76,8 @@ export function generateNumberlink(size = 7): NumberlinkPuzzle | null {
               owner[nr][nc] === 0 &&
               !pathSet.has(`${nr},${nc}`)
             );
-          })
+          }),
+          rng
         );
         if (options.length === 0) break;
         const [dr, dc] = options[0];

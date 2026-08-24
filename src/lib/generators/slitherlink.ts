@@ -25,7 +25,7 @@ function edgeKey(r1: number, c1: number, r2: number, c2: number): string {
  * repeatedly replace one boundary edge with a 3-segment detour, keeping the
  * polygon simple (no self-intersections) and inside the n×n lattice.
  */
-export function generateSlitherlink(size = 6): SlitherlinkPuzzle {
+export function generateSlitherlink(size = 6, rng: () => number = Math.random): SlitherlinkPuzzle {
   const n = Math.max(4, Math.min(10, size));
 
   type Pt = [number, number];
@@ -86,7 +86,7 @@ export function generateSlitherlink(size = 6): SlitherlinkPuzzle {
   // Mutate.
   for (let k = 0; k < Math.floor(size * 2.5); k++) {
     const m = poly.length;
-    const i = Math.floor(Math.random() * m);
+    const i = Math.floor(rng() * m);
     const j = (i + 1) % m;
     const a = poly[i];
     const b = poly[j];

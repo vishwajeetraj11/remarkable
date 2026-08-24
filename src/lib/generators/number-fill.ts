@@ -4,10 +4,10 @@ export interface NumberFillPuzzle {
   size: number;
 }
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -74,7 +74,7 @@ function analyzeRuns(black: boolean[][], size: number): RunStats {
   };
 }
 
-function buildPattern(size: number): boolean[][] {
+function buildPattern(size: number, rng: () => number): boolean[][] {
   let bestPattern: boolean[][] | null = null;
   let bestScore = -Infinity;
 
@@ -92,7 +92,7 @@ function buildPattern(size: number): boolean[][] {
       }
     }
 
-    const shuffled = shuffle(candidates);
+    const shuffled = shuffle(candidates, rng);
     let placed = 0;
     const target = Math.floor(size * size * 0.28);
 
@@ -186,7 +186,8 @@ function extractNumbers(
 
 function fillGrid(
   black: boolean[][],
-  size: number
+  size: number,
+  rng: () => number
 ): (number | null)[][] {
   return Array.from({ length: size }, (_, r) =>
     Array.from({ length: size }, (_, c) => {
@@ -194,18 +195,18 @@ function fillGrid(
       const hStart = c === 0 || black[r][c - 1];
       const vStart = r === 0 || black[r - 1][c];
       return hStart || vStart
-        ? 1 + Math.floor(Math.random() * 9)
-        : Math.floor(Math.random() * 10);
+        ? 1 + Math.floor(rng() * 9)
+        : Math.floor(rng() * 10);
     })
   );
 }
 
-export function generateNumberFill(): NumberFillPuzzle {
+export function generateNumberFill(rng: () => number = Math.random): NumberFillPuzzle {
   const size = 13;
-  const black = buildPattern(size);
+  const black = buildPattern(size, rng);
 
   for (let attempt = 0; attempt < 150; attempt++) {
-    const grid = fillGrid(black, size);
+    const grid = fillGrid(black, size, rng);
     const numbers = extractNumbers(grid, size);
 
     if (new Set(numbers).size === numbers.length) {
@@ -217,7 +218,7 @@ export function generateNumberFill(): NumberFillPuzzle {
     }
   }
 
-  const grid = fillGrid(black, size);
+  const grid = fillGrid(black, size, rng);
   const numbers = extractNumbers(grid, size);
   numbers.sort((a, b) => {
     const ld = String(a).length - String(b).length;

@@ -16,10 +16,10 @@ function createCell(): MazeCell {
   return { top: true, right: true, bottom: true, left: true };
 }
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -36,7 +36,7 @@ function getNeighbours(row: number, col: number, width: number, height: number):
   return neighbours;
 }
 
-export function generateMaze(width: number, height: number): MazePuzzle {
+export function generateMaze(width: number, height: number, rng: () => number = Math.random): MazePuzzle {
   const w = Math.max(4, width);
   const h = Math.max(4, height);
 
@@ -56,7 +56,7 @@ export function generateMaze(width: number, height: number): MazePuzzle {
 
   while (stack.length > 0) {
     const [row, col] = stack[stack.length - 1];
-    const unvisited = shuffle(getNeighbours(row, col, w, h)).filter(
+    const unvisited = shuffle(getNeighbours(row, col, w, h), rng).filter(
       (n) => !visited[n.row][n.col]
     );
 

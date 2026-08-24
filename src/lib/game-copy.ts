@@ -226,6 +226,160 @@ export const GAME_COPY: Record<string, GameCopy> = {
       },
     ],
   },
+  "/games/codeword": {
+    name: "Codeword",
+    intro:
+      "A codeword (or codebreaker) puzzle is a crossword-style grid where every letter has been replaced by a number from 1 to 26. The same number always stands for the same letter, and three starting letters are given away for free. Deduce the rest from word patterns, letter frequency, and crossing words — no clues required.",
+    tips: [
+      "Start with single-letter cells: in English they are almost always A or I.",
+      "Count letter frequencies — the most common code number is usually E.",
+      "Look for common patterns like TH, HE, ING, and doubled letters (LL, EE).",
+    ],
+    faqs: [
+      {
+        question: "How do I solve a codeword without clues?",
+        answer:
+          "Use the three given letters as anchors, then apply letter frequency and common English patterns. Every placement constrains the crossing word, so deductions cascade quickly.",
+      },
+      {
+        question: "Is every puzzle solvable without guessing?",
+        answer:
+          "Yes — the generator only publishes grids where the full letter assignment is uniquely recoverable, and every download includes the completed answer grid.",
+      },
+    ],
+  },
+  "/games/bingo": {
+    name: "Bingo Cards",
+    intro:
+      "Printable bingo cards generated fresh every time. Classic 75-ball mode builds true B-I-N-G-O cards — column B draws from 1-15, I from 16-30, N from 31-45 with a free center, G from 46-60, and O from 61-75. Compact 3×3 and 4×4 modes use smaller number pools for faster rounds. Every download ends with a call sheet listing all balls in call order.",
+    tips: [
+      "Print one extra set of cards than you think you need — someone always wants a rematch.",
+      "For classrooms, compact 3×3 games finish inside ten minutes.",
+      "Cross off called numbers on the call sheet so you can verify winners later.",
+    ],
+    faqs: [
+      {
+        question: "What does 'true 75-ball column ranges' mean?",
+        answer:
+          "Traditional bingo assigns each column its own band of numbers: B 1-15, I 16-30, N 31-45, G 46-60, O 61-75. The classic mode follows that convention exactly, including the free center square.",
+      },
+      {
+        question: "How many players can play with one download?",
+        answer:
+          "Each card is unique, so one card per player. Generate up to 12 classic cards or up to 20 compact 3×3 cards per PDF, and print the file again for a fresh set.",
+      },
+    ],
+  },
+  "/games/number-search": {
+    name: "Number Search",
+    intro:
+      "Number search works like a word search, but the hidden items are digit sequences such as 407 or 9182. Sequences read left to right only — the classic magazine format — and this generator guarantees each sequence appears exactly once in the grid, so solvers never chase phantom matches.",
+    tips: [
+      "Scan row by row for the first two digits rather than the whole sequence.",
+      "Longer sequences stand out — find them first to clear visual noise.",
+      "Great warm-up for number recognition practice with kids.",
+    ],
+    faqs: [
+      {
+        question: "Can a number appear twice in the grid?",
+        answer:
+          "No. The generator checks the finished grid and guarantees every listed sequence occurs exactly once, including accidental matches formed by filler digits.",
+      },
+      {
+        question: "Which directions do sequences read?",
+        answer:
+          "Left to right only, matching traditional printed number search books. Vertical and diagonal reading would make scanning far harder on paper and e-ink.",
+      },
+    ],
+  },
+  "/games/killer-sudoku": {
+    name: "Killer Sudoku",
+    intro:
+      "Killer sudoku looks like an empty sudoku grid crossed with jigsaw pieces: the grid is partitioned into cages, each printed with a sum, and no digits are given at all. Digits 1-9 may not repeat within a cage, so cage sums plus standard sudoku rules are enough to reconstruct everything — provided the puzzle has exactly one solution, which this generator verifies with an exhaustive solver before publishing anything.",
+    tips: [
+      "Cages of two cells with small sums (3, 4, 16, 17) have very few digit splits — start there.",
+      "Remember cage sums include the 45 rule: every row, column, and box totals exactly 45.",
+      "Digits never repeat inside a cage, which is often stronger than the box constraint.",
+    ],
+    faqs: [
+      {
+        question: "Does every puzzle have a unique solution?",
+        answer:
+          "Yes. Each generated grid is checked by a solver that counts solutions up to two; only puzzles with exactly one solution are published. This check runs even though it takes a few extra seconds.",
+      },
+      {
+        question: "How is this different from regular sudoku?",
+        answer:
+          "No starting digits are given. Instead, cages with printed sums provide all the information, and their shapes constrain where repeats are forbidden.",
+      },
+    ],
+  },
+  "/games/binairo": {
+    name: "Binairo",
+    intro:
+      "Binairo (also known as Takuzu or Binario) is a binary logic puzzle played on even-sized grids. Fill every cell with 0 or 1 so that each row and column contains equal counts of both digits, no three identical digits appear consecutively in any direction, and no two rows or columns are identical. Every puzzle here is reduced from a full solution while a solver confirms uniqueness.",
+    tips: [
+      "Mark pairs first: any two identical digits with one gap force the middle cell.",
+      "On the border between filled cells, 'two of a kind already placed' means the rest must be the other digit.",
+      "Watch line uniqueness late-game — duplicate rows are the most common mistake.",
+    ],
+    faqs: [
+      {
+        question: "What do the dots on the printed grid mean?",
+        answer:
+          "Dots mark every second lattice intersection so counting cells in twos is easier on paper and e-ink screens.",
+      },
+      {
+        question: "Which board size should I start with?",
+        answer:
+          "6×6 teaches all three rules in a couple of minutes; 8×8 is the classic daily-puzzle size; 10×10 and 12×12 add depth without new rules.",
+      },
+    ],
+  },
+  "/games/word-wheel": {
+    name: "Word Wheel",
+    intro:
+      "A word wheel shows nine letters arranged around a center hub. Build as many words as you can from the letters — each word must include the center letter and may not use any ring letter more times than it appears. The generator draws fresh nine-letter wheels whose letters are all distinct, then computes the complete answer key from its dictionary so you always know the maximum score.",
+    tips: [
+      "Write down -ING, -ED, and -S extensions of words you already found.",
+      "Plurals count separately — scan found words for easy +S additions.",
+      "Aim for the longest word first to unlock letter patterns.",
+    ],
+    faqs: [
+      {
+        question: "How many words does a typical wheel contain?",
+        answer:
+          "Between roughly fifteen and forty depending on the seed letters. The exact total is printed on the answer page, so you can score a session objectively.",
+      },
+      {
+        question: "Can letters be reused within a word?",
+        answer:
+          "Only as many times as the letter appears in the wheel — and since every wheel uses nine distinct letters, no letter can repeat inside a word at all.",
+      },
+    ],
+  },
+  "/games/hangman": {
+    name: "Hangman",
+    intro:
+      "Printable hangman sheets for classrooms, road trips, and quiet afternoons. Each round prints a category hint, blank word slots, a framed box for drawing the gallows, and an alphabet tracker for crossing off guesses. Choose your categories — animals, food, places, sports, or jobs — and the difficulty follows from word length automatically.",
+    tips: [
+      "Guess vowels early — E and A appear in most English words.",
+      "The category hint is powerful: narrow possibilities before guessing rare consonants.",
+      "Two rounds print per page, so an eight-round sheet is four sheets front-to-back friendly.",
+    ],
+    faqs: [
+      {
+        question: "Are the secret words visible anywhere on the puzzle pages?",
+        answer:
+          "No — words only appear on the final answer-key page, so sheets can be handed out face-up.",
+      },
+      {
+        question: "Can I limit the sheet to one category?",
+        answer:
+          "Yes. Pick Animals, Food, Places, Sports, or Jobs from the category selector and every round will come from that list.",
+      },
+    ],
+  },
   "/games/logic-puzzle": {
     name: "Logic Puzzle",
     intro:

@@ -20,7 +20,7 @@ const GRID_SIZES: Record<KenKenDifficulty, number> = {
   hard: 6,
 };
 
-function generateLatinSquare(n: number): number[][] {
+function generateLatinSquare(n: number, rng: () => number): number[][] {
   const grid: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
 
   function isValid(row: number, col: number, num: number): boolean {
@@ -33,7 +33,7 @@ function generateLatinSquare(n: number): number[][] {
     for (let row = 0; row < n; row++) {
       for (let col = 0; col < n; col++) {
         if (grid[row][col] === 0) {
-          for (const num of shuffleArray(Array.from({ length: n }, (_, i) => i + 1))) {
+          for (const num of shuffleArray(Array.from({ length: n }, (_, i) => i + 1), rng)) {
             if (isValid(row, col, num)) {
               grid[row][col] = num;
               if (fill()) return true;
@@ -60,12 +60,13 @@ function getAdjacentCells(row: number, col: number, n: number): [number, number]
   return adj;
 }
 
-function partitionIntoCages(n: number): [number, number][][] {
+function partitionIntoCages(n: number, rng: () => number): [number, number][][] {
   const assigned: boolean[][] = Array.from({ length: n }, () => Array(n).fill(false));
   const cages: [number, number][][] = [];
 
   const cells = shuffleArray(
-    Array.from({ length: n * n }, (_, i): [number, number] => [Math.floor(i / n), i % n])
+    Array.from({ length: n * n }, (_, i): [number, number] => [Math.floor(i / n), i % n]),
+    rng
   );
 
   for (const [row, col] of cells) {
@@ -74,7 +75,7 @@ function partitionIntoCages(n: number): [number, number][][] {
     const cage: [number, number][] = [[row, col]];
     assigned[row][col] = true;
 
-    const targetSize = Math.random() < 0.1 ? 1 : Math.random() < 0.55 ? 2 : 3;
+    const targetSize = rng() < 0.1 ? 1 : rng() < 0.55 ? 2 : 3;
 
     while (cage.length < targetSize) {
       const candidates: [number, number][] = [];
@@ -86,7 +87,7 @@ function partitionIntoCages(n: number): [number, number][][] {
         }
       }
       if (candidates.length === 0) break;
-      const next = candidates[Math.floor(Math.random() * candidates.length)];
+      const next = candidates[Math.floor(rng() * candidates.length)];
       cage.push(next);
       assigned[next[0]][next[1]] = true;
     }
@@ -97,7 +98,7 @@ function partitionIntoCages(n: number): [number, number][][] {
   return cages;
 }
 
-function chooseCageOperation(values: number[]): { target: number; operation: '+' | '-' | '×' | '÷' } {
+function chooseCageOperation(values: number[], rng: () => number): { target: number; operation: '+' | '-' | '×' | '÷' } {
   if (values.length === 1) {
     return { target: values[0], operation: '+' };
   }
@@ -113,23 +114,23 @@ function chooseCageOperation(values: number[]): { target: number; operation: '+'
     if (small !== 0 && big % small === 0) {
       options.push({ target: big / small, operation: '÷' });
     }
-    return options[Math.floor(Math.random() * options.length)];
+    return options[Math.floor(rng() * options.length)];
   }
 
-  if (Math.random() < 0.5) {
+  if (rng() < 0.5) {
     return { target: values.reduce((s, v) => s + v, 0), operation: '+' };
   }
   return { target: values.reduce((p, v) => p * v, 1), operation: '×' };
 }
 
-export function generateKenKen(difficulty: KenKenDifficulty): KenKenPuzzle {
+export function generateKenKen(difficulty: KenKenDifficulty, rng: () => number = Math.random): KenKenPuzzle {
   const size = GRID_SIZES[difficulty];
-  const solution = generateLatinSquare(size);
-  const cellGroups = partitionIntoCages(size);
+  const solution = generateLatinSquare(size, rng);
+  const cellGroups = partitionIntoCages(size, rng);
 
   const cages: Cage[] = cellGroups.map((cells) => {
     const values = cells.map(([r, c]) => solution[r][c]);
-    const { target, operation } = chooseCageOperation(values);
+    const { target, operation } = chooseCageOperation(values, rng);
     return { cells, target, operation };
   });
 

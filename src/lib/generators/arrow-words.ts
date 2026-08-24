@@ -63,16 +63,16 @@ const WORD_CLUES: { word: string; clue: string }[] = [
 
 type CellState = -1 | 0 | 1; // -1 clue/reserved cell, 0 empty, 1 letter
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-export function generateArrowWords(size = 11): ArrowWordPuzzle | null {
+export function generateArrowWords(size = 11, rng: () => number = Math.random): ArrowWordPuzzle | null {
   const n = Math.max(11, Math.min(15, size));
 
   for (let outerAttempt = 0; outerAttempt < 20; outerAttempt++) {
@@ -90,7 +90,7 @@ export function generateArrowWords(size = 11): ArrowWordPuzzle | null {
     );
     let crossings = 0;
     const entries: ArrowWordEntry[] = [];
-    const pool = shuffle(WORD_CLUES);
+    const pool = shuffle(WORD_CLUES, rng);
 
     /**
      * Can `word` start at (row,col)? Requires: the clue cell before the
@@ -196,7 +196,7 @@ export function generateArrowWords(size = 11): ArrowWordPuzzle | null {
             continue;
           }
           const coord =
-            Math.floor(Math.random() * Math.ceil((n - 1) / 2)) * 2;
+            Math.floor(rng() * Math.ceil((n - 1) / 2)) * 2;
           const row = dir === "across" ? line : coord;
           const col = dir === "across" ? coord : line;
           if (!fits(row, col, item.word, dir)) continue;

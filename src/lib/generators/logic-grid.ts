@@ -8,17 +8,17 @@ export interface LogicGridPuzzle {
   solution: Record<string, Record<string, string>>;
 }
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-function pick<T>(arr: T[], n: number): T[] {
-  return shuffle(arr).slice(0, n);
+function pick<T>(arr: T[], n: number, rng: () => number): T[] {
+  return shuffle(arr, rng).slice(0, n);
 }
 
 interface ScenarioTemplate {
@@ -128,14 +128,15 @@ type Assignment = Record<string, string>;
 
 function buildSolution(
   categories: { name: string; items: string[] }[],
-  size: number
+  size: number,
+  rng: () => number
 ): { solution: Record<string, Record<string, string>>; rows: Assignment[] } {
   const primary = categories[0];
   const others = categories.slice(1);
 
   const shuffledOthers = others.map((cat) => ({
     name: cat.name,
-    items: shuffle(cat.items),
+    items: shuffle(cat.items, rng),
   }));
 
   const solution: Record<string, Record<string, string>> = {};
@@ -158,7 +159,8 @@ function buildSolution(
 function generateClues(
   categories: { name: string; items: string[] }[],
   rows: Assignment[],
-  size: number
+  size: number,
+  rng: () => number
 ): string[] {
   const clues: string[] = [];
   const primary = categories[0];
@@ -171,12 +173,12 @@ function generateClues(
       const val = rows[i][cat.name];
       const wrongVals = cat.items.filter((v) => v !== val);
 
-      const r = Math.random();
+      const r = rng();
 
       if (r < 0.35) {
         clues.push(`${personName}'s ${cat.name.toLowerCase()} is ${val}.`);
       } else if (r < 0.6) {
-        const wrongVal = wrongVals[Math.floor(Math.random() * wrongVals.length)];
+        const wrongVal = wrongVals[Math.floor(rng() * wrongVals.length)];
         clues.push(
           `${personName}'s ${cat.name.toLowerCase()} is not ${wrongVal}.`
         );
@@ -188,7 +190,7 @@ function generateClues(
         );
       } else {
         const otherCat =
-          otherCats[Math.floor(Math.random() * otherCats.length)];
+          otherCats[Math.floor(rng() * otherCats.length)];
         const otherVal = rows[i][otherCat.name];
         if (otherCat.name !== cat.name) {
           clues.push(
@@ -220,31 +222,31 @@ function generateClues(
         !c.includes("not the same")
     );
     if (!hasDirect) {
-      const idx = Math.floor(Math.random() * size);
+      const idx = Math.floor(rng() * size);
       const person = rows[idx][primary.name];
       const val = rows[idx][cat.name];
       clues.push(`${person}'s ${cat.name.toLowerCase()} is ${val}.`);
     }
   }
 
-  return shuffle(clues);
+  return shuffle(clues, rng);
 }
 
-export function generateLogicGrid(difficulty: LogicDifficulty): LogicGridPuzzle {
+export function generateLogicGrid(difficulty: LogicDifficulty, rng: () => number = Math.random): LogicGridPuzzle {
   const config = DIFFICULTY_CONFIG[difficulty];
   const template =
-    SCENARIO_TEMPLATES[Math.floor(Math.random() * SCENARIO_TEMPLATES.length)];
+    SCENARIO_TEMPLATES[Math.floor(rng() * SCENARIO_TEMPLATES.length)];
 
   const numCats = Math.min(config.numCategories, template.categoryPools.length);
   const selectedPools = template.categoryPools.slice(0, numCats);
 
   const categories = selectedPools.map((pool) => ({
     name: pool.name,
-    items: pick(pool.pool, config.size),
+    items: pick(pool.pool, config.size, rng),
   }));
 
-  const { solution, rows } = buildSolution(categories, config.size);
-  const clues = generateClues(categories, rows, config.size);
+  const { solution, rows } = buildSolution(categories, config.size, rng);
+  const clues = generateClues(categories, rows, config.size, rng);
 
   const sizeLabel =
     config.size === 3 ? "three" : config.size === 4 ? "four" : "five";

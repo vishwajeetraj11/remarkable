@@ -7,6 +7,15 @@ export interface CrosswordWord {
   number: number;
 }
 
+function shuffleWithRng<T>(arr: T[], rng: () => number): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export interface CrosswordPuzzle {
   grid: (string | null)[][];
   words: CrosswordWord[];
@@ -205,14 +214,17 @@ function findPlacements(
   return placements;
 }
 
-export function generateCrossword(theme: string): CrosswordPuzzle {
+export function generateCrossword(
+  theme: string,
+  size = 15,
+  rng: () => number = Math.random
+): CrosswordPuzzle {
   const wordList = THEMES[theme] ?? THEMES["general"];
-  const size = 15;
   const grid = makeGrid(size);
   const placedWords: CrosswordWord[] = [];
 
   // Shuffle the word list for variety
-  const shuffled = [...wordList].sort(() => Math.random() - 0.5);
+  const shuffled = shuffleWithRng([...wordList], rng);
 
   let wordNumber = 1;
 
@@ -231,7 +243,7 @@ export function generateCrossword(theme: string): CrosswordPuzzle {
       const placements = findPlacements(grid, word, size);
       if (placements.length > 0) {
         // Pick a random valid placement
-        const chosen = placements[Math.floor(Math.random() * placements.length)];
+        const chosen = placements[Math.floor(rng() * placements.length)];
         placeWord(grid, word, chosen.row, chosen.col, chosen.direction);
         placedWords.push({ word, clue: entry.clue, row: chosen.row, col: chosen.col, direction: chosen.direction, number: wordNumber++ });
       }

@@ -14,14 +14,17 @@ export function trackDownload(props?: Record<string, unknown>) {
 
 /**
  * Save a generated jsPDF document and record the download in one step.
- * The dispatched `rs_download` event drives the email-capture banner.
+ * The dispatched `rs_download` event drives the email-capture banner and
+ * download analytics. `detail` carries explicit generator context
+ * (puzzle_key, page_size, count, …) so events don't depend on button text.
  */
 export function savePdf(
   doc: { save: (filename: string) => void },
-  filename: string
+  filename: string,
+  detail?: Record<string, unknown>
 ) {
   doc.save(filename);
-  trackDownload({ filename });
+  trackDownload({ filename, ...detail });
 }
 
 export function getDownloadCount(): number {

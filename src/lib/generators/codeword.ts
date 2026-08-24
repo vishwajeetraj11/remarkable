@@ -18,27 +18,31 @@ export interface CodewordPuzzle {
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-function shuffled<T>(arr: T[]): T[] {
+function shuffled<T>(arr: T[], rng: () => number): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
 
-export function generateCodeword(theme = "general"): CodewordPuzzle {
+export function generateCodeword(
+  theme = "general",
+  size = 15,
+  rng: () => number = Math.random
+): CodewordPuzzle {
   // Try a few crossword seeds — codewords need decent fill density.
   let best: ReturnType<typeof generateCrossword> | null = null;
   for (let t = 0; t < 6; t++) {
-    const puzzle = generateCrossword(theme);
+    const puzzle = generateCrossword(theme, size, rng);
     const filled = puzzle.grid.flat().filter((c) => c !== null).length;
     if (!best || filled > best.grid.flat().filter((c) => c !== null).length) {
       best = puzzle;
     }
   }
-  const base = best ?? generateCrossword(theme);
-  const size = base.size;
+  const base = best ?? generateCrossword(theme, size, rng);
+  const gridSize = base.size;
 
   const usedLetters = [
     ...new Set(base.grid.flat().filter((c): c is string => c !== null)),
@@ -46,7 +50,8 @@ export function generateCodeword(theme = "general"): CodewordPuzzle {
 
   // Assign random distinct numbers to the used letters.
   const availableNumbers = shuffled(
-    Array.from({ length: ALPHABET.length }, (_, i) => i + 1)
+    Array.from({ length: ALPHABET.length }, (_, i) => i + 1),
+    rng
   );
   const code: Record<number, string> = {};
   const letterToNumber: Record<string, number> = {};
@@ -56,18 +61,18 @@ export function generateCodeword(theme = "general"): CodewordPuzzle {
     letterToNumber[letter] = num;
   });
 
-  const grid: number[][] = Array.from({ length: size }, () =>
-    Array<number>(size).fill(0)
+  const grid: number[][] = Array.from({ length: gridSize }, () =>
+    Array<number>(gridSize).fill(0)
   );
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
+  for (let r = 0; r < gridSize; r++) {
+    for (let c = 0; c < gridSize; c++) {
       const ch = base.grid[r][c];
       if (ch !== null) grid[r][c] = letterToNumber[ch];
     }
   }
 
   // Reveal three starter cells from different words.
-  const candidates = shuffled(base.words.slice(0, 8));
+  const candidates = shuffled(base.words.slice(0, 8), rng);
   const revealed: { row: number; col: number; letter: string }[] = [];
   const seenLetters = new Set<string>();
   for (const w of candidates) {

@@ -70,8 +70,17 @@ const THEMES: Record<string, string[]> = {
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-function randomLetter(): string {
-  return ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
+function randomLetter(rng: () => number): string {
+  return ALPHABET[Math.floor(rng() * ALPHABET.length)];
+}
+
+function shuffleWithRng<T>(arr: T[], rng: () => number): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function canPlace(
@@ -106,7 +115,8 @@ function placeWord(
 export function generateWordSearch(
   theme: string,
   size: number = 15,
-  customWords?: string[]
+  customWords?: string[],
+  rng: () => number = Math.random
 ): WordSearchPuzzle {
   const clampedSize = Math.max(12, Math.min(20, size));
   const wordPool = customWords ?? THEMES[theme] ?? THEMES["animals"];
@@ -114,7 +124,7 @@ export function generateWordSearch(
   // Pick words that fit in the grid
   const eligible = wordPool.filter((w) => w.length <= clampedSize);
   // Shuffle and pick up to 15
-  const shuffled = [...eligible].sort(() => Math.random() - 0.5);
+  const shuffled = shuffleWithRng(eligible, rng);
   const words = shuffled.slice(0, Math.min(15, shuffled.length));
 
   const grid: string[][] = Array.from({ length: clampedSize }, () =>
@@ -127,9 +137,9 @@ export function generateWordSearch(
     let placed = false;
     // Try up to 200 times per word
     for (let attempt = 0; attempt < 200 && !placed; attempt++) {
-      const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
-      const row = Math.floor(Math.random() * clampedSize);
-      const col = Math.floor(Math.random() * clampedSize);
+      const dir = DIRECTIONS[Math.floor(rng() * DIRECTIONS.length)];
+      const row = Math.floor(rng() * clampedSize);
+      const col = Math.floor(rng() * clampedSize);
 
       if (canPlace(grid, word, row, col, dir, clampedSize)) {
         placeWord(grid, word, row, col, dir);
@@ -143,7 +153,7 @@ export function generateWordSearch(
   for (let r = 0; r < clampedSize; r++) {
     for (let c = 0; c < clampedSize; c++) {
       if (grid[r][c] === "") {
-        grid[r][c] = randomLetter();
+        grid[r][c] = randomLetter(rng);
       }
     }
   }
