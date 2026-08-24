@@ -47,6 +47,41 @@ export const LOCALIZED_ROUTES = {
       es: { path: "/crucigramas", title: "Crucigramas" },
     },
   },
+  buchstabensalat: {
+    en: "/games/word-scramble",
+    title: "Word Scramble",
+    localized: {
+      de: { path: "/buchstabensalat", title: "Buchstabensalat" },
+    },
+  },
+  "kryptogramm": {
+    en: "/games/cryptogram",
+    title: "Cryptogram",
+    localized: {
+      de: { path: "/kryptogramm", title: "Kryptogramm" },
+    },
+  },
+  "sudoku-de": {
+    en: "/games/sudoku",
+    title: "Sudoku",
+    localized: {
+      de: { path: "/sudoku", title: "Sudoku" },
+    },
+  },
+  "kakuro-de": {
+    en: "/games/kakuro",
+    title: "Kakuro",
+    localized: {
+      de: { path: "/kakuro", title: "Kakuro" },
+    },
+  },
+  nonogramm: {
+    en: "/games/nonogram",
+    title: "Nonogram",
+    localized: {
+      de: { path: "/nonogramm", title: "Nonogramm" },
+    },
+  },
 } satisfies Record<string, LocalizedEntry>;
 
 export type LogicalRouteId = keyof typeof LOCALIZED_ROUTES;

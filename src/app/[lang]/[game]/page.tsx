@@ -2,6 +2,12 @@ import { notFound } from "next/navigation";
 
 import WordSearchGenerator from "@/app/games/word-search/page";
 import ArrowWordsGenerator from "@/app/games/arrow-words/page";
+import WordScrambleGenerator from "@/app/games/word-scramble/page";
+import CryptogramGenerator from "@/app/games/cryptogram/page";
+import SudokuGenerator from "@/app/games/sudoku/page";
+import KakuroGenerator from "@/app/games/kakuro/page";
+import NonogramGenerator from "@/app/games/nonogram/page";
+import SchwedenraetselGenerator from "@/components/games/schwedenraetsel-generator";
 import {
   DEFAULT_LOCALE,
   isSiteLocale,
@@ -20,7 +26,31 @@ const GAME_COMPONENTS: Partial<
 > = {
   "word-search": WordSearchGenerator,
   schwedenraetsel: ArrowWordsGenerator,
+  buchstabensalat: WordScrambleGenerator,
+  kryptogramm: CryptogramGenerator,
+  "sudoku-de": SudokuGenerator,
+  "kakuro-de": KakuroGenerator,
+  nonogramm: NonogramGenerator,
 };
+
+/** Static (locale,id) → component map; DE gets icon-based Schwedenrätsel. */
+const GAME_COMPONENTS_BY_LANG: Record<string, React.ComponentType> = (() => {
+  const map: Record<string, React.ComponentType> = {};
+  for (const [id, entry] of Object.entries(LOCALIZED_ROUTES) as [
+    LogicalRouteId,
+    (typeof LOCALIZED_ROUTES)[LogicalRouteId],
+  ][]) {
+    const comp = GAME_COMPONENTS[id];
+    if (!comp) continue;
+    for (const loc of Object.keys(entry.localized ?? {})) {
+      map[`${loc}:${id}`] =
+        id === "schwedenraetsel" && loc === "de"
+          ? SchwedenraetselGenerator
+          : comp;
+    }
+  }
+  return map;
+})();
 
 export function generateStaticParams() {
   const params: { lang: string; game: string }[] = [];
@@ -75,7 +105,7 @@ export default async function LocalizedGamePage({
   const { lang, game } = await params;
   const match = findRoute(lang, game);
   if (!match) notFound();
-  const Game = GAME_COMPONENTS[match.id];
+  const Game = GAME_COMPONENTS_BY_LANG[`${match.lang}:${match.id}`];
   if (!Game) notFound();
   return <Game />;
 }
