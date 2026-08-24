@@ -120,6 +120,30 @@ export const TOOL_PAGE_GUIDES: Record<string, ToolPageGuide> = {
     rationale: "Secret words never appear on the puzzle pages, so sheets can be handed out face-up with only the final key revealing answers.",
     sample: "An eight-round sheet prints as four pages — perfect for a classroom pair activity.",
   },
+  "/games/arrow-words": {
+    bestFor: "Crossword fans who want interlocking answers without reading a separate clue list.",
+    workflow: ["Pick a grid size and generate.", "Hover the grey clue cells in the preview to read them.", "Download the blank grid plus the solved answer page."],
+    rationale: "Clues live inside their own cells with direction arrows, so nothing is lost between screen and paper.",
+    sample: "An 11×11 grid prints one-to-a-page with generous letter cells for pen or stylus.",
+  },
+  "/games/slitherlink": {
+    bestFor: "Logic solvers who like drawing as much as deducing.",
+    workflow: ["Choose a lattice size and generate.", "Trace candidate loop edges against the numbered clues.", "Download the puzzle plus the traced blue solution."],
+    rationale: "Every published clue set passes a solver that confirms exactly one closed loop fits.",
+    sample: "Start at 6×6 to learn the 0-and-3 deductions before jumping to 10×10.",
+  },
+  "/games/hashi": {
+    bestFor: "Puzzle solvers who enjoy network-building and connectivity logic.",
+    workflow: ["Choose a board size and generate.", "Check each island's count against its open directions.", "Download the board plus the drawn bridge network."],
+    rationale: "A solver proves the island counts admit exactly one bridge layout before anything prints.",
+    sample: "A 10×10 board lands around a dozen islands — a solid ten-minute solve.",
+  },
+  "/games/numberlink": {
+    bestFor: "Fans of Flow-style path puzzles who want printable boards with real uniqueness.",
+    workflow: ["Choose a board size and generate.", "Plan routings so paths fill the entire board.", "Download the endpoints board plus the colored solution."],
+    rationale: "Full-coverage boards are solver-checked so the printed clues admit exactly one routing.",
+    sample: "The 8×8 board is a coffee-break classic; 10×10 pushes into real deduction.",
+  },
   "/games/logic-puzzle": {
     bestFor: "Deduction-puzzle solvers who want clue lists and a printable logic grid.",
     workflow: ["Choose a difficulty appropriate to the solver.", "Read the generated clues before exporting.", "Use the grid to mark exclusions and confirm the answer page afterward."],

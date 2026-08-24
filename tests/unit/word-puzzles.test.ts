@@ -373,11 +373,41 @@ describe("generateArrowWords", () => {
         }
       }
     }
-    // Known limitation: the current parity restriction caps entries below
-    // the >=12 threshold for most seeds. The engine fix (removing the
-    // odd-length cap) is scheduled before arrow-word pages ship
-    // (docs/puzzle-rollout.md, "Engine fixes required before pages").
-    // Until then we only assert structural validity whenever a puzzle IS
-    // produced; this assertion gets tightened to require production then.
+  });
+
+  it("fixed seeds yield >=12 entries with >=6 crossings (parity cap removed)", { timeout: 30_000 }, () => {
+    // docs/puzzle-rollout.md gate: after removing the odd-length
+    // restriction the corpus must reliably produce dense boards.
+    let produced = 0;
+    let minEntries = Infinity;
+    let minCrossings = Infinity;
+    for (let seed = 1; seed <= 20; seed++) {
+      const result = generateArrowWords(11, mulberry32(seed));
+      if (!result) continue;
+      produced++;
+      const { entries } = result;
+
+      minEntries = Math.min(minEntries, entries.length);
+
+      // Count crossings: cells owned by both an across and a down entry.
+      const acrossCells = new Set<string>();
+      const downCells = new Set<string>();
+      for (const e of entries) {
+        const dr = e.direction === "down" ? 1 : 0;
+        const dc = e.direction === "across" ? 1 : 0;
+        for (let i = 0; i < e.word.length; i++) {
+          (e.direction === "across" ? acrossCells : downCells).add(
+            `${e.row + dr * i},${e.col + dc * i}`
+          );
+        }
+      }
+      let crossings = 0;
+      for (const key of acrossCells) if (downCells.has(key)) crossings++;
+      minCrossings = Math.min(minCrossings, crossings);
+    }
+
+    expect(produced).toBe(20);
+    expect(minEntries).toBeGreaterThanOrEqual(12);
+    expect(minCrossings).toBeGreaterThanOrEqual(6);
   });
 });

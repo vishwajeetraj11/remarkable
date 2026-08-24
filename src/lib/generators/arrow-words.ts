@@ -59,6 +59,28 @@ const WORD_CLUES: { word: string; clue: string }[] = [
   { word: "HEART", clue: "Pumping organ" },
   { word: "LIGHT", clue: "Bright / not heavy" },
   { word: "MONEY", clue: "Coins and notes" },
+  { word: "BEACH", clue: "Sandy shore" },
+  { word: "CANDLE", clue: "Wax light source" },
+  { word: "DRAGON", clue: "Mythical fire beast" },
+  { word: "ENGINE", clue: "Motor of a car" },
+  { word: "FOREST", clue: "Dense trees" },
+  { word: "GUITAR", clue: "Six strings" },
+  { word: "HONEY", clue: "Bee product" },
+  { word: "ISLAND", clue: "Land in water" },
+  { word: "JUNGLE", clue: "Wild thicket" },
+  { word: "KETTLE", clue: "Boils water" },
+  { word: "LADDER", clue: "Climbing rungs" },
+  { word: "MARKET", clue: "Where goods are sold" },
+  { word: "NEEDLE", clue: "Sewing tool" },
+  { word: "ORANGE", clue: "Citrus fruit or color" },
+  { word: "PILLOW", clue: "Head rest" },
+  { word: "ROCKET", clue: "Spacecraft" },
+  { word: "SADDLE", clue: "Horse seat" },
+  { word: "TOWER", clue: "Tall structure" },
+  { word: "WINTER", clue: "Coldest season" },
+  { word: "ANCHOR", clue: "Ship holder" },
+  { word: "BUTTON", clue: "Fastens a shirt" },
+  { word: "CAMERA", clue: "Takes photos" },
 ];
 
 type CellState = -1 | 0 | 1; // -1 clue/reserved cell, 0 empty, 1 letter
@@ -75,7 +97,7 @@ function shuffle<T>(arr: T[], rng: () => number): T[] {
 export function generateArrowWords(size = 11, rng: () => number = Math.random): ArrowWordPuzzle | null {
   const n = Math.max(11, Math.min(15, size));
 
-  for (let outerAttempt = 0; outerAttempt < 20; outerAttempt++) {
+  for (let outerAttempt = 0; outerAttempt < 400; outerAttempt++) {
     const state: CellState[][] = Array.from({ length: n }, () =>
       Array<CellState>(n).fill(0)
     );
@@ -131,16 +153,9 @@ export function generateArrowWords(size = 11, rng: () => number = Math.random): 
           if (letters[r][c] !== word[i]) return false;
         }
       }
-      // Crossing coordinates are (even, even). Across answers start on even
-      // columns and have odd length; down answers start on even rows with odd
-      // length. That keeps clue cells and terminators on odd coordinates so
-      // they never block a potential crossing.
-      if (dir === "across" && ((col % 2 !== 0) || word.length % 2 === 0)) {
-        return false;
-      }
-      if (dir === "down" && ((row % 2 !== 0) || word.length % 2 === 0)) {
-        return false;
-      }
+      // Any word length >= 3 may start anywhere the reservation rules
+      // allow. Crossings emerge from matching letters rather than forced
+      // coordinate parity, which lifts the old ~9-entry ceiling.
       return true;
     }
 
@@ -183,25 +198,32 @@ export function generateArrowWords(size = 11, rng: () => number = Math.random): 
       });
     }
 
-    // Across words on even rows (even start col, odd length); down words on
-    // even columns (even start row, odd length). Interleave for crossings.
-    for (let line = 0; line < n; line += 2) {
-      for (const dir of ["across", "down"] as const) {
-        for (let attempt = 0; attempt < 60; attempt++) {
-          if (pool.length === 0) break;
-          const item = pool[0];
-          if (item.word.length % 2 === 0 || item.word.length + 2 > n) {
-            // Never placeable under parity rules — rotate to the back.
-            pool.push(pool.shift()!);
-            continue;
+    // Saturation loop: sweep every line in both directions repeatedly,
+    // scanning every even coordinate, until a full pass places nothing.
+    // Letter matches let words cross anywhere, so density grows per sweep.
+    const coords: number[] = [];
+    for (let c = 0; c < n; c += 2) coords.push(c);
+    let progress = true;
+    while (progress && pool.length > 0) {
+      progress = false;
+      for (let line = 0; line < n && pool.length > 0; line += 2) {
+        for (const dir of ["across", "down"] as const) {
+          const shuffledCoords = shuffle(coords, rng);
+          for (const coord of shuffledCoords) {
+            if (pool.length === 0) break;
+            // Try each remaining word at this coordinate.
+            for (let p = 0; p < pool.length; p++) {
+              const item = pool[p];
+              if (item.word.length + 2 > n) continue;
+              const row = dir === "across" ? line : coord;
+              const col = dir === "across" ? coord : line;
+              if (!fits(row, col, item.word, dir)) continue;
+              pool.splice(p, 1);
+              place(row, col, item, dir);
+              progress = true;
+              break;
+            }
           }
-          const coord =
-            Math.floor(rng() * Math.ceil((n - 1) / 2)) * 2;
-          const row = dir === "across" ? line : coord;
-          const col = dir === "across" ? coord : line;
-          if (!fits(row, col, item.word, dir)) continue;
-          pool.shift();
-          place(row, col, item, dir);
         }
       }
     }

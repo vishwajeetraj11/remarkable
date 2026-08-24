@@ -380,6 +380,94 @@ export const GAME_COPY: Record<string, GameCopy> = {
       },
     ],
   },
+  "/games/arrow-words": {
+    name: "Arrow Words",
+    intro:
+      "Mots fléchés — France's favorite crossword format. Clues are printed inside the grid itself, each with an arrow showing which way its answer runs. Answers interlock across and down, so every letter you commit constrains its neighbours. The generator packs dense boards from a themed word bank and always includes a filled answer page.",
+    tips: [
+      "Start with the shortest answers — few candidates fit their arrows.",
+      "Crossed letters are free information; confirm them before guessing.",
+      "The arrow tells you the reading direction at a glance — follow it literally.",
+    ],
+    faqs: [
+      {
+        question: "How do I read a clue cell?",
+        answer:
+          "Grey cells contain clue text plus an arrow. The arrow points toward the answer's first letter, and the answer continues in that direction until the next block or edge.",
+      },
+      {
+        question: "Is there an answer page?",
+        answer:
+          "Yes. Every download ends with the fully solved grid so solvers can check themselves without an app.",
+      },
+    ],
+  },
+  "/games/slitherlink": {
+    name: "Slitherlink",
+    intro:
+      "Slitherlink asks for one closed loop drawn along the dots of a lattice. Each numbered cell counts how many of its four edges the loop uses; zeros carve out forbidden territory and threes force immediate corners. This generator publishes only boards whose clues a solver confirms admit exactly one loop.",
+    tips: [
+      "Threes are anchors — every edge around a 3 is on the loop.",
+      "Zeros delete edges; mark them before anything else.",
+      "Follow the wall: when the loop has two confirmed edges in a region, trace consequences outward.",
+    ],
+    faqs: [
+      {
+        question: "Can the loop touch or cross itself?",
+        answer:
+          "Never. It is one simple closed curve along lattice lines — every dot touches zero or two loop edges.",
+      },
+      {
+        question: "What do blank (zero-clue) cells mean?",
+        answer:
+          "A printed 0 means none of that cell's edges belong to the loop. The preview omits zeros to reduce noise; the PDF prints every clue including 0.",
+      },
+    ],
+  },
+  "/games/hashi": {
+    name: "Hashi (Bridges)",
+    intro:
+      "Hashiwokakero — build bridges between numbered islands until every count is satisfied and the whole archipelago forms one connected network. Bridges run straight between aligned neighbours, never cross, and never exceed two per connection. Boards ship only after a solver proves the numbers allow exactly one layout, and the answer page draws that layout.",
+    tips: [
+      "Islands with count equal to their number of open directions are forced.",
+      "An island showing 3 with exactly three neighbours needs one bridge to each.",
+      "Keep the network connected — isolated finished clusters mean a mistake somewhere.",
+    ],
+    faqs: [
+      {
+        question: "When can I place a double bridge?",
+        answer:
+          "Whenever two islands face only each other and both still need two or more connections — the pair must then be doubled.",
+      },
+      {
+        question: "Do bridges pass through islands?",
+        answer:
+          "No. A bridge always connects the nearest visible island in its direction; anything between blocks the line.",
+      },
+    ],
+  },
+  "/games/numberlink": {
+    name: "Numberlink",
+    intro:
+      "Numberlink hands you pairs of matching numbers on a grid; draw a path connecting each pair without any paths touching. These boards use the Flow-style house rule where the paths together cover every cell — a constraint that, combined with our solver check, guarantees exactly one routing exists. The answer page draws each path in color.",
+    tips: [
+      "Pairs near walls have few route options — settle them first.",
+      "Odd-numbered corridors between settled paths often fill only one way.",
+      "Full coverage is the rule: leftover dead space means a path can be rerouted better.",
+    ],
+    faqs: [
+      {
+        question: "Do paths really need to cover the whole board?",
+        answer:
+          "On these printables yes — Flow-style. Classic numberlink allows empty cells, but full coverage makes these boards uniquely solvable and far more satisfying on paper.",
+      },
+      {
+        question: "Can paths branch?",
+        answer:
+          "No. Each number connects to its twin with a single continuous line, and no two paths share cells.",
+      },
+    ],
+  },
   "/games/logic-puzzle": {
     name: "Logic Puzzle",
     intro:
