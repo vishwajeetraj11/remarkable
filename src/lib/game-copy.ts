@@ -292,6 +292,94 @@ export const GAME_COPY: Record<string, GameCopy> = {
       },
     ],
   },
+  "/games/killer-sudoku": {
+    name: "Killer Sudoku",
+    intro:
+      "Killer sudoku looks like an empty sudoku grid crossed with jigsaw pieces: the grid is partitioned into cages, each printed with a sum, and no digits are given at all. Digits 1-9 may not repeat within a cage, so cage sums plus standard sudoku rules are enough to reconstruct everything — provided the puzzle has exactly one solution, which this generator verifies with an exhaustive solver before publishing anything.",
+    tips: [
+      "Cages of two cells with small sums (3, 4, 16, 17) have very few digit splits — start there.",
+      "Remember cage sums include the 45 rule: every row, column, and box totals exactly 45.",
+      "Digits never repeat inside a cage, which is often stronger than the box constraint.",
+    ],
+    faqs: [
+      {
+        question: "Does every puzzle have a unique solution?",
+        answer:
+          "Yes. Each generated grid is checked by a solver that counts solutions up to two; only puzzles with exactly one solution are published. This check runs even though it takes a few extra seconds.",
+      },
+      {
+        question: "How is this different from regular sudoku?",
+        answer:
+          "No starting digits are given. Instead, cages with printed sums provide all the information, and their shapes constrain where repeats are forbidden.",
+      },
+    ],
+  },
+  "/games/binairo": {
+    name: "Binairo",
+    intro:
+      "Binairo (also known as Takuzu or Binario) is a binary logic puzzle played on even-sized grids. Fill every cell with 0 or 1 so that each row and column contains equal counts of both digits, no three identical digits appear consecutively in any direction, and no two rows or columns are identical. Every puzzle here is reduced from a full solution while a solver confirms uniqueness.",
+    tips: [
+      "Mark pairs first: any two identical digits with one gap force the middle cell.",
+      "On the border between filled cells, 'two of a kind already placed' means the rest must be the other digit.",
+      "Watch line uniqueness late-game — duplicate rows are the most common mistake.",
+    ],
+    faqs: [
+      {
+        question: "What do the dots on the printed grid mean?",
+        answer:
+          "Dots mark every second lattice intersection so counting cells in twos is easier on paper and e-ink screens.",
+      },
+      {
+        question: "Which board size should I start with?",
+        answer:
+          "6×6 teaches all three rules in a couple of minutes; 8×8 is the classic daily-puzzle size; 10×10 and 12×12 add depth without new rules.",
+      },
+    ],
+  },
+  "/games/word-wheel": {
+    name: "Word Wheel",
+    intro:
+      "A word wheel shows nine letters arranged around a center hub. Build as many words as you can from the letters — each word must include the center letter and may not use any ring letter more times than it appears. The generator draws fresh nine-letter wheels whose letters are all distinct, then computes the complete answer key from its dictionary so you always know the maximum score.",
+    tips: [
+      "Write down -ING, -ED, and -S extensions of words you already found.",
+      "Plurals count separately — scan found words for easy +S additions.",
+      "Aim for the longest word first to unlock letter patterns.",
+    ],
+    faqs: [
+      {
+        question: "How many words does a typical wheel contain?",
+        answer:
+          "Between roughly fifteen and forty depending on the seed letters. The exact total is printed on the answer page, so you can score a session objectively.",
+      },
+      {
+        question: "Can letters be reused within a word?",
+        answer:
+          "Only as many times as the letter appears in the wheel — and since every wheel uses nine distinct letters, no letter can repeat inside a word at all.",
+      },
+    ],
+  },
+  "/games/hangman": {
+    name: "Hangman",
+    intro:
+      "Printable hangman sheets for classrooms, road trips, and quiet afternoons. Each round prints a category hint, blank word slots, a framed box for drawing the gallows, and an alphabet tracker for crossing off guesses. Choose your categories — animals, food, places, sports, or jobs — and the difficulty follows from word length automatically.",
+    tips: [
+      "Guess vowels early — E and A appear in most English words.",
+      "The category hint is powerful: narrow possibilities before guessing rare consonants.",
+      "Two rounds print per page, so an eight-round sheet is four sheets front-to-back friendly.",
+    ],
+    faqs: [
+      {
+        question: "Are the secret words visible anywhere on the puzzle pages?",
+        answer:
+          "No — words only appear on the final answer-key page, so sheets can be handed out face-up.",
+      },
+      {
+        question: "Can I limit the sheet to one category?",
+        answer:
+          "Yes. Pick Animals, Food, Places, Sports, or Jobs from the category selector and every round will come from that list.",
+      },
+    ],
+  },
   "/games/logic-puzzle": {
     name: "Logic Puzzle",
     intro:

@@ -96,6 +96,30 @@ export const TOOL_PAGE_GUIDES: Record<string, ToolPageGuide> = {
     rationale: "Left-to-right-only sequences keep scanning fair on paper and e-ink, and each number is guaranteed to appear exactly once.",
     sample: "A single download exports the current grid plus its answer key.",
   },
+  "/games/killer-sudoku": {
+    bestFor: "Sudoku solvers ready to work from cage sums instead of given digits.",
+    workflow: ["Pick a difficulty and how many puzzles to include.", "Check the preview — cages show their sums with bold walls.", "Download puzzle pages followed by the solved answer grids."],
+    rationale: "Every generated grid passes a two-solution-count check, so printed puzzles are always uniquely solvable.",
+    sample: "Set difficulty to easy for cages that resolve quickly with pairs and the 45 rule.",
+  },
+  "/games/binairo": {
+    bestFor: "Logic fans who want pure deduction without arithmetic or vocabulary.",
+    workflow: ["Choose a board size from 6×6 to 12×12.", "Set how many puzzles per download.", "Print grids with dot guides plus full solutions."],
+    rationale: "Removal happens under a solver-verified uniqueness budget, so even 12×12 boards generate in seconds while staying one-of-a-kind solvable.",
+    sample: "Start with an 8×8 board at one puzzle per download to learn the three rules fast.",
+  },
+  "/games/word-wheel": {
+    bestFor: "Vocabulary warm-ups, literacy stations, and solo brain training.",
+    workflow: ["Generate a wheel and read the nine letters around the hub.", "List every word you can build using the center letter.", "Score yourself against the complete answer page."],
+    rationale: "Wheels come from verified nine-distinct-letter seeds and the answer key lists every dictionary word, so sessions are objectively scorable.",
+    sample: "Print one wheel with writing lines and challenge a class to beat twenty words in ten minutes.",
+  },
+  "/games/hangman": {
+    bestFor: "Teachers, parents, and anyone who wants hangman without inventing words on the spot.",
+    workflow: ["Filter rounds by category or keep all themes mixed.", "Set how many rounds the sheet should hold.", "Print the sheets and keep the answer-key page separate."],
+    rationale: "Secret words never appear on the puzzle pages, so sheets can be handed out face-up with only the final key revealing answers.",
+    sample: "An eight-round sheet prints as four pages — perfect for a classroom pair activity.",
+  },
   "/games/logic-puzzle": {
     bestFor: "Deduction-puzzle solvers who want clue lists and a printable logic grid.",
     workflow: ["Choose a difficulty appropriate to the solver.", "Read the generated clues before exporting.", "Use the grid to mark exclusions and confirm the answer page afterward."],

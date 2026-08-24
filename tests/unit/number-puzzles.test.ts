@@ -12,11 +12,14 @@ import {
   stable,
 } from "../helpers/seeded-rng";
 import { generateSudoku } from "@/lib/generators/sudoku";
-import { generateKillerSudoku } from "@/lib/generators/killer-sudoku";
+import {
+  generateKillerSudoku,
+  countKillerSolutions,
+} from "@/lib/generators/killer-sudoku";
 import { generateKenKen } from "@/lib/generators/kenken";
 import { generateKakuro } from "@/lib/generators/kakuro";
 import { generateFutoshiki } from "@/lib/generators/futoshiki";
-import { generateBinairo } from "@/lib/generators/binairo";
+import { generateBinairo, countBinairoSolutions } from "@/lib/generators/binairo";
 import { generateNonogram } from "@/lib/generators/nonogram";
 
 forbidGlobalRandom();
@@ -116,6 +119,11 @@ describe("generateKillerSudoku", () => {
         expect(new Set(digits).size).toBe(digits.length);
       }
       expect(seen.size).toBe(81);
+
+      // Uniqueness: published puzzles must have EXACTLY one solution.
+      // (Regression guard for the inverted uniqueness test that used to
+      // accept any puzzle with >= 2 solutions.)
+      expect(countKillerSolutions(puzzle.cages, 2)).toBe(1);
     }
   });
 });
@@ -299,6 +307,22 @@ describe("generateBinairo", () => {
             expect(puzzle[r][c]).toBe(solution[r][c]);
           }
         }
+      }
+    }
+  });
+
+  it("published puzzles are uniquely solvable at every supported size", { timeout: 30_000 }, () => {
+    // Sizes 10 and 12 exercise the full removal loop with the solver-backed
+    // uniqueness gate; 12×12 is the slowest supported board.
+    const sizes: Array<6 | 8 | 10 | 12> = [6, 8, 10, 12];
+    for (const size of sizes) {
+      const seedsFor = size === 12 ? [31] : size === 10 ? [31, 32] : [31, 32, 33];
+      for (const seed of seedsFor) {
+        const started = Date.now();
+        const { puzzle } = generateBinairo(size, mulberry32(seed));
+        // Removal budget keeps even the largest board interactive.
+        expect(Date.now() - started).toBeLessThan(10_000);
+        expect(countBinairoSolutions(puzzle, size, 2)).toBe(1);
       }
     }
   });

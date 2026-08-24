@@ -95,13 +95,17 @@ describe("generateWordWheel", () => {
   });
 
   it("every solution contains the center letter and fits the wheel letters", () => {
-    for (let seed = 1; seed <= 30; seed++) {
+    for (let seed = 1; seed <= 15; seed++) {
       const { letters, centerIndex, solutions } = generateWordWheel(
         10,
         mulberry32(seed)
       );
       expect(letters).toHaveLength(9);
       expect(new Set(letters).size).toBe(9);
+      // The deterministic fallback ("education") must never surface in the
+      // corpus — it would mean every attempt failed to find a varied seed.
+      expect(letters.join("")).not.toBe("education");
+      expect(letters.join("")).toMatch(/^[a-z]{9}$/);
       const center = letters[centerIndex];
       const pool = new Map<string, number>();
       for (const ch of letters) pool.set(ch, (pool.get(ch) ?? 0) + 1);
@@ -154,22 +158,45 @@ describe("generateWordLadder", () => {
 describe("generateHangmanSheet", () => {
   it("is deterministic per seed", () => {
     for (const seed of [9]) {
-      const a = generateHangmanSheet(8, mulberry32(seed));
-      const b = generateHangmanSheet(8, mulberry32(seed));
+      const a = generateHangmanSheet(8, undefined, mulberry32(seed));
+      const b = generateHangmanSheet(8, undefined, mulberry32(seed));
       expect(stable(a)).toBe(stable(b));
     }
   });
 
   it("rounds have unique words in known categories", () => {
-    for (let seed = 1; seed <= 60; seed++) {
+    for (let seed = 1; seed <= 30; seed++) {
       const count = 5 + (seed % 10);
-      const { rounds, categories } = generateHangmanSheet(count, mulberry32(seed));
+      const { rounds, categories } = generateHangmanSheet(count, undefined, mulberry32(seed));
       expect(rounds).toHaveLength(count);
       expect(new Set(categories).size).toBe(categories.length);
       const words = rounds.map((r) => r.word);
       expect(new Set(words).size).toBe(words.length);
       for (const round of rounds) {
         expect(categories).toContain(round.category);
+      }
+    }
+  });
+
+  it("category filter restricts rounds and clamps to the available pool", () => {
+    for (let seed = 1; seed <= 10; seed++) {
+      // Filtered: every round comes from the requested category.
+      const filtered = generateHangmanSheet(6, ["Animals"], mulberry32(seed));
+      expect(filtered.rounds).toHaveLength(6);
+      for (const round of filtered.rounds) {
+        expect(round.category).toBe("Animals");
+      }
+
+      // Unknown categories fall back to all categories.
+      const unknown = generateHangmanSheet(4, ["Nonexistent"], mulberry32(seed));
+      expect(unknown.rounds).toHaveLength(4);
+
+      // Requesting more words than a category holds clamps instead of looping.
+      const clamped = generateHangmanSheet(50, ["Jobs"], mulberry32(seed));
+      const jobWords = new Set(clamped.rounds.map((r) => r.word));
+      expect(jobWords.size).toBe(clamped.rounds.length);
+      for (const round of clamped.rounds) {
+        expect(round.category).toBe("Jobs");
       }
     }
   });

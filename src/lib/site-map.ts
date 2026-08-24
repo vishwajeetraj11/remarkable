@@ -160,6 +160,10 @@ const GAME_PATHS = [
   "/games/number-search",
   "/games/bingo",
   "/games/codeword",
+  "/games/binairo",
+  "/games/killer-sudoku",
+  "/games/word-wheel",
+  "/games/hangman",
   "/games/logic-puzzle",
 ];
 

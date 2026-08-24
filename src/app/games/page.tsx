@@ -51,8 +51,8 @@ const categories = [
       { name: "Number Search", href: "/games/number-search", desc: "Find hidden number sequences in a grid of digits", ready: true },
       { name: "Bingo Cards", href: "/games/bingo", desc: "Printable 5×5 bingo cards with call sheet for parties and classrooms", ready: true },
       { name: "Codeword", href: "/games/codeword", desc: "Crack the letter-number code to fill the crossword grid", ready: true },
-      { name: "Killer Sudoku", href: "/games/killer-sudoku", desc: "Sudoku with sum cages instead of given digits", ready: false },
-      { name: "Binairo", href: "/games/binairo", desc: "Balance 0s and 1s in Takuzu binary logic grids", ready: false },
+      { name: "Killer Sudoku", href: "/games/killer-sudoku", desc: "Sudoku with sum cages instead of given digits", ready: true },
+      { name: "Binairo", href: "/games/binairo", desc: "Balance 0s and 1s in Takuzu binary logic grids", ready: true },
     ],
   },
   {
@@ -63,9 +63,9 @@ const categories = [
       { name: "Word Scramble", href: "/games/word-scramble", desc: "Unscramble jumbled letters to find the word", ready: true },
       { name: "Cryptogram", href: "/games/cryptogram", desc: "Decode encrypted quotes by cracking the letter substitution cipher", ready: true },
       { name: "Word Ladder", href: "/games/word-ladder", desc: "Change one letter at a time to transform one word into another", ready: true },
-      { name: "Word Wheel", href: "/games/word-wheel", desc: "Make as many words as you can from nine letters around a hub", ready: false },
+      { name: "Word Wheel", href: "/games/word-wheel", desc: "Make as many words as you can from nine letters around a hub", ready: true },
       { name: "Arrow Words", href: "/games/arrow-words", desc: "Mots fléchés — clues printed inside the grid with direction arrows", ready: false },
-      { name: "Hangman Sheets", href: "/games/hangman", desc: "Printable hangman rounds with themed secret words", ready: false },
+      { name: "Hangman Sheets", href: "/games/hangman", desc: "Printable hangman rounds with themed secret words", ready: true },
     ],
   },
   {

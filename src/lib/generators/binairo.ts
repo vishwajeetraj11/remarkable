@@ -132,6 +132,12 @@ export function countBinairoSolutions(
   return count;
 }
 
+// Removing symmetric pairs re-runs the solution counter each time, which
+// gets expensive on 12×12 boards. Budget the removal phase so generation
+// stays interactive; puzzles stay unique either way because every accepted
+// removal was individually validated.
+const REMOVAL_BUDGET_MS = 1500;
+
 export function generateBinairo(size: BinairoPuzzle["size"] = 8, rng: () => number = Math.random): BinairoPuzzle {
   const solution: number[][] = Array.from({ length: size }, () =>
     Array<number>(size).fill(-1)
@@ -156,7 +162,9 @@ export function generateBinairo(size: BinairoPuzzle["size"] = 8, rng: () => numb
     [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
   }
 
+  const deadline = Date.now() + REMOVAL_BUDGET_MS;
   for (const [[r1, c1], [r2, c2]] of pairs) {
+    if (Date.now() > deadline) break;
     const backup = [puzzle[r1][c1], puzzle[r2][c2]];
     puzzle[r1][c1] = -1;
     puzzle[r2][c2] = -1;

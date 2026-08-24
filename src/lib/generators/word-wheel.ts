@@ -15,6 +15,25 @@ export const WORD_WHEEL_DICTIONARY: string[] = [
   ),
 ];
 
+/**
+ * Nine-letter seed words with nine DISTINCT letters — the raw dictionary
+ * holds nothing longer than five characters, so without this bank every
+ * wheel silently fell back to the hardcoded "education" default.
+ * Verified: each entry has exactly 9 unique lowercase letters.
+ */
+export const WHEEL_SEEDS: string[] = [
+  "afterglow", "angelfish", "birthdays", "blackouts", "boyfriend",
+  "campfires", "champions", "chemistry", "chipmunks", "clipboard",
+  "clownfish", "coastline", "computers", "cornfield", "daughters",
+  "documents", "dragonfly", "drumstick", "dumplings", "earthling",
+  "education", "eruptions", "exploring", "flamingos", "goldfinch",
+  "goldsmith", "hailstorm", "harmonics", "jubilance", "keyboards",
+  "lifeguard", "lovebirds", "mailboxes", "masterful", "merchants",
+  "nightmare", "snowdrift", "snowflake", "sunflower", "terminals",
+  "traveling", "triangles", "vineyards", "windstorm", "wonderful",
+  "workbench", "yearlings",
+];
+
 export interface WordWheelPuzzle {
   letters: string[];
   /** Index of the required center letter within `letters`. */
@@ -43,24 +62,28 @@ function canForm(word: string, pool: Map<string, number>, center: string): boole
  * which keeps every wheel clean) and collect all shorter buildable words.
  */
 export function generateWordWheel(minSolutions = 10, rng: () => number = Math.random): WordWheelPuzzle {
-  for (let attempt = 0; attempt < 400; attempt++) {
-    const seeds = WORD_WHEEL_DICTIONARY.filter(
-      (w) => w.length === 9 && new Set(w).size === 9
-    );
-    const seed = seeds[Math.floor(rng() * seeds.length)];
-    if (!seed) continue;
+  // Visit every candidate seed exactly once (in rng-shuffled order) and try
+  // several hub positions per seed — guarantees variety and full coverage.
+  const order = [...WHEEL_SEEDS];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
 
+  for (const seed of order) {
     const letters = seed.split("");
-    const centerIndex = Math.floor(rng() * 9);
-    const center = letters[centerIndex];
-    const pool = letterCounts(seed);
+    for (let centerTry = 0; centerTry < 4; centerTry++) {
+      const centerIndex = Math.floor(rng() * 9);
+      const center = letters[centerIndex];
+      const pool = letterCounts(seed);
 
-    const solutions = WORD_WHEEL_DICTIONARY.filter((w) =>
-      canForm(w, pool, center)
-    );
+      const solutions = WORD_WHEEL_DICTIONARY.filter((w) =>
+        canForm(w, pool, center)
+      );
 
-    if (solutions.length >= minSolutions) {
-      return { letters, centerIndex, solutions };
+      if (solutions.length >= minSolutions) {
+        return { letters, centerIndex, solutions };
+      }
     }
   }
   // Deterministic fallback seed (rare).
