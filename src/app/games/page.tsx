@@ -64,7 +64,7 @@ const categories = [
       { name: "Cryptogram", href: "/games/cryptogram", desc: "Decode encrypted quotes by cracking the letter substitution cipher", ready: true },
       { name: "Word Ladder", href: "/games/word-ladder", desc: "Change one letter at a time to transform one word into another", ready: true },
       { name: "Word Wheel", href: "/games/word-wheel", desc: "Make as many words as you can from nine letters around a hub", ready: true },
-      { name: "Arrow Words", href: "/games/arrow-words", desc: "Mots fléchés — clues printed inside the grid with direction arrows", ready: false },
+      { name: "Arrow Words", href: "/games/arrow-words", desc: "Mots fléchés — clues printed inside the grid with direction arrows", ready: true },
       { name: "Hangman Sheets", href: "/games/hangman", desc: "Printable hangman rounds with themed secret words", ready: true },
     ],
   },
@@ -72,9 +72,9 @@ const categories = [
     name: "Spatial & Visual",
     puzzles: [
       { name: "Maze", href: "/games/maze", desc: "Navigate from start to finish through winding paths", ready: true },
-      { name: "Slitherlink", href: "/games/slitherlink", desc: "Draw one closed loop around numbered dots", ready: false },
-      { name: "Hashi (Bridges)", href: "/games/hashi", desc: "Connect numbered islands with single and double bridges", ready: false },
-      { name: "Numberlink", href: "/games/numberlink", desc: "Pair matching numbers with paths that never cross", ready: false },
+      { name: "Slitherlink", href: "/games/slitherlink", desc: "Draw one closed loop around numbered dots", ready: true },
+      { name: "Hashi (Bridges)", href: "/games/hashi", desc: "Connect numbered islands with single and double bridges", ready: true },
+      { name: "Numberlink", href: "/games/numberlink", desc: "Pair matching numbers with paths that never cross", ready: true },
     ],
   },
   {

@@ -15,9 +15,12 @@ import { generateBingo } from "@/lib/generators/bingo";
 import { generateMaze } from "@/lib/generators/maze";
 import { generateNumberFill } from "@/lib/generators/number-fill";
 import { generateNumberSearch } from "@/lib/generators/number-search";
-import { generateNumberlink } from "@/lib/generators/numberlink";
-import { generateSlitherlink } from "@/lib/generators/slitherlink";
-import { generateHashi } from "@/lib/generators/hashi";
+import { generateNumberlink, countNumberlinkSolutions } from "@/lib/generators/numberlink";
+import {
+  generateSlitherlink,
+  countSlitherlinkSolutions,
+} from "@/lib/generators/slitherlink";
+import { generateHashi, countHashiSolutions } from "@/lib/generators/hashi";
 import { generateLogicGrid } from "@/lib/generators/logic-grid";
 
 forbidGlobalRandom();
@@ -244,46 +247,60 @@ describe("generateNumberlink", () => {
     }
   });
 
-  it("each pair id has exactly two endpoints connected by its solution path", () => {
+  it("tiles the grid with ordered disjoint paths whose true endpoints are shown", () => {
     let produced = 0;
     for (let seed = 1; seed <= 40; seed++) {
       const result = generateNumberlink(7, mulberry32(seed));
       if (!result) continue;
       produced++;
-      const { endpoints, solution } = result;
+      const { endpoints, paths, size } = result;
 
-      const endpointCount: Record<number, number> = {};
-      for (const row of endpoints.flat()) {
-        if (row > 0) endpointCount[row] = (endpointCount[row] ?? 0) + 1;
+      // Full coverage house rule: every cell belongs to exactly one path.
+      const cover = new Set<string>();
+      for (const path of paths) {
+        for (const [r, c] of path) {
+          const key = `${r},${c}`;
+          expect(cover.has(key)).toBe(false);
+          cover.add(key);
+        }
       }
-      const ids = Object.keys(endpointCount).map(Number);
-      expect(ids.length).toBeGreaterThanOrEqual(3);
-      for (const id of ids) {
-        expect(endpointCount[id]).toBe(2);
-      }
+      expect(cover.size).toBe(size * size);
 
-      // Every solution path is contiguous and matches its id.
-      for (const id of ids) {
-        const cells: [number, number][] = [];
-        solution.forEach((row, r) =>
-          row.forEach((v, c) => {
-            if (v === id) cells.push([r, c]);
-          })
-        );
-        // Path visits each cell once (non-branching coverage).
-        const inPath = cells.filter(([r, c]) => solution[r][c] === id);
-        expect(inPath.length).toBeGreaterThan(0);
-        // Endpoints lie at the extremes of the path.
+      for (let id = 1; id <= paths.length; id++) {
+        const path = paths[id - 1];
+        // Length-2 pairs (adjacent cells) are legal numberlink answers.
+        expect(path.length).toBeGreaterThanOrEqual(2);
+
+        // Ordered path: consecutive cells are orthogonal neighbours.
+        for (let i = 1; i < path.length; i++) {
+          const dist =
+            Math.abs(path[i][0] - path[i - 1][0]) +
+            Math.abs(path[i][1] - path[i - 1][1]);
+          expect(dist).toBe(1);
+        }
+
+        // Published endpoints are exactly the two path extremes.
         const endpointCells: [number, number][] = [];
         endpoints.forEach((row, r) =>
           row.forEach((v, c) => {
             if (v === id) endpointCells.push([r, c]);
           })
         );
-        for (const [er, ec] of endpointCells) {
-          expect(solution[er][ec]).toBe(id);
+        expect(endpointCells).toHaveLength(2);
+        expect(endpointCells).toContainEqual(path[0]);
+        expect(endpointCells).toContainEqual(path[path.length - 1]);
+
+        // Endpoints sit at opposite ends: walking the ordered path from one
+        // published endpoint must reach the other without branching.
+        expect(endpoints[path[0][0]][path[0][1]]).toBe(id);
+        expect(endpoints[path[path.length - 1][0]][path[path.length - 1][1]]).toBe(id);
+        for (let i = 1; i < path.length - 1; i++) {
+          expect(endpoints[path[i][0]][path[i][1]]).toBe(0);
         }
       }
+
+      // Solver confirms uniqueness under the full-coverage rule.
+      expect(countNumberlinkSolutions(endpoints, 2)).toBe(1);
     }
     expect(produced).toBeGreaterThan(0);
   });
@@ -298,7 +315,7 @@ describe("generateSlitherlink", () => {
     }
   });
 
-  it("solution edges form one closed loop matching every clue", () => {
+  it("clamps dimensions consistently and its clues are solver-unique", { timeout: 60_000 }, () => {
     const edgeKey = (r1: number, c1: number, r2: number, c2: number): string => {
       const [a, b] = [
         [r1, c1],
@@ -307,31 +324,46 @@ describe("generateSlitherlink", () => {
       return `${a[0]},${a[1]}-${b[0]},${b[1]}`;
     };
 
-    for (let seed = 1; seed <= 50; seed++) {
-      const n = 5 + (seed % 4);
-      const { clues, solutionEdges, size } = generateSlitherlink(n, mulberry32(seed));
+    let produced = 0;
+    const sizes = [3, 6, 99]; // below min, nominal, above max
+    for (const requested of sizes) {
+      for (let seed = 1; seed <= 8; seed++) {
+        const result = generateSlitherlink(requested, mulberry32(seed));
+        if (!result) continue;
+        produced++;
+        const { clues, solutionEdges, size } = result;
 
-      // Degree 0 or 2 at every dot.
-      const deg = new Map<string, number>();
-      for (const e of solutionEdges) {
-        const [a, b] = e.split("-");
-        for (const d of [a, b]) deg.set(d, (deg.get(d) ?? 0) + 1);
-      }
-      for (const d of deg.values()) expect([0, 2]).toContain(d);
+        // Clamped size consistent across every field.
+        const n = Math.max(4, Math.min(10, requested));
+        expect(size).toBe(n);
+        expect(clues).toHaveLength(n);
+        for (const row of clues) expect(row).toHaveLength(n);
 
-      // Clues recompute from the loop.
-      for (let r = 0; r < n; r++) {
-        for (let c = 0; c < n; c++) {
-          let count = 0;
-          if (solutionEdges.has(edgeKey(r, c, r, c + 1))) count++;
-          if (solutionEdges.has(edgeKey(r + 1, c, r + 1, c + 1))) count++;
-          if (solutionEdges.has(edgeKey(r, c, r + 1, c))) count++;
-          if (solutionEdges.has(edgeKey(r, c + 1, r + 1, c + 1))) count++;
-          expect(clues[r][c]).toBe(count);
+        // Degree 0 or 2 at every dot.
+        const deg = new Map<string, number>();
+        for (const e of solutionEdges) {
+          const [a, b] = e.split("-");
+          for (const d of [a, b]) deg.set(d, (deg.get(d) ?? 0) + 1);
         }
+        for (const d of deg.values()) expect([0, 2]).toContain(d);
+
+        // Clues recompute from the loop.
+        for (let r = 0; r < n; r++) {
+          for (let c = 0; c < n; c++) {
+            let count = 0;
+            if (solutionEdges.has(edgeKey(r, c, r, c + 1))) count++;
+            if (solutionEdges.has(edgeKey(r + 1, c, r + 1, c + 1))) count++;
+            if (solutionEdges.has(edgeKey(r, c, r + 1, c))) count++;
+            if (solutionEdges.has(edgeKey(r, c + 1, r + 1, c + 1))) count++;
+            expect(clues[r][c]).toBe(count);
+          }
+        }
+
+        // Solver-backed uniqueness.
+        expect(countSlitherlinkSolutions(clues, 2)).toBe(1);
       }
-      expect(size).toBe(n);
     }
+    expect(produced).toBeGreaterThan(0);
   });
 });
 
@@ -344,23 +376,77 @@ describe("generateHashi", () => {
     }
   });
 
-  it("produces islands with counts in 1..8 inside the grid", () => {
+  it("ships bridges that satisfy counts, connect everything, and never cross", { timeout: 60_000 }, () => {
     let produced = 0;
-    for (let seed = 1; seed <= 40; seed++) {
+    for (let seed = 1; seed <= 30; seed++) {
       const result = generateHashi(8, mulberry32(seed));
       if (!result) continue;
       produced++;
-      expect(result.islands.length).toBeGreaterThanOrEqual(4);
-      for (const isl of result.islands) {
+      const { islands, bridges, size } = result;
+
+      const coords = new Set(islands.map((i) => `${i.row},${i.col}`));
+      expect(coords.size).toBe(islands.length);
+      for (const isl of islands) {
         expect(isl.count).toBeGreaterThanOrEqual(1);
         expect(isl.count).toBeLessThanOrEqual(8);
-        expect(isl.row).toBeGreaterThanOrEqual(0);
-        expect(isl.row).toBeLessThan(result.size);
-        expect(isl.col).toBeGreaterThanOrEqual(0);
-        expect(isl.col).toBeLessThan(result.size);
       }
-      const coords = new Set(result.islands.map((i) => `${i.row},${i.col}`));
-      expect(coords.size).toBe(result.islands.length);
+
+      // Bridges reference valid islands and match their counts exactly.
+      const degree = new Array(islands.length).fill(0);
+      const bridgeKeys = new Set<string>();
+      for (const br of bridges) {
+        expect(br.a).toBeLessThan(br.b);
+        degree[br.a] += br.count;
+        degree[br.b] += br.count;
+        bridgeKeys.add(`${br.a}-${br.b}-${br.count}`);
+      }
+      islands.forEach((isl, i) => expect(degree[i]).toBe(isl.count));
+
+      // Aligned, unobstructed, no crossings between any pair of bridges.
+      for (const br of bridges) {
+        const A = islands[br.a];
+        const B = islands[br.b];
+        expect(A.row === B.row || A.col === B.col).toBe(true);
+      }
+      for (let i = 0; i < bridges.length; i++) {
+        for (let j = i + 1; j < bridges.length; j++) {
+          const A1 = islands[bridges[i].a];
+          const A2 = islands[bridges[i].b];
+          const B1 = islands[bridges[j].a];
+          const B2 = islands[bridges[j].b];
+          const crosses =
+            A1.row === A2.row && B1.col === B2.col &&
+            Math.min(B1.row, B2.row) < A1.row && A1.row < Math.max(B1.row, B2.row) &&
+            Math.min(A1.col, A2.col) < B1.col && B1.col < Math.max(A1.col, A2.col);
+          const crossesReverse =
+            A1.col === A2.col && B1.row === B2.row &&
+            Math.min(A1.row, A2.row) < B1.row && B1.row < Math.max(A1.row, A2.row) &&
+            Math.min(B1.col, B2.col) < A1.col && A1.col < Math.max(B1.col, B2.col);
+          expect(crosses || crossesReverse).toBe(false);
+        }
+      }
+
+      // Whole network connected.
+      const parent = islands.map((_, i) => i);
+      const find = (x: number): number => {
+        while (parent[x] !== x) {
+          parent[x] = parent[parent[x]];
+          x = parent[x];
+        }
+        return x;
+      };
+      for (const br of bridges) {
+        const ra = find(br.a);
+        const rb = find(br.b);
+        if (ra !== rb) parent[ra] = rb;
+      }
+      const root = find(0);
+      for (let i = 1; i < islands.length; i++) expect(find(i)).toBe(root);
+
+      void size;
+
+      // Solver confirms the printed counts admit only this layout.
+      expect(countHashiSolutions(islands, 2)).toBe(1);
     }
     expect(produced).toBeGreaterThan(0);
   });
