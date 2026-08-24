@@ -29,14 +29,6 @@ const PAGE_SIZE_DEVICE: Record<PageSizeKey, string> = {
 
 const SIZES = [5, 6, 8, 10] as const;
 
-function edgeKey(r1: number, c1: number, r2: number, c2: number): string {
-  const [a, b] = [
-    [r1, c1],
-    [r2, c2],
-  ].sort((x, y) => x[0] - y[0] || x[1] - y[1]);
-  return `${a[0]},${a[1]}-${b[0]},${b[1]}`;
-}
-
 // ─── PDF generation ───────────────────────────────────────────────────────────
 
 async function downloadPDF(puzzle: SlitherlinkPuzzle, pageSizeKey: PageSizeKey) {
