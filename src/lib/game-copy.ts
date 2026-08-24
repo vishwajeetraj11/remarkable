@@ -226,6 +226,72 @@ export const GAME_COPY: Record<string, GameCopy> = {
       },
     ],
   },
+  "/games/codeword": {
+    name: "Codeword",
+    intro:
+      "A codeword (or codebreaker) puzzle is a crossword-style grid where every letter has been replaced by a number from 1 to 26. The same number always stands for the same letter, and three starting letters are given away for free. Deduce the rest from word patterns, letter frequency, and crossing words — no clues required.",
+    tips: [
+      "Start with single-letter cells: in English they are almost always A or I.",
+      "Count letter frequencies — the most common code number is usually E.",
+      "Look for common patterns like TH, HE, ING, and doubled letters (LL, EE).",
+    ],
+    faqs: [
+      {
+        question: "How do I solve a codeword without clues?",
+        answer:
+          "Use the three given letters as anchors, then apply letter frequency and common English patterns. Every placement constrains the crossing word, so deductions cascade quickly.",
+      },
+      {
+        question: "Is every puzzle solvable without guessing?",
+        answer:
+          "Yes — the generator only publishes grids where the full letter assignment is uniquely recoverable, and every download includes the completed answer grid.",
+      },
+    ],
+  },
+  "/games/bingo": {
+    name: "Bingo Cards",
+    intro:
+      "Printable bingo cards generated fresh every time. Classic 75-ball mode builds true B-I-N-G-O cards — column B draws from 1-15, I from 16-30, N from 31-45 with a free center, G from 46-60, and O from 61-75. Compact 3×3 and 4×4 modes use smaller number pools for faster rounds. Every download ends with a call sheet listing all balls in call order.",
+    tips: [
+      "Print one extra set of cards than you think you need — someone always wants a rematch.",
+      "For classrooms, compact 3×3 games finish inside ten minutes.",
+      "Cross off called numbers on the call sheet so you can verify winners later.",
+    ],
+    faqs: [
+      {
+        question: "What does 'true 75-ball column ranges' mean?",
+        answer:
+          "Traditional bingo assigns each column its own band of numbers: B 1-15, I 16-30, N 31-45, G 46-60, O 61-75. The classic mode follows that convention exactly, including the free center square.",
+      },
+      {
+        question: "How many players can play with one download?",
+        answer:
+          "Each card is unique, so one card per player. Generate up to 12 classic cards or up to 20 compact 3×3 cards per PDF, and print the file again for a fresh set.",
+      },
+    ],
+  },
+  "/games/number-search": {
+    name: "Number Search",
+    intro:
+      "Number search works like a word search, but the hidden items are digit sequences such as 407 or 9182. Sequences read left to right only — the classic magazine format — and this generator guarantees each sequence appears exactly once in the grid, so solvers never chase phantom matches.",
+    tips: [
+      "Scan row by row for the first two digits rather than the whole sequence.",
+      "Longer sequences stand out — find them first to clear visual noise.",
+      "Great warm-up for number recognition practice with kids.",
+    ],
+    faqs: [
+      {
+        question: "Can a number appear twice in the grid?",
+        answer:
+          "No. The generator checks the finished grid and guarantees every listed sequence occurs exactly once, including accidental matches formed by filler digits.",
+      },
+      {
+        question: "Which directions do sequences read?",
+        answer:
+          "Left to right only, matching traditional printed number search books. Vertical and diagonal reading would make scanning far harder on paper and e-ink.",
+      },
+    ],
+  },
   "/games/logic-puzzle": {
     name: "Logic Puzzle",
     intro:

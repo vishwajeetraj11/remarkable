@@ -27,18 +27,22 @@ function shuffled<T>(arr: T[], rng: () => number): T[] {
   return a;
 }
 
-export function generateCodeword(theme = "general", rng: () => number = Math.random): CodewordPuzzle {
+export function generateCodeword(
+  theme = "general",
+  size = 15,
+  rng: () => number = Math.random
+): CodewordPuzzle {
   // Try a few crossword seeds — codewords need decent fill density.
   let best: ReturnType<typeof generateCrossword> | null = null;
   for (let t = 0; t < 6; t++) {
-    const puzzle = generateCrossword(theme, rng);
+    const puzzle = generateCrossword(theme, size, rng);
     const filled = puzzle.grid.flat().filter((c) => c !== null).length;
     if (!best || filled > best.grid.flat().filter((c) => c !== null).length) {
       best = puzzle;
     }
   }
-  const base = best ?? generateCrossword(theme, rng);
-  const size = base.size;
+  const base = best ?? generateCrossword(theme, size, rng);
+  const gridSize = base.size;
 
   const usedLetters = [
     ...new Set(base.grid.flat().filter((c): c is string => c !== null)),
@@ -57,11 +61,11 @@ export function generateCodeword(theme = "general", rng: () => number = Math.ran
     letterToNumber[letter] = num;
   });
 
-  const grid: number[][] = Array.from({ length: size }, () =>
-    Array<number>(size).fill(0)
+  const grid: number[][] = Array.from({ length: gridSize }, () =>
+    Array<number>(gridSize).fill(0)
   );
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
+  for (let r = 0; r < gridSize; r++) {
+    for (let c = 0; c < gridSize; c++) {
       const ch = base.grid[r][c];
       if (ch !== null) grid[r][c] = letterToNumber[ch];
     }

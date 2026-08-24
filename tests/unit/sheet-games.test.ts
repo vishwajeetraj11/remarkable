@@ -31,11 +31,12 @@ describe("generateBingo", () => {
     }
   });
 
-  it("cards draw distinct in-range numbers with a free center; calls are a permutation", () => {
-    // NOTE: true 75-ball column ranges are a tranche-1 acceptance item
-    // (see docs/puzzle-rollout.md); the current generator only guarantees
-    // distinct values from the number pool.
-    for (let seed = 1; seed <= 40; seed++) {
+  it("classic 75-ball cards use true BINGO column ranges + free center", () => {
+    const rangeFor = (col: number): [number, number] => [
+      col * 15 + 1,
+      (col + 1) * 15,
+    ];
+    for (let seed = 1; seed <= 20; seed++) {
       const { cards, calls, size } = generateBingo(3, 5, 75, mulberry32(seed));
       expect(size).toBe(5);
       expect(calls).toHaveLength(75);
@@ -52,13 +53,40 @@ describe("generateBingo", () => {
             }
             expect(v).not.toBeNull();
             if (v === null) continue;
-            expect(v).toBeGreaterThanOrEqual(1);
-            expect(v).toBeLessThanOrEqual(75);
+            const [lo, hi] = rangeFor(c);
+            expect(v).toBeGreaterThanOrEqual(lo);
+            expect(v).toBeLessThanOrEqual(hi);
             expect(seen.has(v)).toBe(false);
             seen.add(v);
           }
         }
         expect(seen.size).toBe(24);
+      }
+    }
+  });
+
+  it("compact modes deal distinct numbers from a custom pool", () => {
+    for (let seed = 1; seed <= 10; seed++) {
+      for (const dim of [3, 4] as const) {
+        const maxNumber = dim === 3 ? 30 : 50;
+        const { cards, calls, size } = generateBingo(
+          2,
+          dim,
+          maxNumber,
+          mulberry32(seed)
+        );
+        expect(size).toBe(dim);
+        expect(calls).toHaveLength(maxNumber);
+        expect(new Set(calls).size).toBe(maxNumber);
+        for (const card of cards) {
+          const flat = card.cells.flat().filter((v): v is number => v !== null);
+          expect(flat).toHaveLength(dim * dim);
+          expect(new Set(flat).size).toBe(dim * dim);
+          for (const v of flat) {
+            expect(v).toBeGreaterThanOrEqual(1);
+            expect(v).toBeLessThanOrEqual(maxNumber);
+          }
+        }
       }
     }
   });
@@ -156,20 +184,45 @@ describe("generateNumberSearch", () => {
     }
   });
 
-  it("targets appear left-to-right in the final grid", () => {
-    for (let seed = 1; seed <= 60; seed++) {
-      const { grid, targets, size } = generateNumberSearch(
+  it("targets appear exactly once; placements match the grid", () => {
+    for (let seed = 1; seed <= 30; seed++) {
+      const { grid, targets, placements, size } = generateNumberSearch(
         12 + (seed % 4),
         8,
         undefined,
         mulberry32(seed)
       );
-      expect(targets.length).toBeGreaterThan(0);
-      expect(new Set(targets).size).toBe(targets.length);
+      expect(targets).toHaveLength(8);
+      expect(new Set(targets).size).toBe(8);
+      // No target may be a substring of another (would force a duplicate).
+      for (const a of targets) {
+        for (const b of targets) {
+          if (a !== b) expect(b.includes(a)).toBe(false);
+        }
+      }
 
+      // Every target occurs EXACTLY once in the final grid — filler digits
+      // never complete an accidental second occurrence.
       for (const t of targets) {
-        const found = grid.some((row) => row.join("").includes(t));
-        expect(found).toBe(true);
+        let count = 0;
+        for (const row of grid) {
+          const line = row.join("");
+          let idx = line.indexOf(t);
+          while (idx !== -1) {
+            count++;
+            idx = line.indexOf(t, idx + 1);
+          }
+        }
+        expect(count).toBe(1);
+      }
+
+      // Placements point at the sequences.
+      expect(placements).toHaveLength(targets.length);
+      for (const p of placements) {
+        expect(targets).toContain(p.target);
+        expect(
+          grid[p.row].slice(p.col, p.col + p.target.length).join("")
+        ).toBe(p.target);
       }
 
       for (const row of grid) {

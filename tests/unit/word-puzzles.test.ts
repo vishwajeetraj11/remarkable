@@ -214,15 +214,15 @@ describe("generateCryptogram", () => {
 describe("generateCrossword", () => {
   it("is deterministic per seed", () => {
     for (const seed of [14]) {
-      const a = generateCrossword("general", mulberry32(seed));
-      const b = generateCrossword("general", mulberry32(seed));
+      const a = generateCrossword("general", 15, mulberry32(seed));
+      const b = generateCrossword("general", 15, mulberry32(seed));
       expect(stable(a)).toBe(stable(b));
     }
   });
 
   it("every placed word reads correctly from the grid", () => {
     for (let seed = 1; seed <= 30; seed++) {
-      const { grid, words, size } = generateCrossword("general", mulberry32(seed));
+      const { grid, words, size } = generateCrossword("general", 15, mulberry32(seed));
       expect(size).toBe(15);
       expect(words.length).toBeGreaterThan(0);
 
@@ -268,18 +268,21 @@ describe("generateCrossword", () => {
 describe("generateCodeword", () => {
   it("is deterministic per seed", () => {
     for (const seed of [15]) {
-      const a = generateCodeword("general", mulberry32(seed));
-      const b = generateCodeword("general", mulberry32(seed));
+      const a = generateCodeword("general", 15, mulberry32(seed));
+      const b = generateCodeword("general", 15, mulberry32(seed));
       expect(stable(a)).toBe(stable(b));
     }
   });
 
   it("number->letter code is injective and decodes back to the crossword", () => {
     for (let seed = 1; seed <= 8; seed++) {
+      const requestedSize = 13;
       const { grid, code, revealed, size } = generateCodeword(
         "general",
+        requestedSize,
         mulberry32(seed)
       );
+      expect(size).toBe(requestedSize);
       const letters = Object.values(code);
       expect(new Set(letters).size).toBe(letters.length);
 
@@ -290,7 +293,6 @@ describe("generateCodeword", () => {
         expect(code[grid[rev.row][rev.col]]).toBe(rev.letter);
       }
       expect(revealed.length).toBeGreaterThan(0);
-      expect(size).toBe(15);
     }
   });
 });
@@ -305,11 +307,9 @@ describe("generateArrowWords", () => {
   });
 
   it("entries obey layout rules when a puzzle is produced", () => {
-    let produced = 0;
     for (let seed = 1; seed <= 50; seed++) {
       const result = generateArrowWords(11, mulberry32(seed));
       if (!result) continue;
-      produced++;
       const { size, entries } = result;
 
       const starts = new Set(

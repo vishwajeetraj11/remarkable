@@ -157,6 +157,9 @@ const GAME_PATHS = [
   "/games/futoshiki",
   "/games/word-ladder",
   "/games/number-fill",
+  "/games/number-search",
+  "/games/bingo",
+  "/games/codeword",
   "/games/logic-puzzle",
 ];
 

@@ -76,7 +76,25 @@ export const TOOL_PAGE_GUIDES: Record<string, ToolPageGuide> = {
     bestFor: "Solvers who enjoy fill-in grids but prefer numbers to vocabulary clues.",
     workflow: ["Select puzzle difficulty and count.", "Inspect grid and number-list density.", "Download the puzzles with answer grids."],
     rationale: "The number bank and grid are generated together, so every listed entry has a valid position.",
-    sample: "Choose one puzzle to export a compact sample PDF.",
+    sample: "Set the puzzle count to one to export a single number fill grid and its solution.",
+  },
+  "/games/codeword": {
+    bestFor: "Word-puzzle solvers who want crossword-style deduction without reading clues.",
+    workflow: ["Choose a theme, grid size, and how many puzzles to include.", "Check the preview — three starter letters anchor each solve.", "Download the puzzle pages followed by the completed answer grids."],
+    rationale: "Number substitution plus crossing words makes every letter placement verifiable, and the answer grid lets solvers check without an app.",
+    sample: "Keep puzzles-per-download at one to export exactly the codeword shown in the preview.",
+  },
+  "/games/bingo": {
+    bestFor: "Party hosts, teachers, and families who need fair bingo cards fast.",
+    workflow: ["Pick classic 75-ball or a compact mode.", "Set the number of cards for your player count.", "Print the cards plus the call sheet and start calling."],
+    rationale: "Classic mode honors real B-I-N-G-O column ranges and the free center, so printed games behave like purchased bingo sets.",
+    sample: "Generate four cards first — the PDF includes all cards and a numbered call sheet.",
+  },
+  "/games/number-search": {
+    bestFor: "Kids building number recognition and adults who want a quick scan-and-find puzzle.",
+    workflow: ["Choose the grid size and how many sequences to hide.", "Skim the sequence list against the preview.", "Download the puzzle with the highlighted answer page."],
+    rationale: "Left-to-right-only sequences keep scanning fair on paper and e-ink, and each number is guaranteed to appear exactly once.",
+    sample: "A single download exports the current grid plus its answer key.",
   },
   "/games/logic-puzzle": {
     bestFor: "Deduction-puzzle solvers who want clue lists and a printable logic grid.",

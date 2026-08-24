@@ -214,9 +214,12 @@ function findPlacements(
   return placements;
 }
 
-export function generateCrossword(theme: string, rng: () => number = Math.random): CrosswordPuzzle {
+export function generateCrossword(
+  theme: string,
+  size = 15,
+  rng: () => number = Math.random
+): CrosswordPuzzle {
   const wordList = THEMES[theme] ?? THEMES["general"];
-  const size = 15;
   const grid = makeGrid(size);
   const placedWords: CrosswordWord[] = [];
 
