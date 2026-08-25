@@ -94,7 +94,15 @@ function shuffle<T>(arr: T[], rng: () => number): T[] {
   return a;
 }
 
-export function generateArrowWords(size = 11, rng: () => number = Math.random): ArrowWordPuzzle | null {
+export function generateArrowWords(
+  size = 11,
+  rng: () => number = Math.random,
+  /**
+   * Injected clue bank (locale packs). Entries need >=3-letter words;
+   * `clue` may be an icon id rather than prose — renderers decide.
+   */
+  bank?: { word: string; clue: string }[]
+): ArrowWordPuzzle | null {
   const n = Math.max(11, Math.min(15, size));
 
   for (let outerAttempt = 0; outerAttempt < 400; outerAttempt++) {
@@ -112,7 +120,7 @@ export function generateArrowWords(size = 11, rng: () => number = Math.random): 
     );
     let crossings = 0;
     const entries: ArrowWordEntry[] = [];
-    const pool = shuffle(WORD_CLUES, rng);
+    const pool = shuffle(bank && bank.length > 0 ? bank : WORD_CLUES, rng);
 
     /**
      * Can `word` start at (row,col)? Requires: the clue cell before the
