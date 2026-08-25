@@ -6,7 +6,8 @@ import {
   LOCALE_META,
   isSiteLocale,
 } from "@/lib/i18n/config";
-import { routesFor } from "@/lib/i18n/routes";
+import { LOCALIZED_ROUTES, routesFor } from "@/lib/i18n/routes";
+import type { LogicalRouteId } from "@/lib/i18n/routes";
 
 const HUB_COPY: Record<
   Exclude<import("@/lib/i18n/config").SiteLocale, "en">,
@@ -37,17 +38,23 @@ export default async function LocaleHubPage({
   const { lang } = await params;
   if (!isSiteLocale(lang) || lang === DEFAULT_LOCALE) notFound();
   const copy = HUB_COPY[lang as Exclude<typeof lang, "en">];
-  const wordSearch = routesFor("word-search").find((r) => r.locale === lang)!;
-  const arrowWords = routesFor("schwedenraetsel").find(
-    (r) => r.locale === lang,
-  )!;
+
+  // Every registered puzzle equivalent for this locale.
+  const links = (
+    Object.keys(LOCALIZED_ROUTES) as LogicalRouteId[]
+  )
+    .map((id) => {
+      const all = routesFor(id);
+      return all.find((r) => r.locale === lang);
+    })
+    .filter((r): r is NonNullable<typeof r> => Boolean(r));
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold tracking-tight">{copy.h1}</h1>
       <p className="mt-3 text-muted-foreground">{copy.sub}</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-        {[wordSearch, arrowWords].map((r) => (
+        {links.map((r) => (
           <li key={r.path}>
             <Link
               href={r.path}
@@ -62,10 +69,6 @@ export default async function LocaleHubPage({
           </li>
         ))}
       </ul>
-      <p className="mt-10 text-sm text-muted-foreground">
-        {LOCALE_META[lang].label} preview — more puzzles land as banks are
-        validated.
-      </p>
     </div>
   );
 }

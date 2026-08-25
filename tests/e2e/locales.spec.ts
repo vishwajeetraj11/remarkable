@@ -26,6 +26,19 @@ test.describe("locale foundation", () => {
     await expect(page.locator("main")).toBeVisible();
   });
 
+  test("schwedenraetsel renders German icon-clue grid and downloads", async ({ page }) => {
+    await page.goto("/de/schwedenraetsel");
+    await expect(
+      page.getByRole("heading", { name: /schwedenrätsel generator/i })
+    ).toBeVisible();
+    const downloadPromise = page.waitForEvent("download", { timeout: 60_000 });
+    await page
+      .getByRole("button", { name: /pdf erzeugen & herunterladen/i })
+      .click();
+    const d = await downloadPromise;
+    expect(d.suggestedFilename()).toMatch(/^schwedenraetsel-\d+x\d+\.pdf$/);
+  });
+
   test("unknown locales 404 instead of serving English", async ({ page }) => {
     const res = await page.goto("/pt");
     expect(res?.status()).toBe(404);
