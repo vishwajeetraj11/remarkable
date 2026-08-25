@@ -309,7 +309,7 @@ const crosswordAdapter: BundlePuzzleAdapter<CrosswordPuzzle> = {
       }
     }
   },
-  drawAnswer(doc, puzzle, { pw, ph }, cy, idx) {
+  drawAnswer(doc, puzzle, { ph }, cy, idx) {
     if (cy + 20 > ph - MARGIN) {
       doc.addPage();
       cy = MARGIN;
