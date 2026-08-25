@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalMonthInputValue } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -288,11 +289,15 @@ async function generateSemesterPlanner(
 }
 
 export default function SemesterPlannerPage() {
-  const now = new Date();
   const [semesterName, setSemesterName] = useState("");
-  const [startMonth, setStartMonth] = useState(
-    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`,
-  );
+  const [startMonth, setStartMonth] = useState("");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStartMonth((value) => value || getLocalMonthInputValue());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <TemplateShell

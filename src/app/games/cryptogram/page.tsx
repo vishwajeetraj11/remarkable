@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -221,13 +221,14 @@ function drawAnswerKey(
   }
 }
 
-function generatePDF(
+async function generatePDF(
   puzzles: CryptogramPuzzle[],
   pageSize: PageSizeKey,
   fontSize: FontSizeOption
 ) {
   const { w: pageW, h: pageH } = PAGE_SIZES[pageSize];
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -367,13 +368,13 @@ export default function CryptogramPage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzles: CryptogramPuzzle[] = Array.from(
           { length: numPuzzles },
           () => generateCryptogram(pickRandomQuote(language))
         );
-        generatePDF(puzzles, pageSize, fontSize);
+        await generatePDF(puzzles, pageSize, fontSize);
         setPreviewPuzzle(puzzles[0]);
       } finally {
         setIsGenerating(false);

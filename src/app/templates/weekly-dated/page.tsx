@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalDateInputValue } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Toggle } from "@/components/templates/variant-controls";
 import { Input } from "@/components/ui/input";
@@ -89,10 +90,15 @@ function isWeekend(date: Date) {
 }
 
 export default function WeeklyDatedPage() {
-  const today = new Date();
-  const isoToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-  const [startDate, setStartDate] = useState(isoToday);
+  const [startDate, setStartDate] = useState("");
   const [layout, setLayout] = useState<Layout>("vertical");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStartDate((value) => value || getLocalDateInputValue());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function generate(variants: TemplateVariants, pageCount: number) {
     const doc = createDoc(variants);

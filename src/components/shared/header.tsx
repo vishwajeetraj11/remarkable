@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { MobileNavToggle } from "@/components/shared/mobile-nav";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
@@ -15,7 +19,7 @@ const navItems = [
       { label: "KenKen", href: "/games/kenken" },
       { label: "Futoshiki", href: "/games/futoshiki" },
       { label: "Word Ladder", href: "/games/word-ladder" },
-      { label: "All 13 Puzzles →", href: "/games" },
+      { label: "All puzzles →", href: "/games" },
     ],
   },
   {
@@ -30,7 +34,7 @@ const navItems = [
       { label: "Fitness Planner", href: "/templates/fitness-planner" },
       { label: "Vision Board", href: "/templates/vision-board" },
       { label: "Cornell Notes", href: "/templates/cornell" },
-      { label: "All 65+ Templates →", href: "/templates" },
+      { label: "All templates →", href: "/templates" },
     ],
   },
   {
@@ -56,7 +60,7 @@ const navItems = [
       { label: "Sight Words", href: "/kids/sight-words" },
       { label: "Telling Time", href: "/kids/telling-time" },
       { label: "Cursive Practice", href: "/kids/cursive" },
-      { label: "All 12 Activities →", href: "/kids" },
+      { label: "All activities →", href: "/kids" },
     ],
   },
   {
@@ -75,16 +79,46 @@ const navItems = [
 ];
 
 export function Header() {
+  const [openMenu, setOpenMenu] = useState<number | null>(null);
+  const desktopNavRef = useRef<HTMLElement>(null);
+  const menuToggleRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  useEffect(() => {
+    if (openMenu === null) return;
+    const activeMenu = openMenu;
+
+    function closeOnOutsidePointer(event: PointerEvent) {
+      if (!desktopNavRef.current?.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    }
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpenMenu(null);
+      menuToggleRefs.current[activeMenu]?.focus();
+    }
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePointer);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [openMenu]);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 min-h-12 py-2">
+        <Link href="/" className="flex min-h-12 items-center gap-2 py-2">
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
             className="h-7 w-7"
+            aria-hidden="true"
           >
             <rect x="3" y="2" width="18" height="20" rx="2" />
             <line x1="7" y1="7" x2="17" y2="7" />
@@ -97,36 +131,86 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-1">
-          {/* Desktop nav — pure server-rendered HTML, zero JS */}
-          <nav className="hidden md:flex items-center gap-1">
-          {navItems.map((item) => (
-            <div key={item.href} className="group relative">
-              <Link
-                href={item.href}
-                className="px-3 py-3 min-h-12 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent"
-              >
-                {item.label}
-              </Link>
-              {"children" in item && item.children && (
-                <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <div className="w-48 rounded-lg border border-border bg-popover p-1 shadow-lg">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
+          <nav
+            ref={desktopNavRef}
+            className="hidden items-center gap-1 xl:flex"
+            aria-label="Primary navigation"
+          >
+            {navItems.map((item, index) => {
+              const isOpen = openMenu === index;
+              const menuId = `desktop-navigation-${index}`;
+
+              return (
+                <div
+                  key={item.href}
+                  className="relative flex items-center"
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === "mouse") setOpenMenu(index);
+                  }}
+                  onPointerLeave={(event) => {
+                    if (event.pointerType === "mouse") setOpenMenu(null);
+                  }}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                      setOpenMenu(null);
+                    }
+                  }}
+                >
+                  <Link
+                    href={item.href}
+                    className="inline-flex min-h-11 items-center rounded-l-md px-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  >
+                    {item.label}
+                  </Link>
+                  <button
+                    ref={(node) => {
+                      menuToggleRefs.current[index] = node;
+                    }}
+                    type="button"
+                    className="inline-flex size-11 items-center justify-center rounded-r-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    aria-label={`${isOpen ? "Close" : "Open"} ${item.label} menu`}
+                    aria-controls={menuId}
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                    onClick={() => setOpenMenu(isOpen ? null : index)}
+                  >
+                    <ChevronDown
+                      className={`size-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div
+                      id={menuId}
+                      className="absolute left-0 top-full z-50 w-56 pt-2"
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") {
+                          event.preventDefault();
+                          setOpenMenu(null);
+                          menuToggleRefs.current[index]?.focus();
+                        }
+                      }}
+                    >
+                      <div className="rounded-lg border border-border bg-popover p-1 shadow-lg">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="flex min-h-11 items-center rounded-md px-3 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent focus-visible:text-foreground focus-visible:outline-none"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              );
+            })}
           </nav>
 
-          <ThemeToggle className="hidden md:inline-flex" />
+          <ThemeToggle className="hidden xl:inline-flex" />
 
           <MobileNavToggle navItems={navItems} />
         </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -145,7 +145,7 @@ function drawLadderPuzzle(
   }
 }
 
-function generatePDF(
+async function generatePDF(
   puzzles: WordLadderPuzzle[],
   difficulty: Difficulty,
   pageSize: PageSizeKey
@@ -155,6 +155,7 @@ function generatePDF(
   const usableW = pageW - margin * 2;
   const usableH = pageH - margin * 2;
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -356,13 +357,13 @@ export default function WordLadderPage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzles: WordLadderPuzzle[] = Array.from(
           { length: numPuzzles },
           () => generateWordLadder(difficulty, wordLength)
         );
-        generatePDF(puzzles, difficulty, pageSize);
+        await generatePDF(puzzles, difficulty, pageSize);
         setPreviewPuzzle(puzzles[0]);
       } finally {
         setIsGenerating(false);

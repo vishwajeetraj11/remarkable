@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalDateInputValue } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Toggle } from "@/components/templates/variant-controls";
 import { Input } from "@/components/ui/input";
@@ -43,10 +44,16 @@ function getDayLabels(weekStart: "monday" | "sunday") {
 }
 
 export default function PlannerPage() {
-  const today = new Date().toISOString().slice(0, 10);
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState("");
   const [weeks, setWeeks] = useState(4);
   const [timeSlots, setTimeSlots] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStartDate((value) => value || getLocalDateInputValue());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function generate(variants: TemplateVariants, sampleOnly = false) {
     const doc = createDoc(variants);
@@ -191,10 +198,9 @@ export default function PlannerPage() {
     doc.save(`weekly-planner-${variantSuffix(variants)}-${sampleOnly ? "sample" : `${weeks}w`}.pdf`);
   }
 
-  const previewStart = toWeekStart(
-    new Date(startDate + "T00:00:00"),
-    "monday"
-  );
+  const previewStart = startDate
+    ? toWeekStart(new Date(startDate + "T00:00:00"), "monday")
+    : null;
   const DAYS_PREVIEW = getDayLabels("monday");
 
   return (
@@ -246,7 +252,7 @@ export default function PlannerPage() {
         </div>
       )}
     >
-      {() => (
+      {() => previewStart ? (
         <div className="w-full overflow-x-auto">
           <div className="min-w-[520px]">
             <div className="bg-foreground text-background text-xs font-bold px-3 py-2 rounded-t-md">
@@ -283,7 +289,7 @@ export default function PlannerPage() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </TemplateShell>
   );
 }

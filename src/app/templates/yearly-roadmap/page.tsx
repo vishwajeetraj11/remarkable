@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalYear } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,14 @@ const MONTHS = [
 ];
 
 export default function YearlyRoadmapPage() {
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setYear((value) => value ?? getLocalYear());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function generate(variants: TemplateVariants, pageCount: number) {
     const doc = createDoc(variants);
@@ -36,7 +44,7 @@ export default function YearlyRoadmapPage() {
     const bodyW = w - m.left - m.right;
 
     // Page 1: Year overview with goals
-    drawHeader(doc, variants, { title: `${year} Yearly Roadmap`, dark: true });
+    drawHeader(doc, variants, { title: `${year ?? ""} Yearly Roadmap`, dark: true });
     const startY = m.top + 40;
 
     drawSectionTitle(doc, "Vision & Goals", m.left + 4, startY);
@@ -71,7 +79,7 @@ export default function YearlyRoadmapPage() {
       const pageNum = Math.floor(i / 2) + 2;
 
       drawHeader(doc, variants, {
-        title: `${MONTHS[i]} – ${MONTHS[i + 1]} ${year}`,
+        title: `${MONTHS[i]} – ${MONTHS[i + 1]} ${year ?? ""}`,
         dark: true,
       });
 
@@ -111,7 +119,7 @@ export default function YearlyRoadmapPage() {
     // Extra blank pages
     for (let i = 0; i < pageCount - 7; i++) {
       addPage(doc, variants);
-      drawHeader(doc, variants, { title: `${year} — Notes` });
+      drawHeader(doc, variants, { title: `${year ?? ""} — Notes` });
       drawHorizontalLines(doc, variants, {
         startY: m.top + 40,
         endY: h - m.bottom,
@@ -119,7 +127,7 @@ export default function YearlyRoadmapPage() {
       });
     }
 
-    doc.save(`yearly-roadmap-${year}-${variantSuffix(variants)}.pdf`);
+    doc.save(`yearly-roadmap-${year ?? ""}-${variantSuffix(variants)}.pdf`);
   }
 
   return (
@@ -134,8 +142,8 @@ export default function YearlyRoadmapPage() {
           <Label>Year</Label>
           <Input
             type="number"
-            value={year}
-            onChange={(e) => setYear(parseInt(e.target.value) || new Date().getFullYear())}
+            value={year ?? ""}
+            onChange={(e) => setYear(parseInt(e.target.value) || getLocalYear())}
             className="w-32"
           />
         </div>
@@ -144,7 +152,7 @@ export default function YearlyRoadmapPage() {
       {() => (
         <div className="flex gap-4">
           <div className="border border-border/40 rounded p-3 w-48 shrink-0">
-            <div className="text-xs font-bold mb-2">{year} Roadmap</div>
+            <div className="text-xs font-bold mb-2">{year ?? ""} Roadmap</div>
             <div className="grid grid-cols-2 gap-1.5">
               {["Q1", "Q2", "Q3", "Q4"].map((q) => (
                 <div key={q} className="border border-border/30 rounded p-1 text-[8px] text-muted-foreground text-center">

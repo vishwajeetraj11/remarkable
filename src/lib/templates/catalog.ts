@@ -109,7 +109,6 @@ export const TEMPLATE_PACKS = [
       { name: "Reading Log", href: "/templates/reading-log", desc: "Track books read" },
       { name: "Book Notes", href: "/templates/book-notes", desc: "Takeaways, quotes, and chapter notes" },
       { name: "Revision Planner", href: "/templates/revision-planner", desc: "Subject schedule with checkboxes" },
-      { name: "MCP Documentation PDF", href: "/templates/mcp-docs", desc: "Full MCP docs fetched & formatted for reMarkable" },
     ],
   },
   {

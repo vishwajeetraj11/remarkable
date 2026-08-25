@@ -1,7 +1,7 @@
 const DOWNLOAD_COUNT_KEY = "rs_download_count";
 const EMAIL_DISMISSED_KEY = "rs_email_dismissed";
 const EMAIL_SUBMITTED_KEY = "rs_email_submitted";
-const EMAIL_ADDRESS_KEY = "rs_email_address";
+const LEGACY_EMAIL_ADDRESS_KEY = "rs_email_address";
 
 const DISMISS_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
@@ -34,6 +34,9 @@ export function getDownloadCount(): number {
 
 export function shouldShowEmailCapture(): boolean {
   if (typeof window === "undefined") return false;
+  // Remove the address saved by earlier releases while retaining the user's
+  // submitted and dismissal preferences.
+  localStorage.removeItem(LEGACY_EMAIL_ADDRESS_KEY);
   if (localStorage.getItem(EMAIL_SUBMITTED_KEY)) return false;
 
   const dismissed = localStorage.getItem(EMAIL_DISMISSED_KEY);
@@ -50,8 +53,8 @@ export function dismissEmailCapture() {
   localStorage.setItem(EMAIL_DISMISSED_KEY, String(Date.now()));
 }
 
-export function submitEmail(email: string) {
+export function submitEmail() {
   if (typeof window === "undefined") return;
   localStorage.setItem(EMAIL_SUBMITTED_KEY, "true");
-  localStorage.setItem(EMAIL_ADDRESS_KEY, email);
+  localStorage.removeItem(LEGACY_EMAIL_ADDRESS_KEY);
 }

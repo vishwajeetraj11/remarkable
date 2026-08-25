@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -56,6 +55,7 @@ async function downloadPDF(
   difficulty: string,
   category: string
 ) {
+  const { jsPDF } = await import("jspdf");
   const ps = PAGE_SIZES[pageSizeKey];
   const doc = new jsPDF({ unit: "pt", format: [ps.w, ps.h] });
   const margin = 40;

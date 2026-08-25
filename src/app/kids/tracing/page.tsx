@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -97,6 +96,8 @@ export default function TracingPage() {
 
   async function generate() {
     setGenerating(true);
+    try {
+      const { jsPDF } = await import("jspdf");
     const { w, h } = PAGE_SIZES[pageSize];
     const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
@@ -177,8 +178,10 @@ export default function TracingPage() {
       });
     }
 
-    savePdf(doc, `tracing-${contentType}-${pageCount}p.pdf`);
-    setGenerating(false);
+      savePdf(doc, `tracing-${contentType}-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   const previewItems = CONTENT_SETS[contentType].slice(0, 6);

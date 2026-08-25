@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -893,10 +893,11 @@ function renderPatternSequence(
 
 // ─── Main PDF Generator ───────────────────────────────────────────────────────
 
-function generatePackPDF(slug: string, pageSize: PageSize, perType: number) {
+async function generatePackPDF(slug: string, pageSize: PageSize, perType: number) {
   const pack = PACK_DEFS[slug];
   if (!pack) return;
 
+  const { jsPDF } = await import("jspdf");
   const [w, h] = PAGE_DIMENSIONS[pageSize];
   const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
@@ -1144,9 +1145,9 @@ export default function PackPage() {
 
   const handleGenerate = useCallback(() => {
     setGenerating(true);
-    requestAnimationFrame(() => {
+    requestAnimationFrame(async () => {
       try {
-        generatePackPDF(slug, pageSize, perType);
+        await generatePackPDF(slug, pageSize, perType);
       } finally {
         setGenerating(false);
       }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -148,12 +148,13 @@ function drawNumberList(
   }
 }
 
-function generatePDF(puzzles: NumberFillPuzzle[], pageSize: PageSizeKey) {
+async function generatePDF(puzzles: NumberFillPuzzle[], pageSize: PageSizeKey) {
   const { w: pageW, h: pageH } = PAGE_SIZES[pageSize];
   const margin = pageW * 0.1;
   const usableW = pageW - margin * 2;
   const usableH = pageH - margin * 2;
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -309,13 +310,13 @@ export default function NumberFillPage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzles: NumberFillPuzzle[] = Array.from(
           { length: numPuzzles },
           () => generateNumberFill()
         );
-        generatePDF(puzzles, pageSize);
+        await generatePDF(puzzles, pageSize);
         setPreviewPuzzle(puzzles[0]);
       } finally {
         setIsGenerating(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { TemplateShell } from "@/components/templates/template-shell";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import {
   createDoc,
   addPage,

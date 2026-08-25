@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -95,9 +95,13 @@ export default function CustomMathPage() {
   const [pageSize, setPageSize] = useState<PageSizeKey>("A4");
   const [generating, setGenerating] = useState(false);
 
-  const enabledOps = Object.entries(ops)
-    .filter(([, v]) => v.enabled)
-    .map(([k]) => k);
+  const enabledOps = useMemo(
+    () => Object.entries(ops)
+      .filter(([, v]) => v.enabled)
+      .map(([k]) => k),
+    [ops]
+  );
+  const [previewProblems, setPreviewProblems] = useState<ReturnType<typeof generateProblem>[]>([]);
 
   const toggleOp = (key: string) => {
     setOps((prev) => {
@@ -108,18 +112,24 @@ export default function CustomMathPage() {
     });
   };
 
-  const previewProblems =
-    enabledOps.length > 0
-      ? Array.from({ length: 6 }, () => generateProblem(enabledOps, range))
-      : [];
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPreviewProblems(
+        enabledOps.length > 0
+          ? Array.from({ length: 6 }, () => generateProblem(enabledOps, range))
+          : []
+      );
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [enabledOps, range]);
 
   async function generate() {
     if (enabledOps.length === 0) return;
     setGenerating(true);
-
-    const { jsPDF } = await import("jspdf");
-    const { w, h } = PAGE_SIZES[pageSize];
-    const doc = new jsPDF({ unit: "pt", format: [w, h] });
+    try {
+      const { jsPDF } = await import("jspdf");
+      const { w, h } = PAGE_SIZES[pageSize];
+      const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
     const margin = 36;
     const titleH = 40;
@@ -229,8 +239,10 @@ export default function CustomMathPage() {
       });
     });
 
-    savePdf(doc, `math-custom-${pageCount}p.pdf`);
-    setGenerating(false);
+      savePdf(doc, `math-custom-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (

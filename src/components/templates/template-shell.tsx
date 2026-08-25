@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,6 +87,9 @@ export function TemplateShell({
   const [generating, setGenerating] = useState(false);
   const [generatingSample, setGeneratingSample] = useState(false);
   const [showSuggestion, setShowSuggestion] = useState(false);
+  const lineSpacingId = useId();
+  const tappableNavigationId = useId();
+  const pageCountId = useId();
 
   async function handleGenerate() {
     setGenerating(true);
@@ -226,14 +229,14 @@ export function TemplateShell({
 
         {supportsLineSpacing && (
           <div className="space-y-1.5">
-            <Label>Line spacing</Label>
+            <Label htmlFor={lineSpacingId}>Line spacing</Label>
             <Select
               value={variants.lineSpacing}
               onValueChange={(v) =>
                 setVariants({ ...variants, lineSpacing: v as LineSpacing })
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger id={lineSpacingId} className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -247,14 +250,14 @@ export function TemplateShell({
 
         {supportsPageNav && (
           <div className="space-y-1.5">
-            <Label>Tappable navigation</Label>
+            <Label htmlFor={tappableNavigationId}>Tappable navigation</Label>
             <Select
               value={variants.tappableNav ? "on" : "off"}
               onValueChange={(v) =>
                 setVariants({ ...variants, tappableNav: v === "on" })
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger id={tappableNavigationId} className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -267,8 +270,9 @@ export function TemplateShell({
 
         {showPageCount && (
           <div className="space-y-2">
-            <Label>Page count: {pageCount}</Label>
+            <Label htmlFor={pageCountId}>Page count: {pageCount}</Label>
             <Slider
+              id={pageCountId}
               min={1}
               max={maxPages}
               value={[pageCount]}

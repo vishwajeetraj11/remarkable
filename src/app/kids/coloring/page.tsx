@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -292,15 +292,25 @@ export default function ColoringPage() {
   const [pageCount, setPageCount] = useState(4);
   const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
-  const [previewSeed] = useState(() => Math.floor(Math.random() * 100000));
+  const [previewSeed, setPreviewSeed] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPreviewSeed(Math.floor(Math.random() * 100000));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [theme]);
 
   const generate = useCallback(async () => {
     setGenerating(true);
-    const { w, h } = PAGE_SIZES[pageSize];
-    const doc = new jsPDF({ unit: "pt", format: [w, h] });
-    const drawer = DRAWERS[theme];
-    const cx = w / 2;
-    const cy = h / 2;
+    try {
+      const { jsPDF } = await import("jspdf");
+      const { w, h } = PAGE_SIZES[pageSize];
+      const doc = new jsPDF({ unit: "pt", format: [w, h] });
+      const drawer = DRAWERS[theme];
+      const cx = w / 2;
+      const cy = h / 2;
+      const downloadSeed = Math.floor(Math.random() * 100000);
 
     for (let page = 0; page < pageCount; page++) {
       if (page > 0) doc.addPage();
@@ -309,12 +319,14 @@ export default function ColoringPage() {
       doc.setTextColor(180, 180, 180);
       doc.text(`${theme.charAt(0).toUpperCase() + theme.slice(1)} · Page ${page + 1}`, w / 2, 20, { align: "center" });
       doc.setTextColor(0, 0, 0);
-      drawer({ doc, cx, cy, seed: (page + 1) * 7919 + previewSeed });
+      drawer({ doc, cx, cy, seed: (page + 1) * 7919 + downloadSeed });
     }
 
-    savePdf(doc, `coloring-${theme}-${pageCount}p.pdf`);
-    setGenerating(false);
-  }, [theme, pageCount, pageSize, previewSeed]);
+      savePdf(doc, `coloring-${theme}-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
+  }, [theme, pageCount, pageSize]);
 
   // SVG preview
   const previewSize = 240;

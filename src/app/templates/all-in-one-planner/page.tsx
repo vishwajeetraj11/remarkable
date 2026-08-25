@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalDateInputValue } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Toggle } from "@/components/templates/variant-controls";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { createDoc, keepOnlyPage } from "@/lib/templates/pdf-utils";
 import { COLORS } from "@/lib/templates/constants";
 import {
@@ -790,12 +791,17 @@ async function generatePlanner(
 // ── Page component ─────────────────────────────────────────────────────────
 
 export default function AllInOnePlannerPage() {
-  const today = new Date();
-  const defaultDate = today.toISOString().slice(0, 10);
-  const [startDate, setStartDate] = useState(defaultDate);
+  const [startDate, setStartDate] = useState("");
   const [weeks, setWeeks] = useState(12);
   const [includeHabit, setIncludeHabit] = useState(true);
   const [notesPages, setNotesPages] = useState(5);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStartDate((value) => value || getLocalDateInputValue());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const sections = buildSections(weeks, includeHabit, notesPages);
   const total = totalPagesFromSections(sections);

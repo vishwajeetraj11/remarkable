@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
 interface NavItem {
@@ -10,15 +10,39 @@ interface NavItem {
   children?: { label: string; href: string }[];
 }
 
+const MOBILE_NAV_ID = "mobile-primary-navigation";
+
 export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    navRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpen(false);
+      toggleRef.current?.focus();
+    }
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
 
   return (
     <>
       <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden p-2 rounded-md hover:bg-accent"
-        aria-label="Toggle menu"
+        ref={toggleRef}
+        type="button"
+        onClick={() => setOpen((isOpen) => !isOpen)}
+        className="inline-flex size-11 items-center justify-center rounded-md transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 xl:hidden"
+        aria-label={open ? "Close main menu" : "Open main menu"}
+        aria-controls={MOBILE_NAV_ID}
+        aria-expanded={open}
       >
         <svg
           viewBox="0 0 24 24"
@@ -26,6 +50,7 @@ export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
           stroke="currentColor"
           strokeWidth="2"
           className="h-5 w-5"
+          aria-hidden="true"
         >
           {open ? (
             <path d="M6 18L18 6M6 6l12 12" />
@@ -36,13 +61,18 @@ export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
       </button>
 
       {open && (
-        <div className="md:hidden absolute left-0 right-0 top-full border-t border-border bg-background px-4 pb-4">
+        <nav
+          ref={navRef}
+          id={MOBILE_NAV_ID}
+          className="absolute left-0 right-0 top-full border-t border-border bg-background px-4 pb-4 xl:hidden"
+          aria-label="Primary navigation"
+        >
           {navItems.map((item) => (
             <div key={item.href} className="py-2">
               <Link
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="block py-1 text-sm font-medium text-foreground"
+                className="flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
               >
                 {item.label}
               </Link>
@@ -53,7 +83,7 @@ export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
                       key={child.href}
                       href={child.href}
                       onClick={() => setOpen(false)}
-                      className="block py-1 text-sm text-muted-foreground hover:text-foreground"
+                      className="flex min-h-11 items-center rounded-md px-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:bg-accent focus-visible:text-foreground focus-visible:outline-none"
                     >
                       {child.label}
                     </Link>
@@ -69,7 +99,7 @@ export function MobileNavToggle({ navItems }: { navItems: NavItem[] }) {
               Theme
             </span>
           </div>
-        </div>
+        </nav>
       )}
     </>
   );

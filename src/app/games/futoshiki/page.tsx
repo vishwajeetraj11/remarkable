@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -117,7 +117,7 @@ function drawFutoshikiGrid(
   }
 }
 
-function generatePDF(
+async function generatePDF(
   puzzles: FutoshikiPuzzle[],
   difficulty: FutoshikiDifficulty,
   pageSize: PageSizeKey
@@ -128,6 +128,7 @@ function generatePDF(
   const usableH = pageH - margin * 2;
   const maxGridSize = Math.min(usableW, usableH * 0.82);
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -331,12 +332,12 @@ export default function FutoshikiPage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzles: FutoshikiPuzzle[] = Array.from({ length: numPuzzles }, () =>
           generateFutoshiki(sizeFor(difficulty), difficulty)
         );
-        generatePDF(puzzles, difficulty, pageSize);
+        await generatePDF(puzzles, difficulty, pageSize);
         setPreviewPuzzle(puzzles[0]);
       } finally {
         setIsGenerating(false);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalMonthInputValue } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -46,11 +47,15 @@ function getCalendarGrid(year: number, month: number, weekStart: "monday" | "sun
 }
 
 export default function MonthlyCalendarPage() {
-  const now = new Date();
-  const [startMonth, setStartMonth] = useState(
-    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
-  );
+  const [startMonth, setStartMonth] = useState("");
   const [months, setMonths] = useState(3);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setStartMonth((value) => value || getLocalMonthInputValue());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function generate(variants: TemplateVariants, sampleOnly = false) {
     const doc = createDoc(variants);

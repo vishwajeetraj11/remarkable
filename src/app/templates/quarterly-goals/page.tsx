@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalYear } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Label } from "@/components/ui/label";
 import {
@@ -44,7 +45,14 @@ const QUARTER_MONTHS: Record<string, string[]> = {
 
 export default function QuarterlyGoalsPage() {
   const [quarter, setQuarter] = useState("q1");
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setYear((value) => value ?? getLocalYear());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   async function generate(variants: TemplateVariants, pageCount: number) {
     const doc = createDoc(variants);
@@ -55,7 +63,7 @@ export default function QuarterlyGoalsPage() {
 
     // Page 1: Quarter overview
     drawHeader(doc, variants, {
-      title: `${QUARTER_LABELS[quarter]} ${year}`,
+      title: `${QUARTER_LABELS[quarter]} ${year ?? ""}`,
       dark: true,
     });
 
@@ -95,7 +103,7 @@ export default function QuarterlyGoalsPage() {
     for (let mi = 0; mi < 3; mi++) {
       addPage(doc, variants);
       drawHeader(doc, variants, {
-        title: `${months[mi]} ${year}`,
+        title: `${months[mi]} ${year ?? ""}`,
         subtitle: QUARTER_LABELS[quarter],
       });
 
@@ -169,8 +177,8 @@ export default function QuarterlyGoalsPage() {
             <Label>Year</Label>
             <Input
               type="number"
-              value={year}
-              onChange={(e) => setYear(parseInt(e.target.value) || new Date().getFullYear())}
+              value={year ?? ""}
+              onChange={(e) => setYear(parseInt(e.target.value) || getLocalYear())}
               className="w-32"
             />
           </div>

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import jsPDF from "jspdf";
+import type jsPDF from "jspdf";
 import {
   Card,
   CardHeader,
@@ -89,6 +89,7 @@ export default function BundleGenerator() {
     await new Promise((r) => setTimeout(r, 50));
 
     try {
+      const { default: jsPDF } = await import("jspdf");
       const [pw, ph] = PAGE_SIZES[pageSize];
       const ctx = { pw, ph };
       const doc = new jsPDF({ unit: "pt", format: [pw, ph] });

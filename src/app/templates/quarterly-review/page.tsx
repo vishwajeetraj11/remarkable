@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLocalYear } from "@/lib/client-date";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -103,14 +104,21 @@ async function generateQuarterlyReview(
 
 export default function QuarterlyReviewPage() {
   const [quarter, setQuarter] = useState<keyof typeof QUARTERS>("q1");
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setYear((value) => value ?? getLocalYear());
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <TemplateShell
       title="Quarterly Review"
       description="Close a quarter with evidence, lessons, unfinished work, and priorities for what comes next."
       onGenerate={(variants, pageCount) =>
-        generateQuarterlyReview(variants, pageCount, quarter, year)
+        generateQuarterlyReview(variants, pageCount, quarter, year ?? 0)
       }
       defaultPageCount={1}
       maxPages={8}
@@ -137,7 +145,7 @@ export default function QuarterlyReviewPage() {
               type="number"
               min={2000}
               max={2100}
-              value={year}
+              value={year ?? ""}
               onChange={(event) => {
                 const nextYear = Number(event.target.value);
                 if (Number.isFinite(nextYear)) {

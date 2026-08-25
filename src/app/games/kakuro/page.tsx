@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -128,7 +128,7 @@ function drawKakuroGrid(
   doc.rect(originX, originY, gridSize, gridSize, "S");
 }
 
-function generatePDF(
+async function generatePDF(
   puzzles: KakuroPuzzle[],
   difficulty: KakuroDifficulty,
   pageSize: PageSizeKey
@@ -139,6 +139,7 @@ function generatePDF(
   const usableH = pageH - margin * 2;
   const maxGridSize = Math.min(usableW, usableH * 0.82);
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -367,13 +368,13 @@ export default function KakuroPage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzles: KakuroPuzzle[] = Array.from(
           { length: numPuzzles },
           () => generateKakuro(difficulty)
         );
-        generatePDF(puzzles, difficulty, pageSize);
+        await generatePDF(puzzles, difficulty, pageSize);
         setPreviewPuzzle(puzzles[0]);
       } finally {
         setIsGenerating(false);

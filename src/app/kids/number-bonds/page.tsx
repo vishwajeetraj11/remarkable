@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -84,19 +84,31 @@ export default function NumberBondsPage() {
   const [pageCount, setPageCount] = useState(2);
   const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
+  const [previewBonds, setPreviewBonds] = useState<Bond[]>([]);
+  const [previewRows, setPreviewRows] = useState<SkipRow[]>([]);
 
-  // Stable previews
-  const previewBonds = Array.from({ length: 4 }, () => generateBond(whole));
-  const previewRows = Array.from({ length: 3 }, () =>
-    generateSkipRow(skipStart, step, seqLength)
-  );
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPreviewBonds(Array.from({ length: 4 }, () => generateBond(whole)));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [whole]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPreviewRows(Array.from({ length: 3 }, () => generateSkipRow(skipStart, step, seqLength)));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [skipStart, step, seqLength]);
 
   async function generate() {
     setGenerating(true);
-    const { w, h } = PAGE_SIZES[pageSize];
-    const doc = new jsPDF({ unit: "pt", format: [w, h] });
-    const margin = 36;
-    const titleH = 44;
+    try {
+      const { jsPDF } = await import("jspdf");
+      const { w, h } = PAGE_SIZES[pageSize];
+      const doc = new jsPDF({ unit: "pt", format: [w, h] });
+      const margin = 36;
+      const titleH = 44;
 
     if (mode === "bonds") {
       generateBondsPdf(doc, w, h, margin, titleH);
@@ -108,8 +120,10 @@ export default function NumberBondsPage() {
       mode === "bonds"
         ? `number-bonds-${whole}-${pageCount}p.pdf`
         : `skip-counting-by-${step}-${pageCount}p.pdf`;
-    savePdf(doc, name);
-    setGenerating(false);
+      savePdf(doc, name);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   function drawHeader(

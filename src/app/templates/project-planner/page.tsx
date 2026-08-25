@@ -4,7 +4,7 @@ import { useState } from "react";
 import { TemplateShell } from "@/components/templates/template-shell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import {
   createDoc,
   addPage,

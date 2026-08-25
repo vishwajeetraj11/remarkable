@@ -420,13 +420,6 @@ export const TEMPLATE_PAGE_GUIDES: Record<string, TemplatePageGuide> = {
     configuration: "Set exercise-row count, warm-up or cardio sections, orientation, and page count where available.",
     sample: "A one-page workout log with session header, exercise grid, cardio, and notes.",
   },
-  "/templates/mcp-docs": {
-    bestFor: "Developers who want selected Model Context Protocol documentation in an offline, monochrome reading format.",
-    workflow: ["Choose only the chapters relevant to the task at hand.", "Set the target e-ink device, orientation, margins, and contrast.", "Download a sample before building the complete offline reference."],
-    rationale: "Live source chapters are cleaned into headings, paragraphs, lists, and code blocks; diagrams and images are omitted because they do not translate reliably to the compact monochrome layout.",
-    configuration: "Chapter selection changes the actual source material, while device and page controls determine the reading geometry of the generated PDF.",
-    sample: "One browser-generated content page from the first selected chapter, rendered with the current device settings.",
-  },
   "/templates/semester-planner": {
     bestFor: "Students who want one linked semester file for courses, timetables, assignments, exams, and lecture notes.",
     workflow: ["Set the semester name and start month before generating.", "Use the index to jump to a course or tracking page.", "Review assignments and exams weekly, then keep lecture notes beside the plan."],

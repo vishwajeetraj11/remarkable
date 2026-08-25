@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -55,6 +54,8 @@ export default function SpellingPage() {
 
   async function generate() {
     setGenerating(true);
+    try {
+      const { jsPDF } = await import("jspdf");
     const { w, h } = PAGE_SIZES[pageSize];
     const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
@@ -196,8 +197,10 @@ export default function SpellingPage() {
       });
     });
 
-    savePdf(doc, `spelling-${difficulty}-${wordsPerPage}w-${pageCount}p.pdf`);
-    setGenerating(false);
+      savePdf(doc, `spelling-${difficulty}-${wordsPerPage}w-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (

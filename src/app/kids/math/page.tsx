@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
 import Link from "next/link";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -67,14 +66,21 @@ export default function MathPage({
   const [pageCount, setPageCount] = useState(2);
   const [pageSize, setPageSize] = useState<PageSizeKey>("eInk");
   const [generating, setGenerating] = useState(false);
+  const [previewProblems, setPreviewProblems] = useState<ReturnType<typeof generateProblem>[]>([]);
 
-  // Generate a stable preview
-  const previewProblems = Array.from({ length: 6 }, () => generateProblem(operation, difficulty));
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setPreviewProblems(Array.from({ length: 6 }, () => generateProblem(operation, difficulty)));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [operation, difficulty]);
 
   async function generate() {
     setGenerating(true);
-    const { w, h } = PAGE_SIZES[pageSize];
-    const doc = new jsPDF({ unit: "pt", format: [w, h] });
+    try {
+      const { jsPDF } = await import("jspdf");
+      const { w, h } = PAGE_SIZES[pageSize];
+      const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
     const margin = 36;
     const titleH = 40;
@@ -186,8 +192,10 @@ export default function MathPage({
       });
     });
 
-    savePdf(doc, `math-${operation}-${difficulty}-${pageCount}p.pdf`);
-    setGenerating(false);
+      savePdf(doc, `math-${operation}-${difficulty}-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (

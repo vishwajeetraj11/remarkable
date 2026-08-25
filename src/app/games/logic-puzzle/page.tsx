@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -187,7 +187,7 @@ function drawSolutionTable(
   }
 }
 
-function generatePDF(
+async function generatePDF(
   puzzle: LogicGridPuzzle,
   pageSize: PageSizeKey,
   difficulty: LogicDifficulty
@@ -196,6 +196,7 @@ function generatePDF(
   const margin = pageW * 0.08;
   const usableW = pageW - margin * 2;
 
+  const { jsPDF } = await import("jspdf");
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -453,10 +454,10 @@ export default function LogicPuzzlePage() {
 
   const handleDownload = () => {
     setIsGenerating(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
         const puzzle = generateLogicGrid(difficulty);
-        generatePDF(puzzle, pageSize, difficulty);
+        await generatePDF(puzzle, pageSize, difficulty);
         setPreview(puzzle);
       } finally {
         setIsGenerating(false);

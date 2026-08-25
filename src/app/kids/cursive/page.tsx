@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { savePdf } from "@/lib/download-tracker";
-import { jsPDF } from "jspdf";
+import type { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -83,6 +83,8 @@ export default function CursivePage() {
 
   async function generate() {
     setGenerating(true);
+    try {
+      const { jsPDF } = await import("jspdf");
     const { w, h } = PAGE_SIZES[pageSize];
     const doc = new jsPDF({ unit: "pt", format: [w, h] });
 
@@ -165,8 +167,10 @@ export default function CursivePage() {
       }
     }
 
-    savePdf(doc, `cursive-${contentType}-${linesPerPage}l-${pageCount}p.pdf`);
-    setGenerating(false);
+      savePdf(doc, `cursive-${contentType}-${linesPerPage}l-${pageCount}p.pdf`);
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (
