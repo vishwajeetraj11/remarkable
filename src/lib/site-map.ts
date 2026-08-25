@@ -164,6 +164,10 @@ const GAME_PATHS = [
   "/games/killer-sudoku",
   "/games/word-wheel",
   "/games/hangman",
+  "/games/arrow-words",
+  "/games/slitherlink",
+  "/games/hashi",
+  "/games/numberlink",
   "/games/logic-puzzle",
 ];
 

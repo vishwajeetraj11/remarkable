@@ -22,3 +22,13 @@ test("unknown route shows the 404 page", async ({ page }) => {
   const response = await page.goto("/this-route-does-not-exist");
   expect(response?.status()).toBe(404);
 });
+
+test("bundle generator on the hub downloads a mixed PDF", async ({ page }) => {
+  await page.goto("/games");
+  const btn = page.getByRole("button", { name: /generate & download puzzle bundle pdf/i });
+  await btn.scrollIntoViewIfNeeded();
+  const downloadPromise = page.waitForEvent("download", { timeout: 120_000 });
+  await btn.click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe("puzzle-bundle.pdf");
+});
