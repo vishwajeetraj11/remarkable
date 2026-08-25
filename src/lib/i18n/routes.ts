@@ -44,7 +44,6 @@ export const LOCALIZED_ROUTES = {
     localized: {
       de: { path: "/schwedenraetsel", title: "Schwedenrätsel" },
       fr: { path: "/mots-fleches", title: "Mots fléchés" },
-      es: { path: "/crucigramas", title: "Crucigramas" },
     },
   },
   buchstabensalat: {
@@ -82,6 +81,27 @@ export const LOCALIZED_ROUTES = {
       de: { path: "/nonogramm", title: "Nonogramm" },
     },
   },
+  "mots-croises": {
+    en: "/games/crossword",
+    title: "Crossword",
+    localized: {
+      fr: { path: "/mots-croises", title: "Mots croisés" },
+    },
+  },
+  "cryptogrammes": {
+    en: "/games/cryptogram",
+    title: "Cryptogram",
+    localized: {
+      fr: { path: "/cryptogrammes", title: "Cryptogrammes" },
+    },
+  },
+  crucigramas: {
+    en: "/games/crossword",
+    title: "Crossword",
+    localized: {
+      es: { path: "/crucigramas", title: "Crucigramas" },
+    },
+  },
 } satisfies Record<string, LocalizedEntry>;
 
 export type LogicalRouteId = keyof typeof LOCALIZED_ROUTES;
@@ -104,6 +124,16 @@ export function routesFor(id: LogicalRouteId): {
     });
   }
   return out;
+}
+
+/** Localized entry for an id+locale, or undefined when not registered. */
+export function localizedFor(
+  id: LogicalRouteId,
+  locale: SiteLocale,
+): { path: string; title: string } | undefined {
+  if (locale === "en") return undefined;
+  const entry: LocalizedEntry = LOCALIZED_ROUTES[id];
+  return entry.localized?.[locale];
 }
 
 export interface AlternateLink {

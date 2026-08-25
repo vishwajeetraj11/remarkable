@@ -32,11 +32,12 @@ describe("locale config", () => {
 });
 
 describe("localized route registry", () => {
-  it("every localized path is unique across the whole registry", () => {
+  it("localized paths are globally unique; ids may share their EN canonical", () => {
     const seen = new Set<string>();
     for (const id of Object.keys(LOCALIZED_ROUTES) as (keyof typeof LOCALIZED_ROUTES)[]) {
       for (const r of routesFor(id)) {
-        expect(seen.has(r.path), `duplicate path ${r.path}`).toBe(false);
+        if (r.locale === "en") continue;
+        expect(seen.has(r.path), `duplicate localized path ${r.path}`).toBe(false);
         seen.add(r.path);
       }
     }

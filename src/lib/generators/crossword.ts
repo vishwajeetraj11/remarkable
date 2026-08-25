@@ -217,9 +217,26 @@ function findPlacements(
 export function generateCrossword(
   theme: string,
   size = 15,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  /** Injected clue bank (locale packs) overriding the theme table. */
+  bank?: { word: string; clue: string }[]
 ): CrosswordPuzzle {
-  const wordList = THEMES[theme] ?? THEMES["general"];
+  if (bank && bank.length > 0) {
+    return buildCrossword(bank, size, rng);
+  }
+  const wordList = THEMES[theme];
+  // Unknown themes fail loudly — never silently serve the English bank.
+  if (!wordList) {
+    throw new Error(`Unknown crossword theme: "${theme}"`);
+  }
+  return buildCrossword(wordList, size, rng);
+}
+
+function buildCrossword(
+  wordList: { word: string; clue: string }[],
+  size: number,
+  rng: () => number
+): CrosswordPuzzle {
   const grid = makeGrid(size);
   const placedWords: CrosswordWord[] = [];
 
