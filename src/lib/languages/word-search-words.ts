@@ -47,7 +47,7 @@ export const WORD_SEARCH_BANKS: Record<
     ],
     food: [
       "PAN", "QUESO", "MANZANA", "PLATANO", "POLLO", "TOMATE",
-      "PATATA", "ZANAHORIA", "CEBOLLA", "PIMIENTO", "LIMON",
+      "PAPA", "ZANAHORIA", "CEBOLLA", "PIMIENTO", "LIMON",
       "NARANJA", "ARROZ", "SALMON", "MANTEQUILLA", "GALLETA",
     ],
     colors: [
